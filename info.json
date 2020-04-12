@@ -1,7 +1,7 @@
 {
   "name": "Logistic-Machines",
   "version": "0.18.0",
-  "title": "Logistic Assembling Machine",
+  "title": "Logistic Machines",
   "author": "JDOGG",
   "dependencies": [
     "base >= 0.18.0",
