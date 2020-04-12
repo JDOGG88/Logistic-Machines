@@ -7,6 +7,6 @@
     "base >= 0.18.0",
     "? bobassembly >= 0.18.0"
   ],
-  "description": "A new tier of Assembling Machine and Chemical Plant that works like a requester/provider chest and a Medium Electric Pole.",
+  "description": "A new tier of Assembling Machine and Chemical Plant that come with integrated requester and provider chests and a substation.  Now works with Bob's Assembling Machines!",
   "factorio_version": "0.18"
 }
