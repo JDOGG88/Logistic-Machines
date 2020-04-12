@@ -1,0 +1,12 @@
+{
+  "name": "Logistic-Machines",
+  "version": "0.18.0",
+  "title": "Logistic Assembling Machine",
+  "author": "JDOGG",
+  "dependencies": [
+    "base >= 0.18.0",
+    "? bobassembly >= 0.18.0"
+  ],
+  "description": "A new tier of Assembling Machine and Chemical Plant that works like a requester/provider chest and a Medium Electric Pole.",
+  "factorio_version": "0.18"
+}
