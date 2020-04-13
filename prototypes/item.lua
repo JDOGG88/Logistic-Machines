@@ -22,7 +22,6 @@ function createMachine(version)
             { icon = data.raw.item["logistic-chest-passive-provider"].icon, scale = mask_scale, shift = provider_mask_shift, icon_size = icon_size },
         }
     end
-    cm.icon = "__Logistic-Machines__/graphics/logistic-assembling-machine.png"
     cm.icon_size = 32
     cm.place_result = "logistic-assembling-machine-" .. version
     return cm
