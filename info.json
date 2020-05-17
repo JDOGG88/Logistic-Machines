@@ -1,12 +1,14 @@
 {
   "name": "Logistic-Machines",
-  "version": "0.18.1",
+  "version": "0.18.2",
   "title": "Logistic Machines",
   "author": "JDOGG",
   "dependencies": [
     "base >= 0.18.0",
-    "? bobassembly >= 0.18.0"
+    "? bobassembly >= 0.18.0",
+    "? bobplates >= 0.18.0",
+    "? bobtech >= 0.18.0"
   ],
-  "description": "A new tier of Assembling Machine and Chemical Plant that come with integrated requester and provider chests and a substation.  Now works with Bob's Assembling Machines!",
+  "description": "New tiers of entities that come with integrated requester and provider chests and a substation.  Now works with Bob's Assembling Machines!",
   "factorio_version": "0.18"
 }

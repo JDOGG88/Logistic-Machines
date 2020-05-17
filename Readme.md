@@ -11,11 +11,11 @@ Go [grab it now][logistic-machines-mod-portal-entry], or get it in-game by searc
 
 ### Latest
 
-Initial Release
+Added bob's mods support and new logistic entities.  Now includes; Assembling Machines, Chemical Plants, Furnaces, Labs, and Electrolysers(bob's mods only).
 
 ### Previously
 
-None
+Initial Release
 
 ## Description
 
