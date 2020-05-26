@@ -1,4 +1,4 @@
-function createFurnace(version)
+local function createFurnace(version)
     local cf = table.deepcopy(data.raw.item["electric-furnace"])
     cf.name = "logistic-electric-furnace-" .. version
     cf.icons = { { icon = data.raw.item["electric-furnace"].icon, icon_size = 64 }, logistic_requester_chest_mask, logistic_provider_chest_mask, }
@@ -14,7 +14,7 @@ data:extend({
 })
 
 if mods["bobassembly"] then
-    function createBobFurnace(version)
+    local function createBobFurnace(version)
         local cf = table.deepcopy(data.raw.item["electric-furnace-" .. version])
         cf.name = "logistic-electric-furnace-" .. version
         cf.icons = { { icon = data.raw.item["electric-furnace"].icon, icon_size = 64 }, logistic_requester_chest_mask, logistic_provider_chest_mask, }
@@ -33,7 +33,7 @@ if mods["bobassembly"] then
 end
 
 if mods["bobplates"] then
-    function createBobChemFurnace(version, type)
+    local function createBobChemFurnace(version, type)
         local cf = table.deepcopy(data.raw.item[type .. "-furnace"])
         cf.name = "logistic-" .. type .. "-furnace-" .. version
         cf.icons = { { icon = data.raw.item[type .. "-furnace"].icon, icon_size = 32 }, logistic_requester_chest_mask, logistic_provider_chest_mask, }
@@ -52,7 +52,7 @@ if mods["bobplates"] then
 end
 
 if mods["bobplates"] and mods["bobassembly"] then
-    function createBobMultiFurnace1(version)
+    local function createBobMultiFurnace1(version)
         local cf = table.deepcopy(data.raw.item["electric-chemical-mixing-furnace"])
         cf.name = "logistic-electric-chemical-mixing-furnace-" .. version
         cf.icons = { { icon = data.raw.item["electric-chemical-mixing-furnace"].icon, icon_size = 32 }, logistic_requester_chest_mask, logistic_provider_chest_mask, }
@@ -61,7 +61,7 @@ if mods["bobplates"] and mods["bobassembly"] then
         return cf
     end
 
-    function createBobMultiFurnace(version)
+    local function createBobMultiFurnace(version)
         local cf = table.deepcopy(data.raw.item["electric-chemical-mixing-furnace-" .. version])
         cf.name = "logistic-electric-chemical-mixing-furnace-" .. version
         cf.icons = { { icon = data.raw.item["electric-chemical-mixing-furnace"].icon, icon_size = 32 }, logistic_requester_chest_mask, logistic_provider_chest_mask, }

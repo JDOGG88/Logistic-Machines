@@ -69,7 +69,7 @@ if mods["bobassembly"] then
     data.raw["assembling-machine"]["assembling-machine-5"].animation.layers[2].tint = { r = 0.7, g = 0.1, b = 0.7 }
 end
 
-function createMachine(version)
+local function createMachine(version)
     local cm = table.deepcopy(data.raw["assembling-machine"]["assembling-machine-" .. version])
     cm.name = "logistic-assembling-machine-" .. version
     if mods["bobassembly"] then

@@ -4,7 +4,7 @@ function createPlant1(version)
     cp.minable = { hardness = 0.2, mining_time = 0.5, result = "logistic-chemical-plant-" .. version }
     cp.icons = { { icon = data.raw["assembling-machine"]["chemical-plant"].icon, icon_size = 64 }, logistic_requester_chest_mask, logistic_provider_chest_mask, }
     cp.icon_size = 32
-    cp.selection_box = { { -1.5, 0 }, { 1.5, 1.5 } }
+    cp.selection_box = { { -1.5, -0.75 }, { 1.5, 1.5 } }
     return cp
 end
 
@@ -23,7 +23,7 @@ if mods["bobassembly"] then
             cp.icons = { { icon = data.raw["assembling-machine"]["chemical-plant-" .. version].icon }, logistic_requester_chest_mask, logistic_provider_chest_mask, }
         end
         cp.icon_size = 32
-        cp.selection_box = { { -1.5, 0 }, { 1.5, 1.5 } }
+        cp.selection_box = { { -1.5, -0.75 }, { 1.5, 1.5 } }
         return cp
     end
 

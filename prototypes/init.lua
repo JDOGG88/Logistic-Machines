@@ -10,9 +10,17 @@ require("prototypes.entity.electrolyser")
 require("prototypes.item.electrolyser")
 require("prototypes.recipe.electrolyser")
 
+require("prototypes.entity.electronics-assembling-machine")
+require("prototypes.item.electronics-assembling-machine")
+require("prototypes.recipe.electronics-assembling-machine")
+
 require("prototypes.entity.furnace")
 require("prototypes.item.furnace")
 require("prototypes.recipe.furnace")
+
+require("prototypes.entity.krastorio")
+require("prototypes.item.krastorio")
+require("prototypes.recipe.krastorio")
 
 require("prototypes.entity.lab")
 require("prototypes.item.lab")

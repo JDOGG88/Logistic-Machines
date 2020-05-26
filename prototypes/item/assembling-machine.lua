@@ -1,4 +1,4 @@
-function createMachine(version)
+local function createMachine(version)
     local cm = table.deepcopy(data.raw.item["assembling-machine-" .. version])
     cm.name = "logistic-assembling-machine-" .. version
     if mods["bobassembly"] then

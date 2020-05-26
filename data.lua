@@ -1,10 +1,8 @@
-local mask_scale = 0.25
-local requester_mask_shift = { -10, -10 }
-local provider_mask_shift = { 10, -10 }
-local icon_size = 64
+logistic_requester_chest_mask = { icon = data.raw.item["logistic-chest-requester"].icon, scale = 0.25, shift = { -10, -10 }, icon_size = 64 }
+logistic_provider_chest_mask = { icon = data.raw.item["logistic-chest-passive-provider"].icon, scale = 0.25, shift = { 10, -10 }, icon_size = 64 }
 
-logistic_requester_chest_mask = { icon = data.raw.item["logistic-chest-requester"].icon, scale = mask_scale, shift = requester_mask_shift, icon_size = icon_size }
-logistic_provider_chest_mask = { icon = data.raw.item["logistic-chest-passive-provider"].icon, scale = mask_scale, shift = provider_mask_shift, icon_size = icon_size }
+logistic_requester_chest_mask_tech = { icon = data.raw.item["logistic-chest-requester"].icon, scale = 0.75, shift = { -35, -40 }, icon_size = 64 }
+logistic_provider_chest_mask_tech = { icon = data.raw.item["logistic-chest-passive-provider"].icon, scale = 0.75, shift = { 35, -40 }, icon_size = 64 }
 
 require("prototypes.init")
 require("prototypes.invisible")

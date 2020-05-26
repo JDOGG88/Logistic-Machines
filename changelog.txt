@@ -1,4 +1,12 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.18.3
+Date: 2020-05-26
+
+  Changed:
+    - Added Krastorio2 support
+    - Added Electronics Assembling Machines
+    - Added startup setting to give the ability to show/hide inserter arrows in Alt Mode
+---------------------------------------------------------------------------------------------------
 Version: 0.18.2
 Date: 2020-05-17
 

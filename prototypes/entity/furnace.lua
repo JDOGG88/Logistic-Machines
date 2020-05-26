@@ -1,10 +1,10 @@
-function createFurnace(version)
+local function createFurnace(version)
     local cf = table.deepcopy(data.raw.furnace["electric-furnace"])
     cf.name = "logistic-electric-furnace-" .. version
     cf.minable = { hardness = 0.2, mining_time = 0.5, result = cf.name }
     cf.icons = { { icon = data.raw.furnace["electric-furnace"].icon, icon_size = 64 }, logistic_requester_chest_mask, logistic_provider_chest_mask, }
     cf.icon_size = 32
-    cf.selection_box = { { -1.5, 0 }, { 1.5, 1.5 } }
+    cf.selection_box = { { -1.5, -0.75 }, { 1.5, 1.5 } }
     return cf
 end
 
@@ -15,13 +15,13 @@ data:extend({
 })
 
 if mods["bobassembly"] then
-    function createBobFurnace(version)
+    local function createBobFurnace(version)
         local cf = table.deepcopy(data.raw.furnace["electric-furnace-" .. version])
         cf.name = "logistic-electric-furnace-" .. version
         cf.minable = { hardness = 0.2, mining_time = 0.5, result = cf.name }
         cf.icons = { { icon = data.raw.furnace["electric-furnace"].icon, icon_size = 64 }, logistic_requester_chest_mask, logistic_provider_chest_mask, }
         cf.icon_size = 32
-        cf.selection_box = { { -1.5, 0 }, { 1.5, 1.5 } }
+        cf.selection_box = { { -1.5, -0.75 }, { 1.5, 1.5 } }
         return cf
     end
 
@@ -35,13 +35,13 @@ if mods["bobassembly"] then
 end
 
 if mods["bobplates"] then
-    function createBobChemFurnace(version, type)
+    local function createBobChemFurnace(version, type)
         local cf = table.deepcopy(data.raw["assembling-machine"][type .. "-furnace"])
         cf.name = "logistic-" .. type .. "-furnace-" .. version
         cf.minable = { hardness = 0.2, mining_time = 0.5, result = cf.name }
         cf.icons = { { icon = data.raw["assembling-machine"][type .. "-furnace"].icon, icon_size = 32 }, logistic_requester_chest_mask, logistic_provider_chest_mask, }
         cf.icon_size = 32
-        cf.selection_box = { { -1.5, 0 }, { 1.5, 1.5 } }
+        cf.selection_box = { { -1.5, -0.75 }, { 1.5, 1.5 } }
         return cf
     end
 
@@ -55,23 +55,23 @@ if mods["bobplates"] then
 end
 
 if mods["bobplates"] and mods["bobassembly"] then
-    function createBobMultiFurnace1(version)
+    local function createBobMultiFurnace1(version)
         local cf = table.deepcopy(data.raw["assembling-machine"]["electric-chemical-mixing-furnace"])
         cf.name = "logistic-electric-chemical-mixing-furnace-" .. version
         cf.minable = { hardness = 0.2, mining_time = 0.5, result = cf.name }
         cf.icons = { { icon = data.raw["assembling-machine"]["electric-chemical-mixing-furnace"].icon, icon_size = 32 }, logistic_requester_chest_mask, logistic_provider_chest_mask, }
         cf.icon_size = 32
-        cf.selection_box = { { -1.5, 0 }, { 1.5, 1.5 } }
+        cf.selection_box = { { -1.5, -0.75 }, { 1.5, 1.5 } }
         return cf
     end
 
-    function createBobMultiFurnace(version)
+    local function createBobMultiFurnace(version)
         local cf = table.deepcopy(data.raw["assembling-machine"]["electric-chemical-mixing-furnace-" .. version])
         cf.name = "logistic-electric-chemical-mixing-furnace-" .. version
         cf.minable = { hardness = 0.2, mining_time = 0.5, result = cf.name }
         cf.icons = { { icon = data.raw["assembling-machine"]["electric-chemical-mixing-furnace-" .. version].icon, icon_size = 32 }, logistic_requester_chest_mask, logistic_provider_chest_mask, }
         cf.icon_size = 32
-        cf.selection_box = { { -1.5, 0 }, { 1.5, 1.5 } }
+        cf.selection_box = { { -1.5, -0.75 }, { 1.5, 1.5 } }
         return cf
     end
 

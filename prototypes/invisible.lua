@@ -1,15 +1,15 @@
 function createInserter(number)
-    local ci = table.deepcopy(data.raw["inserter"]["stack-inserter"])
+    local ci = table.deepcopy(data.raw.inserter["stack-inserter"])
     ci.name = "invisible-inserter-" .. number
-    ci.minable = { hardness = 0.2, mining_time = 0.5, result = "invisible-inserter-" .. number }
+    ci.minable = { hardness = 0.2, mining_time = 0.5, result = nil }
     ci.collision_box = { { -0.15, -0.15 }, { 0.15, 0.15 } }
     ci.selection_box = { { 0, 0 }, { 0, 0 } }
-    if number == 1 then
-        ci.pickup_position = { 0, -1 }
-        ci.insert_position = { 0, 1.2 }
+    ci.pickup_position = { 0, 0 }
+    ci.insert_position = { 0, 0 }
+    if settings.startup["show-inserter-arrows"].value == true then
+        ci.flags = { "hidden" }
     else
-        ci.pickup_position = { 0, 1 }
-        ci.insert_position = { 0, -1.2 }
+        ci.flags = { "hide-alt-info", "hidden" }
     end
     ci.energy_per_movement = "20KW"
     ci.energy_per_rotation = "20KW"
@@ -75,37 +75,25 @@ local assembling_requester_item = table.deepcopy(data.raw["item"]["logistic-ches
 assembling_requester_item.name = "assembling-requester"
 assembling_requester_item.place_result = "assembling-requester"
 
+local function createItem(name, icon_name)
+    local item = {}
+    item.type = "item"
+    item.name = "invisible-" .. name
+    item.icon = "__base__/graphics/icons/" .. icon_name .. ".png"
+    item.icon_size = data.raw.item[icon_name].icon_size
+    item.stack_size = 50
+    item.place_result = item.name
+    return item
+end
+
+local invisible_inserter_1_item = createItem("inserter-1", "stack-inserter")
+local invisible_inserter_2_item = createItem("inserter-2", "stack-inserter")
+local invisible_substation_item = createItem("substation", "substation")
+
 data:extend({
     assembling_provider_item,
     assembling_requester_item,
-    {
-        type = "item",
-        name = "invisible-inserter-1",
-        icon = "__base__/graphics/icons/stack-inserter.png",
-        icon_size = 32,
-        subgroup = "inserter",
-        order = "a",
-        place_result = "invisible-inserter-1",
-        stack_size = 50
-    },
-    {
-        type = "item",
-        name = "invisible-inserter-2",
-        icon = "__base__/graphics/icons/stack-inserter.png",
-        icon_size = 32,
-        subgroup = "inserter",
-        order = "a",
-        place_result = "invisible-inserter-2",
-        stack_size = 50
-    },
-    {
-        type = "item",
-        name = "invisible-substation",
-        icon = "__base__/graphics/icons/substation.png",
-        icon_size = 32,
-        subgroup = "energy-pipe-distribution",
-        order = "a",
-        place_result = "invisible-substation",
-        stack_size = 50
-    },
+    invisible_inserter_1_item,
+    invisible_inserter_2_item,
+    invisible_substation_item,
 })
