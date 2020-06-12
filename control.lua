@@ -5,15 +5,11 @@ local function assembly_set_2x2(entity)
     local requester = entity.surface.create_entity { name = "assembling-requester", position = { (entity.position.x) - 0.5, (entity.position.y) - 0.5 }, force = entity.force }
     requester.destructible = false
 
-    local inserter_1 = entity.surface.create_entity { name = "invisible-inserter-1", position = { (entity.position.x) - 0.5, (entity.position.y) }, force = entity.force }
-    inserter_1.pickup_position = { inserter_1.pickup_position.x, inserter_1.pickup_position.y - 1 }
-    inserter_1.drop_position = { inserter_1.drop_position.x, inserter_1.drop_position.y + 0.25 }
+    local inserter_1 = entity.surface.create_entity { name = "invisible-inserter-1-2x2", position = { (entity.position.x) - 0.5, (entity.position.y) }, force = entity.force }
     inserter_1.destructible = false
     inserter_1.minable = false
 
-    local inserter_2 = entity.surface.create_entity { name = "invisible-inserter-2", position = { (entity.position.x) + 0.5, (entity.position.y) }, force = entity.force }
-    inserter_2.pickup_position = { inserter_2.pickup_position.x, inserter_2.pickup_position.y + 0.25 }
-    inserter_2.drop_position = { inserter_2.drop_position.x, inserter_2.drop_position.y - 1 }
+    local inserter_2 = entity.surface.create_entity { name = "invisible-inserter-2-2x2", position = { (entity.position.x) + 0.5, (entity.position.y) }, force = entity.force }
     inserter_2.destructible = false
     inserter_2.minable = false
 
@@ -31,15 +27,11 @@ local function assembly_set_3x3(entity)
     local requester = entity.surface.create_entity { name = "assembling-requester", position = { (entity.position.x) - 0.8, (entity.position.y) - 0.8 }, force = entity.force }
     requester.destructible = false
 
-    local inserter_1 = entity.surface.create_entity { name = "invisible-inserter-1", position = { (entity.position.x) - 1.5, (entity.position.y) }, force = entity.force }
-    inserter_1.pickup_position = { inserter_1.pickup_position.x, inserter_1.pickup_position.y - 1 }
-    inserter_1.drop_position = { inserter_1.drop_position.x, inserter_1.drop_position.y + 1.2 }
+    local inserter_1 = entity.surface.create_entity { name = "invisible-inserter-1-3x3", position = { (entity.position.x) - 1.5, (entity.position.y) }, force = entity.force }
     inserter_1.destructible = false
     inserter_1.minable = false
 
-    local inserter_2 = entity.surface.create_entity { name = "invisible-inserter-2", position = { (entity.position.x) + 0.5, (entity.position.y) }, force = entity.force }
-    inserter_2.pickup_position = { inserter_2.pickup_position.x, inserter_2.pickup_position.y + 1.2 }
-    inserter_2.drop_position = { inserter_2.drop_position.x, inserter_2.drop_position.y - 1 }
+    local inserter_2 = entity.surface.create_entity { name = "invisible-inserter-2-3x3", position = { (entity.position.x) + 0.5, (entity.position.y) }, force = entity.force }
     inserter_2.destructible = false
     inserter_2.minable = false
 
@@ -57,15 +49,11 @@ local function assembly_set_5x5(entity)
     local requester = entity.surface.create_entity { name = "assembling-requester", position = { (entity.position.x) - 2.5, (entity.position.y) - 2.2 }, force = entity.force }
     requester.destructible = false
 
-    local inserter_1 = entity.surface.create_entity { name = "invisible-inserter-1", position = { (entity.position.x) - 2.5, (entity.position.y) }, force = entity.force, }
-    inserter_1.pickup_position = { inserter_1.pickup_position.x, inserter_1.pickup_position.y - 2 }
-    inserter_1.drop_position = { inserter_1.drop_position.x, inserter_1.drop_position.y + 1 }
+    local inserter_1 = entity.surface.create_entity { name = "invisible-inserter-1-5x5", position = { (entity.position.x) - 2.5, (entity.position.y) }, force = entity.force, }
     inserter_1.destructible = false
     inserter_1.minable = false
 
-    local inserter_2 = entity.surface.create_entity { name = "invisible-inserter-2", position = { (entity.position.x) + 1.5, (entity.position.y) }, force = entity.force, }
-    inserter_2.pickup_position = { inserter_2.pickup_position.x, inserter_2.pickup_position.y + 1 }
-    inserter_2.drop_position = { inserter_2.drop_position.x, inserter_2.drop_position.y - 2 }
+    local inserter_2 = entity.surface.create_entity { name = "invisible-inserter-2-5x5", position = { (entity.position.x) + 1.5, (entity.position.y) }, force = entity.force, }
     inserter_2.destructible = false
     inserter_2.minable = false
 
@@ -83,15 +71,11 @@ local function assembly_set_6x6(entity)
     local requester = entity.surface.create_entity { name = "assembling-requester", position = { (entity.position.x) - 2.25, (entity.position.y) - 2.25 }, force = entity.force }
     requester.destructible = false
 
-    local inserter_1 = entity.surface.create_entity { name = "invisible-inserter-1", position = { (entity.position.x) - 2.25, (entity.position.y) }, force = entity.force }
-    inserter_1.pickup_position = { inserter_1.pickup_position.x, inserter_1.pickup_position.y - 2.95 }
-    inserter_1.drop_position = { inserter_1.drop_position.x, inserter_1.drop_position.y + 1 }
+    local inserter_1 = entity.surface.create_entity { name = "invisible-inserter-1-6x6", position = { (entity.position.x) - 2.25, (entity.position.y) }, force = entity.force }
     inserter_1.destructible = false
     inserter_1.minable = false
 
-    local inserter_2 = entity.surface.create_entity { name = "invisible-inserter-2", position = { (entity.position.x) + 2.25, (entity.position.y) }, force = entity.force }
-    inserter_2.pickup_position = { inserter_2.pickup_position.x, inserter_2.pickup_position.y + 1 }
-    inserter_2.drop_position = { inserter_2.drop_position.x, inserter_2.drop_position.y - 2.95 }
+    local inserter_2 = entity.surface.create_entity { name = "invisible-inserter-2-6x6", position = { (entity.position.x) + 2.25, (entity.position.y) }, force = entity.force }
     inserter_2.destructible = false
     inserter_2.minable = false
 
@@ -109,15 +93,11 @@ local function assembly_set_7x7(entity)
     local requester = entity.surface.create_entity { name = "assembling-requester", position = { (entity.position.x) - 3.5, (entity.position.y) - 3.5 }, force = entity.force }
     requester.destructible = false
 
-    local inserter_1 = entity.surface.create_entity { name = "invisible-inserter-1", position = { (entity.position.x) - 3.5, (entity.position.y) }, force = entity.force }
-    inserter_1.pickup_position = { inserter_1.pickup_position.x, inserter_1.pickup_position.y - 3 }
-    inserter_1.drop_position = { inserter_1.drop_position.x, inserter_1.drop_position.y + 1 }
+    local inserter_1 = entity.surface.create_entity { name = "invisible-inserter-1-7x7", position = { (entity.position.x) - 3.5, (entity.position.y) }, force = entity.force }
     inserter_1.destructible = false
     inserter_1.minable = false
 
-    local inserter_2 = entity.surface.create_entity { name = "invisible-inserter-2", position = { (entity.position.x) + 2.8, (entity.position.y) }, force = entity.force }
-    inserter_2.pickup_position = { inserter_2.pickup_position.x, inserter_2.pickup_position.y + 1 }
-    inserter_2.drop_position = { inserter_2.drop_position.x, inserter_2.drop_position.y - 3 }
+    local inserter_2 = entity.surface.create_entity { name = "invisible-inserter-2-7x7", position = { (entity.position.x) + 2.8, (entity.position.y) }, force = entity.force }
     inserter_2.destructible = false
     inserter_2.minable = false
 
@@ -132,9 +112,7 @@ local function lab_set(entity)
     local requester = entity.surface.create_entity { name = "assembling-requester", position = { (entity.position.x) - 0.8, (entity.position.y) - 0.8 }, force = entity.force }
     requester.destructible = false
 
-    local inserter_1 = entity.surface.create_entity { name = "invisible-inserter-1", position = { (entity.position.x) - 1.5, (entity.position.y) }, force = entity.force }
-    inserter_1.pickup_position = { inserter_1.pickup_position.x, inserter_1.pickup_position.y - 1 }
-    inserter_1.drop_position = { inserter_1.drop_position.x, inserter_1.drop_position.y + 1.2 }
+    local inserter_1 = entity.surface.create_entity { name = "invisible-inserter-1-3x3", position = { (entity.position.x) - 1.5, (entity.position.y) }, force = entity.force }
     inserter_1.destructible = false
     inserter_1.minable = false
 
@@ -149,9 +127,7 @@ local function lab_set_8x8(entity)
     local requester = entity.surface.create_entity { name = "assembling-requester", position = { (entity.position.x) - 3.9, (entity.position.y) - 3.9 }, force = entity.force }
     requester.destructible = false
 
-    local inserter_1 = entity.surface.create_entity { name = "invisible-inserter-1", position = { (entity.position.x) - 3.9, (entity.position.y) }, force = entity.force }
-    inserter_1.pickup_position = { inserter_1.pickup_position.x, inserter_1.pickup_position.y - 3.9 }
-    inserter_1.drop_position = { inserter_1.drop_position.x, inserter_1.drop_position.y + 1.2 }
+    local inserter_1 = entity.surface.create_entity { name = "invisible-inserter-1-8x8", position = { (entity.position.x) - 3.9, (entity.position.y) }, force = entity.force }
     inserter_1.destructible = false
     inserter_1.minable = false
 
@@ -383,13 +359,18 @@ end)
 
 local mined_entity_name =
 {
-    "invisible-inserter-1",
-    "invisible-inserter-2",
-    "invisible-substation",
-}
-local mined_entity_name_lab =
-{
-    "invisible-inserter-1",
+    "invisible-inserter-1-2x2",
+    "invisible-inserter-2-2x2",
+    "invisible-inserter-1-3x3",
+    "invisible-inserter-2-3x3",
+    "invisible-inserter-1-5x5",
+    "invisible-inserter-2-5x5",
+    "invisible-inserter-1-6x6",
+    "invisible-inserter-2-6x6",
+    "invisible-inserter-1-7x7",
+    "invisible-inserter-2-7x7",
+    "invisible-inserter-1-8x8",
+    "invisible-inserter-2-8x8",
     "invisible-substation",
 }
 
@@ -461,7 +442,7 @@ script.on_event(defines.events.on_player_mined_entity, function(event)
             local center = event.entity.position
             for _, entity in pairs(event.entity.surface.find_entities_filtered {
                 area = { { center.x - area_var_3x3, center.y - area_var_3x3 }, { center.x + area_var_3x3, center.y + area_var_3x3 } },
-                name = mined_entity_name_lab
+                name = mined_entity_name
             }) do
                 entity.destroy()
             end
@@ -472,7 +453,7 @@ script.on_event(defines.events.on_player_mined_entity, function(event)
             local center = event.entity.position
             for _, entity in pairs(event.entity.surface.find_entities_filtered {
                 area = { { center.x - area_var_8x8, center.y - area_var_8x8 }, { center.x + area_var_8x8, center.y + area_var_8x8 } },
-                name = mined_entity_name_lab
+                name = mined_entity_name
             }) do
                 entity.destroy()
             end
@@ -541,7 +522,7 @@ script.on_event(defines.events.on_robot_mined_entity, function(event)
             local center = event.entity.position
             for _, entity in pairs(event.entity.surface.find_entities_filtered {
                 area = { { center.x - area_var_3x3, center.y - area_var_3x3 }, { center.x + area_var_3x3, center.y + area_var_3x3 } },
-                name = mined_entity_name_lab
+                name = mined_entity_name
             }) do
                 entity.destroy()
             end
@@ -552,7 +533,7 @@ script.on_event(defines.events.on_robot_mined_entity, function(event)
             local center = event.entity.position
             for _, entity in pairs(event.entity.surface.find_entities_filtered {
                 area = { { center.x - area_var_8x8, center.y - area_var_8x8 }, { center.x + area_var_8x8, center.y + area_var_8x8 } },
-                name = mined_entity_name_lab
+                name = mined_entity_name
             }) do
                 entity.destroy()
             end
@@ -621,7 +602,7 @@ script.on_event(defines.events.on_entity_died, function(event)
             local center = event.entity.position
             for _, entity in pairs(event.entity.surface.find_entities_filtered {
                 area = { { center.x - area_var_3x3, center.y - area_var_3x3 }, { center.x + area_var_3x3, center.y + area_var_3x3 } },
-                name = mined_entity_name_lab
+                name = mined_entity_name
             }) do
                 entity.destroy()
             end
@@ -632,7 +613,7 @@ script.on_event(defines.events.on_entity_died, function(event)
             local center = event.entity.position
             for _, entity in pairs(event.entity.surface.find_entities_filtered {
                 area = { { center.x - area_var_8x8, center.y - area_var_8x8 }, { center.x + area_var_8x8, center.y + area_var_8x8 } },
-                name = mined_entity_name_lab
+                name = mined_entity_name
             }) do
                 entity.destroy()
             end

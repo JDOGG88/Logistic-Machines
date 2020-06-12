@@ -1,11 +1,58 @@
-function createInserter(number)
+function createInserter(number, entity_size)
     local ci = table.deepcopy(data.raw.inserter["stack-inserter"])
-    ci.name = "invisible-inserter-" .. number
+    ci.name = "invisible-inserter-" .. number .. "-" .. entity_size
     ci.minable = { hardness = 0.2, mining_time = 0.5, result = nil }
     ci.collision_box = { { -0.15, -0.15 }, { 0.15, 0.15 } }
     ci.selection_box = { { 0, 0 }, { 0, 0 } }
-    ci.pickup_position = { 0, 0 }
-    ci.insert_position = { 0, 0 }
+    if entity_size == "2x2" then
+        if number == 1 then
+            ci.pickup_position = { 0, -1 }
+            ci.insert_position = { 0, 0 }
+        else
+            ci.pickup_position = { 0, 0 }
+            ci.insert_position = { 0, -1 }
+        end
+    elseif entity_size == "3x3" then
+        if number == 1 then
+            ci.pickup_position = { 0, -1 }
+            ci.insert_position = { 0, 1.2 }
+        else
+            ci.pickup_position = { 0, 1 }
+            ci.insert_position = { 0, -1.2 }
+        end
+    elseif entity_size == "5x5" then
+        if number == 1 then
+            ci.pickup_position = { 0, -2 }
+            ci.insert_position = { 0, 1 }
+        else
+            ci.pickup_position = { 0, 1 }
+            ci.insert_position = { 0, -2 }
+        end
+    elseif entity_size == "6x6" then
+        if number == 1 then
+            ci.pickup_position = { 0, -2.95 }
+            ci.insert_position = { 0, 1 }
+        else
+            ci.pickup_position = { 0, 1 }
+            ci.insert_position = { 0, -2.95 }
+        end
+    elseif entity_size == "7x7" then
+        if number == 1 then
+            ci.pickup_position = { 0, -3 }
+            ci.insert_position = { 0, 1 }
+        else
+            ci.pickup_position = { 0, 1 }
+            ci.insert_position = { 0, -3 }
+        end
+    elseif entity_size == "8x8" then
+        if number == 1 then
+            ci.pickup_position = { 0, -3.9 }
+            ci.insert_position = { 0, 1.2 }
+        else
+            ci.pickup_position = { 0, 1.2 }
+            ci.insert_position = { 0, -3.9 }
+        end
+    end
     if settings.startup["show-inserter-arrows"].value == true then
         ci.flags = { "hidden" }
     else
@@ -33,11 +80,22 @@ function createInserter(number)
     return ci
 end
 
-local invisible_inserter_1 = createInserter(1)
-local invisible_inserter_2 = createInserter(2)
+local invisible_inserter_1_2x2 = createInserter(1, "2x2")
+local invisible_inserter_2_2x2 = createInserter(2, "2x2")
+local invisible_inserter_1_3x3 = createInserter(1, "3x3")
+local invisible_inserter_2_3x3 = createInserter(2, "3x3")
+local invisible_inserter_1_5x5 = createInserter(1, "5x5")
+local invisible_inserter_2_5x5 = createInserter(2, "5x5")
+local invisible_inserter_1_6x6 = createInserter(1, "6x6")
+local invisible_inserter_2_6x6 = createInserter(2, "6x6")
+local invisible_inserter_1_7x7 = createInserter(1, "7x7")
+local invisible_inserter_2_7x7 = createInserter(2, "7x7")
+local invisible_inserter_1_8x8 = createInserter(1, "8x8")
+local invisible_inserter_2_8x8 = createInserter(2, "8x8")
 
 local invisible_substation = table.deepcopy(data.raw["electric-pole"]["substation"])
 invisible_substation.name = "invisible-substation"
+invisible_substation.flags = { "hidden" }
 invisible_substation.minable = { hardness = 0.2, mining_time = 0.5, result = nil }
 invisible_substation.collision_box = { { -0, -0 }, { 0, 0 } }
 invisible_substation.selection_box = { { 0, 0 }, { 0, 0 } }
@@ -60,8 +118,18 @@ assembling_requester.minable = { mining_time = 0.001, result = nil }
 assembling_requester.flags = nil
 
 data:extend({
-    invisible_inserter_1,
-    invisible_inserter_2,
+    invisible_inserter_1_2x2,
+    invisible_inserter_2_2x2,
+    invisible_inserter_1_3x3,
+    invisible_inserter_2_3x3,
+    invisible_inserter_1_5x5,
+    invisible_inserter_2_5x5,
+    invisible_inserter_1_6x6,
+    invisible_inserter_2_6x6,
+    invisible_inserter_1_7x7,
+    invisible_inserter_2_7x7,
+    invisible_inserter_1_8x8,
+    invisible_inserter_2_8x8,
     invisible_substation,
     assembling_provider,
     assembling_requester,
@@ -75,10 +143,14 @@ local assembling_requester_item = table.deepcopy(data.raw["item"]["logistic-ches
 assembling_requester_item.name = "assembling-requester"
 assembling_requester_item.place_result = "assembling-requester"
 
-local function createItem(name, icon_name)
+local function createItem(name, icon_name, entity_size)
     local item = {}
     item.type = "item"
-    item.name = "invisible-" .. name
+    if name == "substation" then
+        item.name = "invisible-" .. name
+    else
+        item.name = "invisible-" .. name .. "-" .. entity_size
+    end
     item.icon = "__base__/graphics/icons/" .. icon_name .. ".png"
     item.icon_size = data.raw.item[icon_name].icon_size
     item.stack_size = 50
@@ -86,14 +158,34 @@ local function createItem(name, icon_name)
     return item
 end
 
-local invisible_inserter_1_item = createItem("inserter-1", "stack-inserter")
-local invisible_inserter_2_item = createItem("inserter-2", "stack-inserter")
 local invisible_substation_item = createItem("substation", "substation")
+local invisible_inserter_1_item_2x2 = createItem("inserter-1", "stack-inserter", "2x2")
+local invisible_inserter_2_item_2x2 = createItem("inserter-2", "stack-inserter", "2x2")
+local invisible_inserter_1_item_3x3 = createItem("inserter-1", "stack-inserter", "3x3")
+local invisible_inserter_2_item_3x3 = createItem("inserter-2", "stack-inserter", "3x3")
+local invisible_inserter_1_item_5x5 = createItem("inserter-1", "stack-inserter", "5x5")
+local invisible_inserter_2_item_5x5 = createItem("inserter-2", "stack-inserter", "5x5")
+local invisible_inserter_1_item_6x6 = createItem("inserter-1", "stack-inserter", "6x6")
+local invisible_inserter_2_item_6x6 = createItem("inserter-2", "stack-inserter", "6x6")
+local invisible_inserter_1_item_7x7 = createItem("inserter-1", "stack-inserter", "7x7")
+local invisible_inserter_2_item_7x7 = createItem("inserter-2", "stack-inserter", "7x7")
+local invisible_inserter_1_item_8x8 = createItem("inserter-1", "stack-inserter", "8x8")
+local invisible_inserter_2_item_8x8 = createItem("inserter-2", "stack-inserter", "8x8")
 
 data:extend({
     assembling_provider_item,
     assembling_requester_item,
-    invisible_inserter_1_item,
-    invisible_inserter_2_item,
     invisible_substation_item,
+    invisible_inserter_1_item_2x2,
+    invisible_inserter_2_item_2x2,
+    invisible_inserter_1_item_3x3,
+    invisible_inserter_2_item_3x3,
+    invisible_inserter_1_item_5x5,
+    invisible_inserter_2_item_5x5,
+    invisible_inserter_1_item_6x6,
+    invisible_inserter_2_item_6x6,
+    invisible_inserter_1_item_7x7,
+    invisible_inserter_2_item_7x7,
+    invisible_inserter_1_item_8x8,
+    invisible_inserter_2_item_8x8,
 })

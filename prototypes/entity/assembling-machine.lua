@@ -83,7 +83,7 @@ local function createMachine(version)
     end
     cm.icon_size = 32
     cm.minable = { hardness = 0.2, mining_time = 0.5, result = "logistic-assembling-machine-" .. version }
-    cm.selection_box = { { -1.5, 0 }, { 1.5, 1.5 } }
+    cm.selection_box = { { -1.5, -0.75 }, { 1.5, 1.5 } }
     cm.fast_replaceable_group = "assembling-machine"
     cm.energy_source =
     {
