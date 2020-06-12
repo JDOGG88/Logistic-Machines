@@ -137,10 +137,12 @@ if mods["bobassembly"] then
     table.insert(data.raw.technology["logistic-machines-4"].effects, { type = "unlock-recipe", recipe = "logistic-chemical-plant-4" })
     table.insert(data.raw.technology["logistic-machines-4"].prerequisites, "logistic-machines-3")
     table.insert(data.raw.technology["logistic-machines-4"].prerequisites, "automation-6")
-    table.insert(data.raw.technology["logistic-electronics-machine-2"].effects, { type = "unlock-recipe", recipe = "logistic-electronics-machine-2" })
-    table.insert(data.raw.technology["logistic-electronics-machine-2"].prerequisites, "electronics-machine-2")
-    table.insert(data.raw.technology["logistic-electronics-machine-3"].effects, { type = "unlock-recipe", recipe = "logistic-electronics-machine-3" })
-    table.insert(data.raw.technology["logistic-electronics-machine-3"].prerequisites, "electronics-machine-3")
+    if settings.startup["bobmods-assembly-electronicmachines"].value == true then
+        table.insert(data.raw.technology["logistic-electronics-machine-2"].effects, { type = "unlock-recipe", recipe = "logistic-electronics-machine-2" })
+        table.insert(data.raw.technology["logistic-electronics-machine-2"].prerequisites, "electronics-machine-2")
+        table.insert(data.raw.technology["logistic-electronics-machine-3"].effects, { type = "unlock-recipe", recipe = "logistic-electronics-machine-3" })
+        table.insert(data.raw.technology["logistic-electronics-machine-3"].prerequisites, "electronics-machine-3")
+    end
     table.insert(data.raw.technology["logistic-electric-furnace-2"].effects, { type = "unlock-recipe", recipe = "logistic-electric-furnace-2" })
     table.insert(data.raw.technology["logistic-electric-furnace-2"].prerequisites, "advanced-material-processing-3")
     table.insert(data.raw.technology["logistic-electric-furnace-2"].prerequisites, "logistic-electric-furnace-1")

@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.18.5
+Date: 2020-06-12
+
+  Bugfixes(Thanks OutRageousMe):
+    - Fixed an error when bobplates wasn't being used
+    - Fixed an error when electronics assembling machines are disabled in startup settings
+---------------------------------------------------------------------------------------------------
 Version: 0.18.4
 Date: 2020-06-12
 
@@ -6,7 +13,7 @@ Date: 2020-06-12
     - Made assembly machine selection box bigger to match other 3x3 entities
 
   Bugfixes:
-    - Fixed a bug that made the mod not work without other mods installed.
+    - Fixed a bug that made the mod not work without other mods installed
 ---------------------------------------------------------------------------------------------------
 Version: 0.18.3
 Date: 2020-05-26
