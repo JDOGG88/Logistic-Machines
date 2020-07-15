@@ -1,9 +1,10 @@
-function createInserter(number, entity_size)
+local function createInserter(number, entity_size)
     local ci = table.deepcopy(data.raw.inserter["stack-inserter"])
     ci.name = "invisible-inserter-" .. number .. "-" .. entity_size
     ci.minable = { hardness = 0.2, mining_time = 0.5, result = nil }
     ci.collision_box = { { -0.15, -0.15 }, { 0.15, 0.15 } }
     ci.selection_box = { { 0, 0 }, { 0, 0 } }
+    ci.allow_custom_vectors = true
     if entity_size == "2x2" then
         if number == 1 then
             ci.pickup_position = { 0, -1 }
@@ -77,6 +78,13 @@ function createInserter(number, entity_size)
     ci.hand_closed_shadow.hr_version.scale = .001
     ci.hand_open_shadow.hr_version.scale = .001
     ci.platform_picture.sheet.hr_version.scale = .001
+    ci.draw_circuit_wires = false
+    ci.circuit_connector_sprites = nil
+    if number == 1 then
+        ci.localised_name = { "entity-name.requester-inserter" }
+    else
+        ci.localised_name = { "entity-name.provider-inserter" }
+    end
     return ci
 end
 
@@ -110,12 +118,35 @@ invisible_substation.radius_visualisation_picture.width = 1
 local assembling_provider = table.deepcopy(data.raw["logistic-container"]["logistic-chest-passive-provider"])
 assembling_provider.name = "assembling-provider"
 assembling_provider.minable = { mining_time = 0.001, result = nil }
-assembling_provider.flags = nil
+assembling_provider.flags = { "hidden", "placeable-off-grid" }
+assembling_provider.selection_box = { { 0, 0 }, { 0, 0 } }
+assembling_provider.collision_box = { { -0, -0 }, { 0, 0 } }
+assembling_provider.circuit_connector_sprites = nil
+assembling_provider.animation.layers[1].scale = .001
+assembling_provider.animation.layers[1].hr_version.scale = .001
+assembling_provider.animation.layers[2].scale = .001
+assembling_provider.animation.layers[2].hr_version.scale = .001
+assembling_provider.localised_name = { "entity-name." .. assembling_provider.name, { "mod-name.mod-name" } }
 
 local assembling_requester = table.deepcopy(data.raw["logistic-container"]["logistic-chest-requester"])
 assembling_requester.name = "assembling-requester"
 assembling_requester.minable = { mining_time = 0.001, result = nil }
-assembling_requester.flags = nil
+assembling_requester.flags = { "hidden", "placeable-off-grid" }
+assembling_requester.selection_box = { { 0, 0 }, { 0, 0 } }
+assembling_requester.collision_box = { { -0, -0 }, { 0, 0 } }
+assembling_requester.circuit_connector_sprites = nil
+assembling_requester.animation.layers[1].scale = .001
+assembling_requester.animation.layers[1].hr_version.scale = .001
+assembling_requester.animation.layers[2].scale = .001
+assembling_requester.animation.layers[2].hr_version.scale = .001
+assembling_requester.localised_name = { "entity-name." .. assembling_requester.name, { "mod-name.mod-name" } }
+
+local remnant_chest = table.deepcopy(data.raw.container["steel-chest"])
+remnant_chest.name = "remnant-chest"
+remnant_chest.inventory_size = 110
+remnant_chest.minable = { mining_time = 1, result = nil }
+remnant_chest.flags = { "hidden", "placeable-off-grid" }
+remnant_chest.localised_name = { "entity-name." .. remnant_chest.name, { "mod-name.mod-name" } }
 
 data:extend({
     invisible_inserter_1_2x2,
@@ -133,44 +164,51 @@ data:extend({
     invisible_substation,
     assembling_provider,
     assembling_requester,
+    remnant_chest,
 })
 
-local assembling_provider_item = table.deepcopy(data.raw["item"]["logistic-chest-passive-provider"])
+local assembling_provider_item = table.deepcopy(data.raw.item["logistic-chest-passive-provider"])
 assembling_provider_item.name = "assembling-provider"
 assembling_provider_item.place_result = "assembling-provider"
 
-local assembling_requester_item = table.deepcopy(data.raw["item"]["logistic-chest-requester"])
+local assembling_requester_item = table.deepcopy(data.raw.item["logistic-chest-requester"])
 assembling_requester_item.name = "assembling-requester"
 assembling_requester_item.place_result = "assembling-requester"
 
-local function createItem(name, icon_name, entity_size)
+local remnant_chest_item = table.deepcopy(data.raw.item["steel-chest"])
+remnant_chest_item.name = "remnant-chest"
+remnant_chest_item.place_result = "remnant-chest"
+
+local function createItem(name, entity_size)
     local item = {}
     item.type = "item"
     if name == "substation" then
         item.name = "invisible-" .. name
+        item.icon = "__base__/graphics/icons/substation.png"
+        item.icon_size = data.raw.item.substation.icon_size
     else
         item.name = "invisible-" .. name .. "-" .. entity_size
+        item.icon = "__base__/graphics/icons/stack-inserter.png"
+        item.icon_size = data.raw.item["stack-inserter"].icon_size
     end
-    item.icon = "__base__/graphics/icons/" .. icon_name .. ".png"
-    item.icon_size = data.raw.item[icon_name].icon_size
     item.stack_size = 50
     item.place_result = item.name
     return item
 end
 
-local invisible_substation_item = createItem("substation", "substation")
-local invisible_inserter_1_item_2x2 = createItem("inserter-1", "stack-inserter", "2x2")
-local invisible_inserter_2_item_2x2 = createItem("inserter-2", "stack-inserter", "2x2")
-local invisible_inserter_1_item_3x3 = createItem("inserter-1", "stack-inserter", "3x3")
-local invisible_inserter_2_item_3x3 = createItem("inserter-2", "stack-inserter", "3x3")
-local invisible_inserter_1_item_5x5 = createItem("inserter-1", "stack-inserter", "5x5")
-local invisible_inserter_2_item_5x5 = createItem("inserter-2", "stack-inserter", "5x5")
-local invisible_inserter_1_item_6x6 = createItem("inserter-1", "stack-inserter", "6x6")
-local invisible_inserter_2_item_6x6 = createItem("inserter-2", "stack-inserter", "6x6")
-local invisible_inserter_1_item_7x7 = createItem("inserter-1", "stack-inserter", "7x7")
-local invisible_inserter_2_item_7x7 = createItem("inserter-2", "stack-inserter", "7x7")
-local invisible_inserter_1_item_8x8 = createItem("inserter-1", "stack-inserter", "8x8")
-local invisible_inserter_2_item_8x8 = createItem("inserter-2", "stack-inserter", "8x8")
+local invisible_substation_item = createItem("substation")
+local invisible_inserter_1_item_2x2 = createItem("inserter-1", "2x2")
+local invisible_inserter_2_item_2x2 = createItem("inserter-2", "2x2")
+local invisible_inserter_1_item_3x3 = createItem("inserter-1", "3x3")
+local invisible_inserter_2_item_3x3 = createItem("inserter-2", "3x3")
+local invisible_inserter_1_item_5x5 = createItem("inserter-1", "5x5")
+local invisible_inserter_2_item_5x5 = createItem("inserter-2", "5x5")
+local invisible_inserter_1_item_6x6 = createItem("inserter-1", "6x6")
+local invisible_inserter_2_item_6x6 = createItem("inserter-2", "6x6")
+local invisible_inserter_1_item_7x7 = createItem("inserter-1", "7x7")
+local invisible_inserter_2_item_7x7 = createItem("inserter-2", "7x7")
+local invisible_inserter_1_item_8x8 = createItem("inserter-1", "8x8")
+local invisible_inserter_2_item_8x8 = createItem("inserter-2", "8x8")
 
 data:extend({
     assembling_provider_item,
@@ -188,4 +226,5 @@ data:extend({
     invisible_inserter_2_item_7x7,
     invisible_inserter_1_item_8x8,
     invisible_inserter_2_item_8x8,
+    remnant_chest_item,
 })

@@ -1,0 +1,18 @@
+{
+  "item":
+  [
+    ["logistic-chemical-furnace-1", "logistic-electric-chemical-furnace-1"]
+  ],
+  "recipe":
+  [
+    ["logistic-chemical-furnace-1", "logistic-electric-chemical-furnace-1"]
+  ],
+  "entity":
+  [
+    ["logistic-chemical-furnace-1", "logistic-electric-chemical-furnace-1"]
+  ],
+  "technology":
+  [
+    ["logistic-chemical-furnace-1", "logistic-electric-chemical-furnace-1"]
+  ]
+}

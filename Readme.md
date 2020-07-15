@@ -1,6 +1,6 @@
 # Logistic Machines
 
-Logistic Machines that come with integrated passive provider and requester chests.  Re-work of **DellAquila's** [Logistic Assembling Machine][dellaguila-mod-portal-entry].
+Logistic Machines that come with integrated passive provider and requester chests.
 
 ## News
 
@@ -11,15 +11,20 @@ Go [grab it now][logistic-machines-mod-portal-entry], or get it in-game by searc
 
 ### Latest
 
-Added bob's mods support and new logistic entities.  Now includes; Assembling Machines, Chemical Plants, Furnaces, Labs, and Electrolysers(bob's mods only).
-
-### Previously
-
-Initial Release
-
+- Works with Bob's Metals, Chemicals and Intermediates v0.18.9
+- Added Nuclear Reactors (including bobpower support)
+- Removed the selection/collision boxes for the logistic chests and hid their graphics
+- All remaining items in the chests and the logistic entity are dumped into a remnant chest
+- Added custom inputs to access both the chests and the inserters
+- Inserters are pre loaded with attached wires to add fine tune controls
+    - Red wire between provider chest, and the inserter that adds to it
+    - Green wire between inserters
+    
 ## Description
 
 Adds assembling machines and chemical plants that come with integrated passive provider and requester chests.  Now includes [Bob's Assembling Machines][bob-mod-portal-entry] integration.
+
+Re-work of **DellAquila's** [Logistic Assembling Machine][dellaguila-mod-portal-entry].
 
 ![Entities][hero-image-1]
 

@@ -1,4 +1,4 @@
-function createPlant(version)
+local function createPlant(version)
     local cp = table.deepcopy(data.raw.item["chemical-plant"])
     cp.name = "logistic-chemical-plant-" .. version
     if mods["bobassembly"] then
@@ -15,24 +15,20 @@ function createPlant(version)
         cp.icons = { { icon = data.raw["assembling-machine"]["chemical-plant"].icon, icon_size = 64 }, logistic_requester_chest_mask, logistic_provider_chest_mask, }
     end
     cp.icon_size = 32
-    cp.place_result = "logistic-chemical-plant-" .. version
+    cp.place_result = cp.name
+    cp.localised_description = lm_item_localised_description_main
     return cp
 end
 
 if not mods["bobassembly"] then
-    local logistic_chemical_plant_1 = createPlant(1)
     data:extend({
-        logistic_chemical_plant_1,
+        createPlant(1),
     })
 else
-    local logistic_chemical_plant_1 = createPlant(1)
-    local logistic_chemical_plant_2 = createPlant(2)
-    local logistic_chemical_plant_3 = createPlant(3)
-    local logistic_chemical_plant_4 = createPlant(4)
     data:extend({
-        logistic_chemical_plant_1,
-        logistic_chemical_plant_2,
-        logistic_chemical_plant_3,
-        logistic_chemical_plant_4,
+        createPlant(1),
+        createPlant(2),
+        createPlant(3),
+        createPlant(4),
     })
 end
