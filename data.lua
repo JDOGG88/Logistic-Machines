@@ -8,62 +8,18 @@ function lm_localised_name(entity, version)
     return { "entity-name." .. entity, "" .. version .. "" }
 end
 
-lm_entity_localised_description_main = {
+lm_localised_description_main = {
     "entity-description.main-description",
-    { "control-inputs.lm-open-requester" },
-    { "control-inputs.lm-open-requester-inserter" },
-    { "control-inputs.lm-open-provider" },
-    { "control-inputs.lm-open-provider-inserter" },
 }
 
-lm_entity_localised_description_lab = {
+lm_localised_description_lab = {
     "entity-description.lab-description",
-    { "control-inputs.lm-open-requester" },
-    { "control-inputs.lm-open-requester-inserter" },
-}
-
-lm_item_localised_description_main = {
-    "item-description.main-description",
-    { "control-inputs.lm-open-requester" },
-    { "control-inputs.lm-open-requester-inserter" },
-    { "control-inputs.lm-open-provider" },
-    { "control-inputs.lm-open-provider-inserter" },
-}
-
-lm_item_localised_description_lab = {
-    "item-description.lab-description",
-    { "control-inputs.lm-open-requester" },
-    { "control-inputs.lm-open-requester-inserter" },
 }
 
 require("prototypes.init")
 require("prototypes.invisible")
 
 data:extend({
-    {
-        type = "custom-input",
-        name = "lm-open-requester",
-        key_sequence = "CONTROL + SHIFT + mouse-button-1",
-        consuming = "none"
-    },
-    {
-        type = "custom-input",
-        name = "lm-open-requester-inserter",
-        key_sequence = "CONTROL + SHIFT + ALT + mouse-button-1",
-        consuming = "none"
-    },
-    {
-        type = "custom-input",
-        name = "lm-open-provider",
-        key_sequence = "CONTROL + SHIFT + mouse-button-2",
-        consuming = "none"
-    },
-    {
-        type = "custom-input",
-        name = "lm-open-provider-inserter",
-        key_sequence = "CONTROL + SHIFT + ALT + mouse-button-2",
-        consuming = "none"
-    },
     {
         type = "item-subgroup",
         name = "logistic-assembling-machines",

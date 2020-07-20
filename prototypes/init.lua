@@ -1,3 +1,5 @@
+require("prototypes.gui.style")
+
 require("prototypes.technology.base-machine")
 
 require("prototypes.entity.assembling-machine")

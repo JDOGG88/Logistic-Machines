@@ -10,7 +10,8 @@ local function createLab(version)
     cl.name = "logistic-lab-" .. version
     cl.icon_size = 32
     cl.place_result = cl.name
-    cl.localised_description = lm_item_localised_description_lab
+    cl.localised_name = lm_localised_name("logistic-lab", version)
+    cl.localised_description = lm_localised_description_lab
     return cl
 end
 

@@ -11,15 +11,11 @@ Go [grab it now][logistic-machines-mod-portal-entry], or get it in-game by searc
 
 ### Latest
 
-- Works with Bob's Metals, Chemicals and Intermediates v0.18.9
-- Added Nuclear Reactors (including bobpower support)
-- Removed the selection/collision boxes for the logistic chests and hid their graphics
-- All remaining items in the chests and the logistic entity are dumped into a remnant chest
-- Added custom inputs to access both the chests and the inserters
-- Inserters are pre loaded with attached wires to add fine tune controls
-    - Red wire between provider chest, and the inserter that adds to it
-    - Green wire between inserters
-    
+- Added a GUI to access the invisible entities and connect them to the circuit network
+- Bob's Inserters GUI will no longer appear when accessing the invisible inserters
+- Fixed an error being thrown for next_upgrade call
+- Fixed item names not displaying correctly
+
 ## Description
 
 Adds assembling machines and chemical plants that come with integrated passive provider and requester chests.  Now includes [Bob's Assembling Machines][bob-mod-portal-entry] integration.

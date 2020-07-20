@@ -16,13 +16,15 @@ local function createFurnace(version, type)
     if type == nil then
         cf.name = "logistic-electric-furnace-" .. version
         cf.icons = { { icon = data.raw.item["electric-furnace"].icon, icon_size = 64 }, logistic_requester_chest_mask, logistic_provider_chest_mask, }
+        cf.localised_name = lm_localised_name("logistic-electric-furnace", version)
     else
         cf.name = "logistic-electric-" .. type .. "-furnace-" .. version
         cf.icons = { { icon = data.raw.item["electric-" .. type .. "-furnace"].icon, icon_size = 32 }, logistic_requester_chest_mask, logistic_provider_chest_mask, }
+        cf.localised_name = lm_localised_name("logistic-electric-" .. type .. "-furnace", version)
     end
     cf.icon_size = 32
     cf.place_result = cf.name
-    cf.localised_description = lm_item_localised_description_main
+    cf.localised_description = lm_localised_description_main
     return cf
 end
 

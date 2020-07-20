@@ -103,10 +103,10 @@ local invisible_inserter_2_8x8 = createInserter(2, "8x8")
 
 local invisible_substation = table.deepcopy(data.raw["electric-pole"]["substation"])
 invisible_substation.name = "invisible-substation"
-invisible_substation.flags = { "hidden" }
+invisible_substation.flags = { "hidden", "placeable-off-grid" }
 invisible_substation.minable = { hardness = 0.2, mining_time = 0.5, result = nil }
 invisible_substation.collision_box = { { -0, -0 }, { 0, 0 } }
-invisible_substation.selection_box = { { 0, 0 }, { 0, 0 } }
+invisible_substation.selection_box = { { -0.5, -0.5 }, { 0.5, 0.5 } }
 invisible_substation.pictures.layers[1].scale = .001
 invisible_substation.pictures.layers[1].hr_version.scale = .001
 invisible_substation.pictures.layers[2].scale = .001
@@ -114,6 +114,15 @@ invisible_substation.pictures.layers[2].hr_version.scale = .001
 invisible_substation.working_sound = nil
 invisible_substation.radius_visualisation_picture.height = 1
 invisible_substation.radius_visualisation_picture.width = 1
+invisible_substation.selection_priority = 60
+for i = 1, 4 do
+    invisible_substation.connection_points[i].wire.copper = { 0, 0 }
+    invisible_substation.connection_points[i].wire.red = { 0.5, 0 }
+    invisible_substation.connection_points[i].wire.green = { -0.5, 0 }
+    invisible_substation.connection_points[i].shadow.copper = { 0, 0 }
+    invisible_substation.connection_points[i].shadow.red = { 0.5, 0 }
+    invisible_substation.connection_points[i].shadow.green = { -0.5, 0 }
+end
 
 local assembling_provider = table.deepcopy(data.raw["logistic-container"]["logistic-chest-passive-provider"])
 assembling_provider.name = "assembling-provider"
@@ -122,11 +131,13 @@ assembling_provider.flags = { "hidden", "placeable-off-grid" }
 assembling_provider.selection_box = { { 0, 0 }, { 0, 0 } }
 assembling_provider.collision_box = { { -0, -0 }, { 0, 0 } }
 assembling_provider.circuit_connector_sprites = nil
+assembling_provider.localised_name = { "entity-name.assembling-provider", { "mod-name.mod-name" } }
+assembling_provider.next_upgrade = nil
+assembling_provider.draw_circuit_wires = false
 assembling_provider.animation.layers[1].scale = .001
 assembling_provider.animation.layers[1].hr_version.scale = .001
 assembling_provider.animation.layers[2].scale = .001
 assembling_provider.animation.layers[2].hr_version.scale = .001
-assembling_provider.localised_name = { "entity-name." .. assembling_provider.name, { "mod-name.mod-name" } }
 
 local assembling_requester = table.deepcopy(data.raw["logistic-container"]["logistic-chest-requester"])
 assembling_requester.name = "assembling-requester"
@@ -135,11 +146,13 @@ assembling_requester.flags = { "hidden", "placeable-off-grid" }
 assembling_requester.selection_box = { { 0, 0 }, { 0, 0 } }
 assembling_requester.collision_box = { { -0, -0 }, { 0, 0 } }
 assembling_requester.circuit_connector_sprites = nil
+assembling_requester.localised_name = { "entity-name.assembling-requester", { "mod-name.mod-name" } }
+assembling_requester.next_upgrade = nil
+assembling_requester.draw_circuit_wires = false
 assembling_requester.animation.layers[1].scale = .001
 assembling_requester.animation.layers[1].hr_version.scale = .001
 assembling_requester.animation.layers[2].scale = .001
 assembling_requester.animation.layers[2].hr_version.scale = .001
-assembling_requester.localised_name = { "entity-name." .. assembling_requester.name, { "mod-name.mod-name" } }
 
 local remnant_chest = table.deepcopy(data.raw.container["steel-chest"])
 remnant_chest.name = "remnant-chest"
@@ -147,6 +160,7 @@ remnant_chest.inventory_size = 110
 remnant_chest.minable = { mining_time = 1, result = nil }
 remnant_chest.flags = { "hidden", "placeable-off-grid" }
 remnant_chest.localised_name = { "entity-name." .. remnant_chest.name, { "mod-name.mod-name" } }
+remnant_chest.next_upgrade = nil
 
 data:extend({
     invisible_inserter_1_2x2,

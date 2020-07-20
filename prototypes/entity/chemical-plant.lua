@@ -22,7 +22,7 @@ local function createPlant(version)
     end
     cp.icon_size = 32
     cp.localised_name = lm_localised_name("logistic-chemical-plant", version)
-    cp.localised_description = lm_entity_localised_description_main
+    cp.localised_description = lm_localised_description_main
     return cp
 end
 

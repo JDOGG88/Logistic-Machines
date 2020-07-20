@@ -10,7 +10,7 @@ local function createLab(version)
     cl.name = "logistic-lab-" .. version
     cl.minable = { hardness = 0.2, mining_time = 0.5, result = cl.name }
     cl.localised_name = lm_localised_name("logistic-lab", version)
-    cl.localised_description = lm_entity_localised_description_lab
+    cl.localised_description = lm_localised_description_lab
     cl.icon_size = 32
     return cl
 end

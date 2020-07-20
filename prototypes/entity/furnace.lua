@@ -24,7 +24,7 @@ local function createFurnace(version, type)
     end
     cf.minable = { hardness = 0.2, mining_time = 0.5, result = cf.name }
     cf.icon_size = 32
-    cf.localised_description = lm_entity_localised_description_main
+    cf.localised_description = lm_localised_description_main
     return cf
 end
 

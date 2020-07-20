@@ -80,7 +80,7 @@ local function createMachine(version)
     cm.icon_size = 32
     cm.minable = { hardness = 0.2, mining_time = 0.5, result = "logistic-assembling-machine-" .. version }
     cm.localised_name = lm_localised_name("logistic-assembling-machine", version)
-    cm.localised_description = lm_entity_localised_description_main
+    cm.localised_description = lm_localised_description_main
     cm.energy_source = {
         type = "electric",
         usage_priority = "secondary-input",

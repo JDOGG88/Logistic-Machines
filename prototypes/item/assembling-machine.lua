@@ -12,7 +12,8 @@ local function createMachine(version)
     end
     cm.icon_size = 32
     cm.place_result = cm.name
-    cm.localised_description = lm_item_localised_description_main
+    cm.localised_name = lm_localised_name("logistic-assembling-machine", version)
+    cm.localised_description = lm_localised_description_main
     return cm
 end
 

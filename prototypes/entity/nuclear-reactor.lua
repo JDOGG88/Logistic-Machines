@@ -10,7 +10,7 @@ local function createReactor(version)
     cr.name = "logistic-nuclear-reactor-" .. version
     cr.minable = { mining_time = 0.5, result = cr.name }
     cr.localised_name = lm_localised_name("logistic-nuclear-reactor", version)
-    cr.localised_description = lm_entity_localised_description_main
+    cr.localised_description = lm_localised_description_main
     cr.icon_size = 32
     return cr
 end

@@ -1,3 +1,55 @@
+local gui = require("prototypes.gui.gui")
+
+local function gui_regen(player)
+    gui.regen(player)
+end
+
+script.on_configuration_changed(function()
+    for _, player in pairs(game.players) do
+        gui_regen(player)
+    end
+    if game.active_mods["bobinserters"] then
+        remote.call("bobinserters", "blacklist_inserters",
+                {
+                    "invisible-inserter-1-2x2",
+                    "invisible-inserter-2-2x2",
+                    "invisible-inserter-1-3x3",
+                    "invisible-inserter-2-3x3",
+                    "invisible-inserter-1-5x5",
+                    "invisible-inserter-2-5x5",
+                    "invisible-inserter-1-6x6",
+                    "invisible-inserter-2-6x6",
+                    "invisible-inserter-1-7x7",
+                    "invisible-inserter-2-7x7",
+                    "invisible-inserter-1-8x8",
+                    "invisible-inserter-2-8x8",
+                }
+        )
+    end
+end)
+
+script.on_event(defines.events.on_player_created, function(event)
+    gui_regen(game.get_player(event.player_index))
+    if game.active_mods["bobinserters"] then
+        remote.call("bobinserters", "blacklist_inserters",
+                {
+                    "invisible-inserter-1-2x2",
+                    "invisible-inserter-2-2x2",
+                    "invisible-inserter-1-3x3",
+                    "invisible-inserter-2-3x3",
+                    "invisible-inserter-1-5x5",
+                    "invisible-inserter-2-5x5",
+                    "invisible-inserter-1-6x6",
+                    "invisible-inserter-2-6x6",
+                    "invisible-inserter-1-7x7",
+                    "invisible-inserter-2-7x7",
+                    "invisible-inserter-1-8x8",
+                    "invisible-inserter-2-8x8",
+                }
+        )
+    end
+end)
+
 local function assembly_set_2x2(entity)
     local provider = entity.surface.create_entity { name = "assembling-provider", position = { (entity.position.x) + 0.5, (entity.position.y) - 0.5 }, force = entity.force }
     provider.destructible = false
@@ -17,10 +69,6 @@ local function assembly_set_2x2(entity)
     substation.destructible = false
     substation.minable = false
     
-    inserter_1.connect_neighbour({ wire = defines.wire_type.green, target_entity = inserter_2 })
-    inserter_2.connect_neighbour({ wire = defines.wire_type.red, target_entity = provider })
-    inserter_1.get_or_create_control_behavior().circuit_mode_of_operation = defines.control_behavior.inserter.circuit_mode_of_operation.none
-    inserter_2.get_or_create_control_behavior().circuit_mode_of_operation = defines.control_behavior.inserter.circuit_mode_of_operation.none
     return
 end
 
@@ -43,10 +91,6 @@ local function assembly_set_3x3(entity)
     substation.destructible = false
     substation.minable = false
     
-    inserter_1.connect_neighbour({ wire = defines.wire_type.green, target_entity = inserter_2 })
-    inserter_2.connect_neighbour({ wire = defines.wire_type.red, target_entity = provider })
-    inserter_1.get_or_create_control_behavior().circuit_mode_of_operation = defines.control_behavior.inserter.circuit_mode_of_operation.none
-    inserter_2.get_or_create_control_behavior().circuit_mode_of_operation = defines.control_behavior.inserter.circuit_mode_of_operation.none
     return
 end
 
@@ -69,10 +113,6 @@ local function assembly_set_5x5(entity)
     substation.destructible = false
     substation.minable = false
     
-    inserter_1.connect_neighbour({ wire = defines.wire_type.green, target_entity = inserter_2 })
-    inserter_2.connect_neighbour({ wire = defines.wire_type.red, target_entity = provider })
-    inserter_1.get_or_create_control_behavior().circuit_mode_of_operation = defines.control_behavior.inserter.circuit_mode_of_operation.none
-    inserter_2.get_or_create_control_behavior().circuit_mode_of_operation = defines.control_behavior.inserter.circuit_mode_of_operation.none
     return
 end
 
@@ -95,10 +135,6 @@ local function assembly_set_6x6(entity)
     substation.destructible = false
     substation.minable = false
     
-    inserter_1.connect_neighbour({ wire = defines.wire_type.green, target_entity = inserter_2 })
-    inserter_2.connect_neighbour({ wire = defines.wire_type.red, target_entity = provider })
-    inserter_1.get_or_create_control_behavior().circuit_mode_of_operation = defines.control_behavior.inserter.circuit_mode_of_operation.none
-    inserter_2.get_or_create_control_behavior().circuit_mode_of_operation = defines.control_behavior.inserter.circuit_mode_of_operation.none
     return
 end
 
@@ -121,10 +157,6 @@ local function assembly_set_7x7(entity)
     substation.destructible = false
     substation.minable = false
     
-    inserter_1.connect_neighbour({ wire = defines.wire_type.green, target_entity = inserter_2 })
-    inserter_2.connect_neighbour({ wire = defines.wire_type.red, target_entity = provider })
-    inserter_1.get_or_create_control_behavior().circuit_mode_of_operation = defines.control_behavior.inserter.circuit_mode_of_operation.none
-    inserter_2.get_or_create_control_behavior().circuit_mode_of_operation = defines.control_behavior.inserter.circuit_mode_of_operation.none
     return
 end
 
@@ -296,44 +328,38 @@ script.on_event(defines.events.on_robot_built_entity, function(event)
 end)
 
 script.on_event(defines.events.script_raised_revive, function(event)
+    local entity = event.entity or event.created_entity
     for _, name in pairs(machine_2x2) do
-        local entity = event.entity or event.created_entity
         if (entity.name == name) then
             assembly_set_2x2(entity)
         end
     end
     for _, name in pairs(machine_3x3) do
-        local entity = event.entity or event.created_entity
         if (entity.name == name) then
             assembly_set_3x3(entity)
         end
     end
     for _, name in pairs(machine_5x5) do
-        local entity = event.entity or event.created_entity
         if (entity.name == name) then
             assembly_set_5x5(entity)
         end
     end
     for _, name in pairs(machine_6x6) do
-        local entity = event.entity or event.created_entity
         if (entity.name == name) then
             assembly_set_6x6(entity)
         end
     end
     for _, name in pairs(machine_7x7) do
-        local entity = event.entity or event.created_entity
         if (entity.name == name) then
             assembly_set_7x7(entity)
         end
     end
     for _, name in pairs(lab_8x8) do
-        local entity = event.entity or event.created_entity
         if (entity.name == name) then
             lab_set_8x8(entity)
         end
     end
     for _, name in pairs(lab) do
-        local entity = event.entity or event.created_entity
         if (entity.name == name) then
             lab_set(entity)
         end
@@ -341,44 +367,38 @@ script.on_event(defines.events.script_raised_revive, function(event)
 end)
 
 script.on_event(defines.events.script_raised_built, function(event)
+    local entity = event.entity or event.created_entity
     for _, name in pairs(machine_2x2) do
-        local entity = event.entity or event.created_entity
         if (entity.name == name) then
             assembly_set_2x2(entity)
         end
     end
     for _, name in pairs(machine_3x3) do
-        local entity = event.entity or event.created_entity
         if (entity.name == name) then
             assembly_set_3x3(entity)
         end
     end
     for _, name in pairs(machine_5x5) do
-        local entity = event.entity or event.created_entity
         if (entity.name == name) then
             assembly_set_5x5(entity)
         end
     end
     for _, name in pairs(machine_6x6) do
-        local entity = event.entity or event.created_entity
         if (entity.name == name) then
             assembly_set_6x6(entity)
         end
     end
     for _, name in pairs(machine_7x7) do
-        local entity = event.entity or event.created_entity
         if (entity.name == name) then
             assembly_set_7x7(entity)
         end
     end
     for _, name in pairs(lab_8x8) do
-        local entity = event.entity or event.created_entity
         if (entity.name == name) then
             lab_set_8x8(entity)
         end
     end
     for _, name in pairs(lab) do
-        local entity = event.entity or event.created_entity
         if (entity.name == name) then
             lab_set(entity)
         end
@@ -404,7 +424,7 @@ local invisible_entity = {
 }
 
 local area_var_2x2 = 0.7
-local area_var_3x3 = 1.2
+local area_var_3x3 = 1.5
 local area_var_5x5 = 2.2
 local area_var_6x6 = 2.65
 local area_var_7x7 = 3.2
@@ -415,190 +435,433 @@ local function get_selected_area(entity, var)
     return { { center.x - var, center.y - var }, { center.x + var, center.y + var } }
 end
 
-script.on_event("lm-open-requester", function(event)
+local lm_current_entities = {}
+
+local function gui_text(player, name)
+    local screen_flow = player.gui.screen
+    local entity_window = screen_flow.lm_entity_window
+    local rc_button = entity_window.lm_body_flow.lm_left_body_flow.lm_requester_chest_button
+    local rci_button = entity_window.lm_body_flow.lm_left_body_flow.lm_requester_chest_inserter_button
+    local entity_button = entity_window.lm_body_flow.lm_center_body_flow.lm_entity_button
+    local circuit_button = entity_window.lm_body_flow.lm_center_body_flow.lm_circuit_button
+    local pc_button = entity_window.lm_body_flow.lm_right_body_flow.lm_provider_chest_button
+    local pci_button = entity_window.lm_body_flow.lm_right_body_flow.lm_provider_chest_inserter_button
+    local circuit_window = screen_flow.lm_circuit_network_config_window
+    local localised_entity_name = { "lm-gui." .. string.sub(name, 1, #name - 2) }
+    entity_window.lm_main_title_flow.lm_main_title.caption = localised_entity_name
+    rc_button.tooltip = { "lm-gui.lm-entity-tooltip", localised_entity_name, "Requester Chest" }
+    rci_button.tooltip = { "lm-gui.lm-entity-tooltip", localised_entity_name, "Requester Chest Inserter" }
+    entity_button.tooltip = { "lm-gui.lm-entity-tooltip", localised_entity_name, "Main Crafting Window" }
+    circuit_button.tooltip = { "lm-gui.lm-entity-tooltip", localised_entity_name, "Circuit Network Configuration" }
+    pc_button.tooltip = { "lm-gui.lm-entity-tooltip", localised_entity_name, "Provider Chest" }
+    pci_button.tooltip = { "lm-gui.lm-entity-tooltip", localised_entity_name, "Provider Chest Inserter" }
+    circuit_window.lm_circuit_title_flow.lm_circuit_title.tooltip = { "lm-gui.lm-circuit-tooltip", localised_entity_name }
+end
+
+local function lab_gui_text(player, name)
+    local screen_flow = player.gui.screen
+    local entity_window = screen_flow.lm_entity_window
+    local rc_button = entity_window.lm_body_flow.lm_left_body_flow.lm_requester_chest_button
+    local rci_button = entity_window.lm_body_flow.lm_left_body_flow.lm_requester_chest_inserter_button
+    local entity_button = entity_window.lm_body_flow.lm_center_body_flow.lm_entity_button
+    local circuit_button = entity_window.lm_body_flow.lm_center_body_flow.lm_circuit_button
+    local circuit_window = screen_flow.lm_circuit_network_config_window
+    local localised_entity_name = { "lm-gui." .. string.sub(name, 1, #name - 2) }
+    entity_window.lm_main_title_flow.lm_main_title.caption = localised_entity_name
+    rc_button.tooltip = { "lm-gui.lm-entity-tooltip", localised_entity_name, "Requester Chest" }
+    rci_button.tooltip = { "lm-gui.lm-entity-tooltip", localised_entity_name, "Requester Chest Inserter" }
+    entity_button.tooltip = { "lm-gui.lm-entity-tooltip", localised_entity_name, "Main Crafting Window" }
+    circuit_button.tooltip = { "lm-gui.lm-entity-tooltip", localised_entity_name, "Circuit Network Configuration" }
+    circuit_window.lm_circuit_title_flow.lm_circuit_title.tooltip = { "lm-gui.lm-circuit-tooltip", localised_entity_name }
+end
+
+local function get_entity_by_name(name)
+    for _, entity in pairs(lm_current_entities) do
+        if entity.name == name then
+            return entity
+        end
+    end
+end
+
+local function get_requester_inserter_name()
+    for _, entity in pairs(lm_current_entities) do
+        if entity.name == string.match(entity.name, "invisible%-inserter%-1.*") then
+            return entity.name
+        end
+    end
+end
+
+local function get_provider_inserter_name()
+    for _, entity in pairs(lm_current_entities) do
+        if entity.name == string.match(entity.name, "invisible%-inserter%-2.*") then
+            return entity.name
+        end
+    end
+end
+
+local function connection_checker(entity_from_name, entity_to_name, wire_color)
+    local connection = false
+    for _, entity in pairs(lm_current_entities) do
+        if entity == get_entity_by_name(entity_from_name) then
+            if entity.circuit_connected_entities[wire_color] ~= nil then
+                for _, connected_entity in pairs(entity.circuit_connected_entities[wire_color]) do
+                    if connected_entity == get_entity_by_name(entity_to_name) then
+                        connection = true
+                    end
+                end
+            elseif get_entity_by_name(entity_from_name).circuit_connected_entities[wire_color] == nil then
+                connection = false
+            end
+        end
+    end
+    return connection
+end
+
+script.on_event(defines.events.on_gui_opened, function(event)
     local player = game.get_player(event.player_index)
     local entity = player.selected
+    local screen_flow = player.gui.screen
+    local entity_window = screen_flow.lm_entity_window
+    local circuit_window = screen_flow.lm_circuit_network_config_window
     for _, name in pairs(machine_2x2) do
-        if entity and entity.name == name then
-            for _, entity_interaction in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_2x2), name = "assembling-requester" }) do
-                player.opened = entity_interaction
+        if entity and entity.name == name and event.gui_type == defines.gui_type.entity then
+            for _, current_entity in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_2x2) }) do
+                table.insert(lm_current_entities, current_entity)
+                gui_text(player, name)
+                player.opened = entity_window
+                entity_window.visible = true
+                entity_window.auto_center = true
+                circuit_window.visible = false
             end
         end
     end
     for _, name in pairs(machine_3x3) do
-        if entity and entity.name == name then
-            for _, entity_interaction in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_3x3), name = "assembling-requester" }) do
-                player.opened = entity_interaction
+        if entity and entity.name == name and event.gui_type == defines.gui_type.entity then
+            for _, current_entity in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_3x3) }) do
+                table.insert(lm_current_entities, current_entity)
+                gui_text(player, name)
+                player.opened = entity_window
+                entity_window.visible = true
+                entity_window.auto_center = true
+                circuit_window.visible = false
             end
         end
     end
     for _, name in pairs(machine_5x5) do
-        if entity and entity.name == name then
-            for _, entity_interaction in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_5x5), name = "assembling-requester" }) do
-                player.opened = entity_interaction
+        if entity and entity.name == name and event.gui_type == defines.gui_type.entity then
+            for _, current_entity in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_5x5) }) do
+                table.insert(lm_current_entities, current_entity)
+                gui_text(player, name)
+                player.opened = entity_window
+                entity_window.visible = true
+                entity_window.auto_center = true
+                circuit_window.visible = false
             end
         end
     end
     for _, name in pairs(machine_6x6) do
-        if entity and entity.name == name then
-            for _, entity_interaction in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_6x6), name = "assembling-requester" }) do
-                player.opened = entity_interaction
+        if entity and entity.name == name and event.gui_type == defines.gui_type.entity then
+            for _, current_entity in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_6x6) }) do
+                table.insert(lm_current_entities, current_entity)
+                gui_text(player, name)
+                player.opened = entity_window
+                entity_window.visible = true
+                entity_window.auto_center = true
+                circuit_window.visible = false
             end
         end
     end
     for _, name in pairs(machine_7x7) do
-        if entity and entity.name == name then
-            for _, entity_interaction in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_7x7), name = "assembling-requester" }) do
-                player.opened = entity_interaction
-            end
-        end
-    end
-    for _, name in pairs(lab) do
-        if entity and entity.name == name then
-            for _, entity_interaction in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_3x3), name = "assembling-requester" }) do
-                player.opened = entity_interaction
+        if entity and entity.name == name and event.gui_type == defines.gui_type.entity then
+            for _, current_entity in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_7x7) }) do
+                table.insert(lm_current_entities, current_entity)
+                gui_text(player, name)
+                player.opened = entity_window
+                entity_window.visible = true
+                entity_window.auto_center = true
+                circuit_window.visible = false
             end
         end
     end
     for _, name in pairs(lab_8x8) do
-        if entity and entity.name == name then
-            for _, entity_interaction in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_8x8), name = "assembling-requester" }) do
-                player.opened = entity_interaction
-            end
-        end
-    end
-end)
-
-script.on_event("lm-open-requester-inserter", function(event)
-    local player = game.get_player(event.player_index)
-    local entity = player.selected
-    for _, name in pairs(machine_2x2) do
-        if entity and entity.name == name then
-            for _, entity_interaction in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_2x2), name = "invisible-inserter-1-2x2" }) do
-                player.opened = entity_interaction
-            end
-        end
-    end
-    for _, name in pairs(machine_3x3) do
-        if entity and entity.name == name then
-            for _, entity_interaction in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_3x3), name = "invisible-inserter-1-3x3" }) do
-                player.opened = entity_interaction
-            end
-        end
-    end
-    for _, name in pairs(machine_5x5) do
-        if entity and entity.name == name then
-            for _, entity_interaction in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_5x5), name = "invisible-inserter-1-5x5" }) do
-                player.opened = entity_interaction
-            end
-        end
-    end
-    for _, name in pairs(machine_6x6) do
-        if entity and entity.name == name then
-            for _, entity_interaction in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_6x6), name = "invisible-inserter-1-6x6" }) do
-                player.opened = entity_interaction
-            end
-        end
-    end
-    for _, name in pairs(machine_7x7) do
-        if entity and entity.name == name then
-            for _, entity_interaction in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_7x7), name = "invisible-inserter-1-7x7" }) do
-                player.opened = entity_interaction
+        if entity and entity.name == name and event.gui_type == defines.gui_type.entity then
+            for _, current_entity in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_8x8) }) do
+                table.insert(lm_current_entities, current_entity)
+                lab_gui_text(player, name)
+                player.opened = entity_window
+                entity_window.visible = true
+                entity_window.auto_center = true
+                circuit_window.visible = false
+                entity_window.lm_body_flow.lm_right_body_flow.visible = false
+                circuit_window.circuit_body.circuit_body_image_container.lm_wire_pc_to_sub_red.visible = false
+                circuit_window.circuit_body.circuit_body_image_container.lm_wire_pc_to_sub_green.visible = false
+                circuit_window.circuit_body.circuit_body_image_container.lm_wire_pci_to_sub_red.visible = false
+                circuit_window.circuit_body.circuit_body_image_container.lm_wire_pci_to_sub_green.visible = false
+                circuit_window.circuit_body.circuit_body_image_container.circuit_body_image_container_flow.circuit_body_flow_1.circuit_body_flow_1_button_right.visible = false
+                circuit_window.circuit_body.circuit_body_image_container.circuit_body_image_container_flow.circuit_body_flow_2.checkbox_flow_2_right_1.visible = false
+                circuit_window.circuit_body.circuit_body_image_container.circuit_body_image_container_flow.circuit_body_flow_2.checkbox_flow_2_right_2.visible = false
+                circuit_window.circuit_body.circuit_body_image_container.circuit_body_image_container_flow.circuit_body_flow_4.checkbox_flow_4_right_1.visible = false
+                circuit_window.circuit_body.circuit_body_image_container.circuit_body_image_container_flow.circuit_body_flow_4.checkbox_flow_4_right_2.visible = false
+                circuit_window.circuit_body.circuit_body_image_container.circuit_body_image_container_flow.circuit_body_flow_5.circuit_body_flow_5_button_right.visible = false
             end
         end
     end
     for _, name in pairs(lab) do
-        if entity and entity.name == name then
-            for _, entity_interaction in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_3x3), name = "invisible-inserter-1-3x3" }) do
-                player.opened = entity_interaction
-            end
-        end
-    end
-    for _, name in pairs(lab_8x8) do
-        if entity and entity.name == name then
-            for _, entity_interaction in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_8x8), name = "invisible-inserter-1-8x8" }) do
-                player.opened = entity_interaction
-            end
-        end
-    end
-end)
-
-script.on_event("lm-open-provider", function(event)
-    local player = game.get_player(event.player_index)
-    local entity = player.selected
-    for _, name in pairs(machine_2x2) do
-        if entity and entity.name == name then
-            for _, entity_interaction in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_2x2), name = "assembling-provider" }) do
-                player.opened = entity_interaction
-            end
-        end
-    end
-    for _, name in pairs(machine_3x3) do
-        if entity and entity.name == name then
-            for _, entity_interaction in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_3x3), name = "assembling-provider" }) do
-                player.opened = entity_interaction
-            end
-        end
-    end
-    for _, name in pairs(machine_5x5) do
-        if entity and entity.name == name then
-            for _, entity_interaction in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_5x5), name = "assembling-provider" }) do
-                player.opened = entity_interaction
-            end
-        end
-    end
-    for _, name in pairs(machine_6x6) do
-        if entity and entity.name == name then
-            for _, entity_interaction in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_6x6), name = "assembling-provider" }) do
-                player.opened = entity_interaction
-            end
-        end
-    end
-    for _, name in pairs(machine_7x7) do
-        if entity and entity.name == name then
-            for _, entity_interaction in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_7x7), name = "assembling-provider" }) do
-                player.opened = entity_interaction
+        if entity and entity.name == name and event.gui_type == defines.gui_type.entity then
+            for _, current_entity in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_3x3) }) do
+                table.insert(lm_current_entities, current_entity)
+                lab_gui_text(player, name)
+                player.opened = entity_window
+                entity_window.visible = true
+                entity_window.auto_center = true
+                circuit_window.visible = false
+                entity_window.lm_body_flow.lm_right_body_flow.visible = false
+                circuit_window.circuit_body.circuit_body_image_container.lm_wire_pc_to_sub_red.visible = false
+                circuit_window.circuit_body.circuit_body_image_container.lm_wire_pc_to_sub_green.visible = false
+                circuit_window.circuit_body.circuit_body_image_container.lm_wire_pci_to_sub_red.visible = false
+                circuit_window.circuit_body.circuit_body_image_container.lm_wire_pci_to_sub_green.visible = false
+                circuit_window.circuit_body.circuit_body_image_container.circuit_body_image_container_flow.circuit_body_flow_1.circuit_body_flow_1_button_right.visible = false
+                circuit_window.circuit_body.circuit_body_image_container.circuit_body_image_container_flow.circuit_body_flow_2.checkbox_flow_2_right_1.visible = false
+                circuit_window.circuit_body.circuit_body_image_container.circuit_body_image_container_flow.circuit_body_flow_2.checkbox_flow_2_right_2.visible = false
+                circuit_window.circuit_body.circuit_body_image_container.circuit_body_image_container_flow.circuit_body_flow_4.checkbox_flow_4_right_1.visible = false
+                circuit_window.circuit_body.circuit_body_image_container.circuit_body_image_container_flow.circuit_body_flow_4.checkbox_flow_4_right_2.visible = false
+                circuit_window.circuit_body.circuit_body_image_container.circuit_body_image_container_flow.circuit_body_flow_5.circuit_body_flow_5_button_right.visible = false
             end
         end
     end
 end)
 
-script.on_event("lm-open-provider-inserter", function(event)
+script.on_event(defines.events.on_gui_closed, function(event)
+    local closed_gui_name = event.name
+    if event.gui_type == defines.gui_type.custom then
+        if closed_gui_name ~= "lm_entity_window" then
+            lm_current_entities = {}
+        end
+    end
+end)
+
+script.on_event("lm-e-to-close-gui", function(event)
     local player = game.get_player(event.player_index)
-    local entity = player.selected
-    for _, name in pairs(machine_2x2) do
-        if entity and entity.name == name then
-            for _, entity_interaction in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_2x2), name = "invisible-inserter-2-2x2" }) do
-                player.opened = entity_interaction
+    local screen_flow = player.gui.screen
+    local entity_window = screen_flow.lm_entity_window
+    local circuit_window = screen_flow.lm_circuit_network_config_window
+    entity_window.visible = false
+    circuit_window.visible = false
+end)
+
+script.on_event("lm-escape-to-close-gui", function(event)
+    local player = game.get_player(event.player_index)
+    local screen_flow = player.gui.screen
+    local entity_window = screen_flow.lm_entity_window
+    local circuit_window = screen_flow.lm_circuit_network_config_window
+    entity_window.visible = false
+    circuit_window.visible = false
+end)
+
+script.on_event(defines.events.on_gui_click, function(event)
+    local player = game.get_player(event.player_index)
+    local screen_flow = player.gui.screen
+    local clicked_name = event.element.name
+    local main_frame = screen_flow.lm_entity_window
+    local circuit_window = screen_flow.lm_circuit_network_config_window
+    local circuit_body = circuit_window.circuit_body
+    local circuit_body_image_container = circuit_body.circuit_body_image_container
+    local circuit_body_image_container_flow = circuit_body_image_container.circuit_body_image_container_flow
+    local top_flow = circuit_body_image_container_flow.circuit_body_flow_2
+    local bottom_flow = circuit_body_image_container_flow.circuit_body_flow_4
+    for _, entity in pairs(lm_current_entities) do
+        if clicked_name == "lm_entity_button" and entity.name == string.match(entity.name, "logistic.*") then
+            if player.can_reach_entity(entity) then
+                player.opened = entity
+                main_frame.visible = false
+            else
+                player.print("Not close enough to access this machine.")
             end
+        elseif clicked_name == "lm_requester_chest_button" and entity.name == "assembling-requester" then
+            if player.can_reach_entity(entity) then
+                player.opened = entity
+                main_frame.visible = false
+                circuit_window.visible = false
+            else
+                player.print("Not close enough to access this chest.")
+            end
+        elseif clicked_name == "lm_requester_chest_inserter_button" and entity.name == string.match(entity.name, "invisible%-inserter%-1.*") then
+            if player.can_reach_entity(entity) then
+                player.opened = entity
+                main_frame.visible = false
+                circuit_window.visible = false
+            else
+                player.print("Not close enough to access this inserter.")
+            end
+        elseif clicked_name == "lm_provider_chest_button" and entity.name == "assembling-provider" then
+            if player.can_reach_entity(entity) then
+                player.opened = entity
+                main_frame.visible = false
+                circuit_window.visible = false
+            else
+                player.print("Not close enough to access this chest.")
+            end
+        elseif clicked_name == "lm_provider_chest_inserter_button" and entity.name == string.match(entity.name, "invisible%-inserter%-2.*") then
+            if player.can_reach_entity(entity) then
+                player.opened = entity
+                main_frame.visible = false
+                circuit_window.visible = false
+            else
+                player.print("Not close enough to access this inserter.")
+            end
+        elseif clicked_name == "lm_circuit_button" then
+            circuit_window.visible = true
+            circuit_window.auto_center = true
+            main_frame.visible = false
+            if connection_checker("assembling-requester", "invisible-substation", "red") == true then
+                top_flow.checkbox_flow_2_left_1.lm_cb_top_left_1.state = true
+                circuit_body_image_container.lm_wire_rc_to_sub_red.sprite = "lm_wire_rc_to_sub_red_connected"
+            else
+                top_flow.checkbox_flow_2_left_1.lm_cb_top_left_1.state = false
+                circuit_body_image_container.lm_wire_rc_to_sub_red.sprite = "lm_wire_rc_to_sub_red_disconnected"
+            end
+            if connection_checker("assembling-requester", "invisible-substation", "green") == true then
+                top_flow.checkbox_flow_2_left_2.lm_cb_top_left_2.state = true
+                circuit_body_image_container.lm_wire_rc_to_sub_green.sprite = "lm_wire_rc_to_sub_green_connected"
+            else
+                top_flow.checkbox_flow_2_left_2.lm_cb_top_left_2.state = false
+                circuit_body_image_container.lm_wire_rc_to_sub_green.sprite = "lm_wire_rc_to_sub_green_disconnected"
+            end
+            if connection_checker("assembling-provider", "invisible-substation", "red") == true then
+                top_flow.checkbox_flow_2_right_1.lm_cb_top_right_1.state = true
+                circuit_body_image_container.lm_wire_pc_to_sub_red.sprite = "lm_wire_pc_to_sub_red_connected"
+            else
+                top_flow.checkbox_flow_2_right_1.lm_cb_top_right_1.state = false
+                circuit_body_image_container.lm_wire_pc_to_sub_red.sprite = "lm_wire_pc_to_sub_red_disconnected"
+            end
+            if connection_checker("assembling-provider", "invisible-substation", "green") == true then
+                top_flow.checkbox_flow_2_right_2.lm_cb_top_right_2.state = true
+                circuit_body_image_container.lm_wire_pc_to_sub_green.sprite = "lm_wire_pc_to_sub_green_connected"
+            else
+                top_flow.checkbox_flow_2_right_2.lm_cb_top_right_2.state = false
+                circuit_body_image_container.lm_wire_pc_to_sub_green.sprite = "lm_wire_pc_to_sub_green_disconnected"
+            end
+            if connection_checker(get_requester_inserter_name(), "invisible-substation", "red") == true then
+                bottom_flow.checkbox_flow_4_left_1.lm_cb_bottom_left_1.state = true
+                circuit_body_image_container.lm_wire_rci_to_sub_red.sprite = "lm_wire_rci_to_sub_red_connected"
+            else
+                bottom_flow.checkbox_flow_4_left_1.lm_cb_bottom_left_1.state = false
+                circuit_body_image_container.lm_wire_rci_to_sub_red.sprite = "lm_wire_rci_to_sub_red_disconnected"
+            end
+            if connection_checker(get_requester_inserter_name(), "invisible-substation", "green") == true then
+                bottom_flow.checkbox_flow_4_left_2.lm_cb_bottom_left_2.state = true
+                circuit_body_image_container.lm_wire_rci_to_sub_green.sprite = "lm_wire_rci_to_sub_green_connected"
+            else
+                bottom_flow.checkbox_flow_4_left_2.lm_cb_bottom_left_2.state = false
+                circuit_body_image_container.lm_wire_rci_to_sub_green.sprite = "lm_wire_rci_to_sub_green_disconnected"
+            end
+            if connection_checker(get_provider_inserter_name(), "invisible-substation", "red") == true then
+                bottom_flow.checkbox_flow_4_right_1.lm_cb_bottom_right_1.state = true
+                circuit_body_image_container.lm_wire_pci_to_sub_red.sprite = "lm_wire_pci_to_sub_red_connected"
+            else
+                bottom_flow.checkbox_flow_4_right_1.lm_cb_bottom_right_1.state = false
+                circuit_body_image_container.lm_wire_pci_to_sub_red.sprite = "lm_wire_pci_to_sub_red_disconnected"
+            end
+            if connection_checker(get_provider_inserter_name(), "invisible-substation", "green") == true then
+                bottom_flow.checkbox_flow_4_right_2.lm_cb_bottom_right_2.state = true
+                circuit_body_image_container.lm_wire_pci_to_sub_green.sprite = "lm_wire_pci_to_sub_green_connected"
+            else
+                bottom_flow.checkbox_flow_4_right_2.lm_cb_bottom_right_2.state = false
+                circuit_body_image_container.lm_wire_pci_to_sub_green.sprite = "lm_wire_pci_to_sub_green_disconnected"
+            end
+        elseif clicked_name == "lm_main_close_button" then
+            lm_current_entities = {}
+            gui_regen(player)
+        elseif clicked_name == "lm_circuit_close_button" then
+            lm_current_entities = {}
+            gui_regen(player)
         end
     end
-    for _, name in pairs(machine_3x3) do
-        if entity and entity.name == name then
-            for _, entity_interaction in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_3x3), name = "invisible-inserter-2-3x3" }) do
-                player.opened = entity_interaction
-            end
+end)
+
+local function wire_connection(entity_1_name, wire_color, entity_2_name)
+    get_entity_by_name(entity_1_name).connect_neighbour({ wire = defines.wire_type[wire_color], target_entity = get_entity_by_name(entity_2_name) })
+end
+
+local function wire_disconnection(entity_1_name, wire_color, entity_2_name)
+    get_entity_by_name(entity_1_name).disconnect_neighbour({ wire = defines.wire_type[wire_color], target_entity = get_entity_by_name(entity_2_name) })
+end
+
+script.on_event(defines.events.on_gui_checked_state_changed, function(event)
+    local checked_name = event.element.name
+    local player = game.get_player(event.player_index)
+    local screen_flow = player.gui.screen
+    local circuit_window = screen_flow.lm_circuit_network_config_window
+    local circuit_body = circuit_window.circuit_body
+    local circuit_body_image_container = circuit_body.circuit_body_image_container
+    local circuit_body_image_container_flow = circuit_body_image_container.circuit_body_image_container_flow
+    local top_flow = circuit_body_image_container_flow.circuit_body_flow_2
+    local bottom_flow = circuit_body_image_container_flow.circuit_body_flow_4
+    local requester_inserter = get_requester_inserter_name()
+    local provider_inserter = get_provider_inserter_name()
+    if checked_name == "lm_cb_top_left_1" then
+        if top_flow.checkbox_flow_2_left_1.lm_cb_top_left_1.state == true then
+            wire_connection("assembling-requester", "red", "invisible-substation")
+            circuit_body_image_container.lm_wire_rc_to_sub_red.sprite = "lm_wire_rc_to_sub_red_connected"
+        else
+            wire_disconnection("assembling-requester", "red", "invisible-substation")
+            circuit_body_image_container.lm_wire_rc_to_sub_red.sprite = "lm_wire_rc_to_sub_red_disconnected"
         end
-    end
-    for _, name in pairs(machine_5x5) do
-        if entity and entity.name == name then
-            for _, entity_interaction in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_5x5), name = "invisible-inserter-2-5x5" }) do
-                player.opened = entity_interaction
-            end
+    elseif checked_name == "lm_cb_top_left_2" then
+        if top_flow.checkbox_flow_2_left_2.lm_cb_top_left_2.state == true then
+            wire_connection("assembling-requester", "green", "invisible-substation")
+            circuit_body_image_container.lm_wire_rc_to_sub_green.sprite = "lm_wire_rc_to_sub_green_connected"
+        else
+            wire_disconnection("assembling-requester", "green", "invisible-substation")
+            circuit_body_image_container.lm_wire_rc_to_sub_green.sprite = "lm_wire_rc_to_sub_green_disconnected"
         end
-    end
-    for _, name in pairs(machine_6x6) do
-        if entity and entity.name == name then
-            for _, entity_interaction in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_6x6), name = "invisible-inserter-2-6x6" }) do
-                player.opened = entity_interaction
-            end
+    elseif checked_name == "lm_cb_top_right_1" then
+        if top_flow.checkbox_flow_2_right_1.lm_cb_top_right_1.state == true then
+            wire_connection("assembling-provider", "red", "invisible-substation")
+            circuit_body_image_container.lm_wire_pc_to_sub_red.sprite = "lm_wire_pc_to_sub_red_connected"
+        else
+            wire_disconnection("assembling-provider", "red", "invisible-substation")
+            circuit_body_image_container.lm_wire_pc_to_sub_red.sprite = "lm_wire_pc_to_sub_red_disconnected"
         end
-    end
-    for _, name in pairs(machine_7x7) do
-        if entity and entity.name == name then
-            for _, entity_interaction in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_7x7), name = "invisible-inserter-2-7x7" }) do
-                player.opened = entity_interaction
-            end
+    elseif checked_name == "lm_cb_top_right_2" then
+        if top_flow.checkbox_flow_2_right_2.lm_cb_top_right_2.state == true then
+            wire_connection("assembling-provider", "green", "invisible-substation")
+            circuit_body_image_container.lm_wire_pc_to_sub_green.sprite = "lm_wire_pc_to_sub_green_connected"
+        else
+            wire_disconnection("assembling-provider", "green", "invisible-substation")
+            circuit_body_image_container.lm_wire_pc_to_sub_green.sprite = "lm_wire_pc_to_sub_green_disconnected"
+        end
+    elseif checked_name == "lm_cb_bottom_left_1" then
+        if bottom_flow.checkbox_flow_4_left_1.lm_cb_bottom_left_1.state == true then
+            wire_connection(requester_inserter, "red", "invisible-substation")
+            circuit_body_image_container.lm_wire_rci_to_sub_red.sprite = "lm_wire_rci_to_sub_red_connected"
+        else
+            wire_disconnection(requester_inserter, "red", "invisible-substation")
+            circuit_body_image_container.lm_wire_rci_to_sub_red.sprite = "lm_wire_rci_to_sub_red_disconnected"
+        end
+    elseif checked_name == "lm_cb_bottom_left_2" then
+        if bottom_flow.checkbox_flow_4_left_2.lm_cb_bottom_left_2.state == true then
+            wire_connection(requester_inserter, "green", "invisible-substation")
+            circuit_body_image_container.lm_wire_rci_to_sub_green.sprite = "lm_wire_rci_to_sub_green_connected"
+        else
+            wire_disconnection(requester_inserter, "green", "invisible-substation")
+            circuit_body_image_container.lm_wire_rci_to_sub_green.sprite = "lm_wire_rci_to_sub_green_disconnected"
+        end
+    elseif checked_name == "lm_cb_bottom_right_1" then
+        if bottom_flow.checkbox_flow_4_right_1.lm_cb_bottom_right_1.state == true then
+            wire_connection(provider_inserter, "red", "invisible-substation")
+            circuit_body_image_container.lm_wire_pci_to_sub_red.sprite = "lm_wire_pci_to_sub_red_connected"
+        else
+            wire_disconnection(provider_inserter, "red", "invisible-substation")
+            circuit_body_image_container.lm_wire_pci_to_sub_red.sprite = "lm_wire_pci_to_sub_red_disconnected"
+        end
+    elseif checked_name == "lm_cb_bottom_right_2" then
+        if bottom_flow.checkbox_flow_4_right_2.lm_cb_bottom_right_2.state == true then
+            wire_connection(provider_inserter, "green", "invisible-substation")
+            circuit_body_image_container.lm_wire_pci_to_sub_green.sprite = "lm_wire_pci_to_sub_green_connected"
+        else
+            wire_disconnection(provider_inserter, "green", "invisible-substation")
+            circuit_body_image_container.lm_wire_pci_to_sub_green.sprite = "lm_wire_pci_to_sub_green_disconnected"
         end
     end
 end)
