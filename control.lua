@@ -423,7 +423,7 @@ local invisible_entity = {
     "assembling-requester",
 }
 
-local area_var_2x2 = 0.7
+local area_var_2x2 = 1
 local area_var_3x3 = 1.5
 local area_var_5x5 = 2.2
 local area_var_6x6 = 2.65
@@ -523,6 +523,14 @@ script.on_event(defines.events.on_gui_opened, function(event)
     local screen_flow = player.gui.screen
     local entity_window = screen_flow.lm_entity_window
     local circuit_window = screen_flow.lm_circuit_network_config_window
+    local circuit_body = circuit_window.circuit_body
+    local circuit_body_image_container = circuit_body.circuit_body_image_container
+    local circuit_body_image_container_flow = circuit_body_image_container.circuit_body_image_container_flow
+    local chest_flow = circuit_body_image_container_flow.circuit_body_flow_1
+    local top_flow = circuit_body_image_container_flow.circuit_body_flow_2
+    local mid_flow = circuit_body_image_container_flow.circuit_body_flow_3
+    local bottom_flow = circuit_body_image_container_flow.circuit_body_flow_4
+    local inserter_flow = circuit_body_image_container_flow.circuit_body_flow_5
     for _, name in pairs(machine_2x2) do
         if entity and entity.name == name and event.gui_type == defines.gui_type.entity then
             for _, current_entity in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_2x2) }) do
@@ -593,16 +601,26 @@ script.on_event(defines.events.on_gui_opened, function(event)
                 entity_window.auto_center = true
                 circuit_window.visible = false
                 entity_window.lm_body_flow.lm_right_body_flow.visible = false
-                circuit_window.circuit_body.circuit_body_image_container.lm_wire_pc_to_sub_red.visible = false
-                circuit_window.circuit_body.circuit_body_image_container.lm_wire_pc_to_sub_green.visible = false
-                circuit_window.circuit_body.circuit_body_image_container.lm_wire_pci_to_sub_red.visible = false
-                circuit_window.circuit_body.circuit_body_image_container.lm_wire_pci_to_sub_green.visible = false
-                circuit_window.circuit_body.circuit_body_image_container.circuit_body_image_container_flow.circuit_body_flow_1.circuit_body_flow_1_button_right.visible = false
-                circuit_window.circuit_body.circuit_body_image_container.circuit_body_image_container_flow.circuit_body_flow_2.checkbox_flow_2_right_1.visible = false
-                circuit_window.circuit_body.circuit_body_image_container.circuit_body_image_container_flow.circuit_body_flow_2.checkbox_flow_2_right_2.visible = false
-                circuit_window.circuit_body.circuit_body_image_container.circuit_body_image_container_flow.circuit_body_flow_4.checkbox_flow_4_right_1.visible = false
-                circuit_window.circuit_body.circuit_body_image_container.circuit_body_image_container_flow.circuit_body_flow_4.checkbox_flow_4_right_2.visible = false
-                circuit_window.circuit_body.circuit_body_image_container.circuit_body_image_container_flow.circuit_body_flow_5.circuit_body_flow_5_button_right.visible = false
+                circuit_body_image_container.lm_wire_pc_to_sub_red.visible = false
+                circuit_body_image_container.lm_wire_pc_to_sub_green.visible = false
+                circuit_body_image_container.lm_wire_pci_to_sub_red.visible = false
+                circuit_body_image_container.lm_wire_pci_to_sub_green.visible = false
+                circuit_body_image_container.lm_wire_rc_to_pc_red.visible = false
+                circuit_body_image_container.lm_wire_rc_to_pc_green.visible = false
+                circuit_body_image_container.lm_wire_rci_to_pci_red.visible = false
+                circuit_body_image_container.lm_wire_rci_to_pci_green.visible = false
+                circuit_body_image_container.lm_wire_pc_to_pci_red.visible = false
+                circuit_body_image_container.lm_wire_pc_to_pci_green.visible = false
+                chest_flow.circuit_body_flow_1_button_right.visible = false
+                chest_flow.checkbox_flow_1_flow.visible = false
+                top_flow.checkbox_flow_2_right_1.visible = false
+                top_flow.checkbox_flow_2_right_2.visible = false
+                mid_flow.checkbox_flow_3_right_1.visible = false
+                mid_flow.checkbox_flow_3_right_2.visible = false
+                bottom_flow.checkbox_flow_4_right_1.visible = false
+                bottom_flow.checkbox_flow_4_right_2.visible = false
+                inserter_flow.circuit_body_flow_5_button_right.visible = false
+                inserter_flow.checkbox_flow_5_flow.visible = false
             end
         end
     end
@@ -616,16 +634,26 @@ script.on_event(defines.events.on_gui_opened, function(event)
                 entity_window.auto_center = true
                 circuit_window.visible = false
                 entity_window.lm_body_flow.lm_right_body_flow.visible = false
-                circuit_window.circuit_body.circuit_body_image_container.lm_wire_pc_to_sub_red.visible = false
-                circuit_window.circuit_body.circuit_body_image_container.lm_wire_pc_to_sub_green.visible = false
-                circuit_window.circuit_body.circuit_body_image_container.lm_wire_pci_to_sub_red.visible = false
-                circuit_window.circuit_body.circuit_body_image_container.lm_wire_pci_to_sub_green.visible = false
-                circuit_window.circuit_body.circuit_body_image_container.circuit_body_image_container_flow.circuit_body_flow_1.circuit_body_flow_1_button_right.visible = false
-                circuit_window.circuit_body.circuit_body_image_container.circuit_body_image_container_flow.circuit_body_flow_2.checkbox_flow_2_right_1.visible = false
-                circuit_window.circuit_body.circuit_body_image_container.circuit_body_image_container_flow.circuit_body_flow_2.checkbox_flow_2_right_2.visible = false
-                circuit_window.circuit_body.circuit_body_image_container.circuit_body_image_container_flow.circuit_body_flow_4.checkbox_flow_4_right_1.visible = false
-                circuit_window.circuit_body.circuit_body_image_container.circuit_body_image_container_flow.circuit_body_flow_4.checkbox_flow_4_right_2.visible = false
-                circuit_window.circuit_body.circuit_body_image_container.circuit_body_image_container_flow.circuit_body_flow_5.circuit_body_flow_5_button_right.visible = false
+                circuit_body_image_container.lm_wire_pc_to_sub_red.visible = false
+                circuit_body_image_container.lm_wire_pc_to_sub_green.visible = false
+                circuit_body_image_container.lm_wire_pci_to_sub_red.visible = false
+                circuit_body_image_container.lm_wire_pci_to_sub_green.visible = false
+                circuit_body_image_container.lm_wire_rc_to_pc_red.visible = false
+                circuit_body_image_container.lm_wire_rc_to_pc_green.visible = false
+                circuit_body_image_container.lm_wire_rci_to_pci_red.visible = false
+                circuit_body_image_container.lm_wire_rci_to_pci_green.visible = false
+                circuit_body_image_container.lm_wire_pc_to_pci_red.visible = false
+                circuit_body_image_container.lm_wire_pc_to_pci_green.visible = false
+                chest_flow.circuit_body_flow_1_button_right.visible = false
+                chest_flow.checkbox_flow_1_flow.visible = false
+                top_flow.checkbox_flow_2_right_1.visible = false
+                top_flow.checkbox_flow_2_right_2.visible = false
+                mid_flow.checkbox_flow_3_right_1.visible = false
+                mid_flow.checkbox_flow_3_right_2.visible = false
+                bottom_flow.checkbox_flow_4_right_1.visible = false
+                bottom_flow.checkbox_flow_4_right_2.visible = false
+                inserter_flow.circuit_body_flow_5_button_right.visible = false
+                inserter_flow.checkbox_flow_5_flow.visible = false
             end
         end
     end
@@ -667,8 +695,11 @@ script.on_event(defines.events.on_gui_click, function(event)
     local circuit_body = circuit_window.circuit_body
     local circuit_body_image_container = circuit_body.circuit_body_image_container
     local circuit_body_image_container_flow = circuit_body_image_container.circuit_body_image_container_flow
+    local chest_flow = circuit_body_image_container_flow.circuit_body_flow_1
     local top_flow = circuit_body_image_container_flow.circuit_body_flow_2
+    local mid_flow = circuit_body_image_container_flow.circuit_body_flow_3
     local bottom_flow = circuit_body_image_container_flow.circuit_body_flow_4
+    local inserter_flow = circuit_body_image_container_flow.circuit_body_flow_5
     for _, entity in pairs(lm_current_entities) do
         if clicked_name == "lm_entity_button" and entity.name == string.match(entity.name, "logistic.*") then
             if player.can_reach_entity(entity) then
@@ -769,6 +800,62 @@ script.on_event(defines.events.on_gui_click, function(event)
                 bottom_flow.checkbox_flow_4_right_2.lm_cb_bottom_right_2.state = false
                 circuit_body_image_container.lm_wire_pci_to_sub_green.sprite = "lm_wire_pci_to_sub_green_disconnected"
             end
+            if connection_checker("assembling-requester", "assembling-provider", "red") == true then
+                chest_flow.checkbox_flow_1_flow.lm_cb_chest_connect_1.state = true
+                circuit_body_image_container.lm_wire_rc_to_pc_red.sprite = "lm_wire_rc_to_pc_red_connected"
+            else
+                chest_flow.checkbox_flow_1_flow.lm_cb_chest_connect_1.state = false
+                circuit_body_image_container.lm_wire_rc_to_pc_red.sprite = "lm_wire_rc_to_pc_red_disconnected"
+            end
+            if connection_checker("assembling-requester", "assembling-provider", "green") == true then
+                chest_flow.checkbox_flow_1_flow.lm_cb_chest_connect_2.state = true
+                circuit_body_image_container.lm_wire_rc_to_pc_green.sprite = "lm_wire_rc_to_pc_green_connected"
+            else
+                chest_flow.checkbox_flow_1_flow.lm_cb_chest_connect_2.state = false
+                circuit_body_image_container.lm_wire_rc_to_pc_green.sprite = "lm_wire_rc_to_pc_green_disconnected"
+            end
+            if connection_checker("assembling-requester", get_requester_inserter_name(), "red") == true then
+                mid_flow.checkbox_flow_3_left_1.lm_cb_mid_left_1.state = true
+                circuit_body_image_container.lm_wire_rc_to_rci_red.sprite = "lm_wire_rc_to_rci_red_connected"
+            else
+                mid_flow.checkbox_flow_3_left_1.lm_cb_mid_left_1.state = false
+                circuit_body_image_container.lm_wire_rc_to_rci_red.sprite = "lm_wire_rc_to_rci_red_disconnected"
+            end
+            if connection_checker("assembling-requester", get_requester_inserter_name(), "green") == true then
+                mid_flow.checkbox_flow_3_left_2.lm_cb_mid_left_2.state = true
+                circuit_body_image_container.lm_wire_rc_to_rci_green.sprite = "lm_wire_rc_to_rci_green_connected"
+            else
+                mid_flow.checkbox_flow_3_left_2.lm_cb_mid_left_2.state = false
+                circuit_body_image_container.lm_wire_rc_to_rci_green.sprite = "lm_wire_rc_to_rci_green_disconnected"
+            end
+            if connection_checker("assembling-provider", get_provider_inserter_name(), "red") == true then
+                mid_flow.checkbox_flow_3_right_1.lm_cb_mid_right_1.state = true
+                circuit_body_image_container.lm_wire_pc_to_pci_red.sprite = "lm_wire_pc_to_pci_red_connected"
+            else
+                mid_flow.checkbox_flow_3_right_1.lm_cb_mid_right_1.state = false
+                circuit_body_image_container.lm_wire_pc_to_pci_red.sprite = "lm_wire_pc_to_pci_red_disconnected"
+            end
+            if connection_checker("assembling-provider", get_provider_inserter_name(), "green") == true then
+                mid_flow.checkbox_flow_3_right_2.lm_cb_mid_right_2.state = true
+                circuit_body_image_container.lm_wire_pc_to_pci_green.sprite = "lm_wire_pc_to_pci_green_connected"
+            else
+                mid_flow.checkbox_flow_3_right_2.lm_cb_mid_right_2.state = false
+                circuit_body_image_container.lm_wire_pc_to_pci_green.sprite = "lm_wire_pc_to_pci_green_disconnected"
+            end
+            if connection_checker(get_requester_inserter_name(), get_provider_inserter_name(), "red") == true then
+                inserter_flow.checkbox_flow_5_flow.lm_cb_inserter_connect_1.state = true
+                circuit_body_image_container.lm_wire_rci_to_pci_red.sprite = "lm_wire_rci_to_pci_red_connected"
+            else
+                inserter_flow.checkbox_flow_5_flow.lm_cb_inserter_connect_1.state = false
+                circuit_body_image_container.lm_wire_rci_to_pci_red.sprite = "lm_wire_rci_to_pci_red_disconnected"
+            end
+            if connection_checker(get_requester_inserter_name(), get_provider_inserter_name(), "green") == true then
+                inserter_flow.checkbox_flow_5_flow.lm_cb_inserter_connect_2.state = true
+                circuit_body_image_container.lm_wire_rci_to_pci_green.sprite = "lm_wire_rci_to_pci_green_connected"
+            else
+                inserter_flow.checkbox_flow_5_flow.lm_cb_inserter_connect_2.state = false
+                circuit_body_image_container.lm_wire_rci_to_pci_green.sprite = "lm_wire_rci_to_pci_green_disconnected"
+            end
         elseif clicked_name == "lm_main_close_button" then
             lm_current_entities = {}
             gui_regen(player)
@@ -795,8 +882,11 @@ script.on_event(defines.events.on_gui_checked_state_changed, function(event)
     local circuit_body = circuit_window.circuit_body
     local circuit_body_image_container = circuit_body.circuit_body_image_container
     local circuit_body_image_container_flow = circuit_body_image_container.circuit_body_image_container_flow
+    local chest_flow = circuit_body_image_container_flow.circuit_body_flow_1
     local top_flow = circuit_body_image_container_flow.circuit_body_flow_2
+    local mid_flow = circuit_body_image_container_flow.circuit_body_flow_3
     local bottom_flow = circuit_body_image_container_flow.circuit_body_flow_4
+    local inserter_flow = circuit_body_image_container_flow.circuit_body_flow_5
     local requester_inserter = get_requester_inserter_name()
     local provider_inserter = get_provider_inserter_name()
     if checked_name == "lm_cb_top_left_1" then
@@ -862,6 +952,70 @@ script.on_event(defines.events.on_gui_checked_state_changed, function(event)
         else
             wire_disconnection(provider_inserter, "green", "invisible-substation")
             circuit_body_image_container.lm_wire_pci_to_sub_green.sprite = "lm_wire_pci_to_sub_green_disconnected"
+        end
+    elseif checked_name == "lm_cb_chest_connect_1" then
+        if chest_flow.checkbox_flow_1_flow.lm_cb_chest_connect_1.state == true then
+            wire_connection("assembling-requester", "red", "assembling-provider")
+            circuit_body_image_container.lm_wire_rc_to_pc_red.sprite = "lm_wire_rc_to_pc_red_connected"
+        else
+            wire_disconnection("assembling-requester", "red", "assembling-provider")
+            circuit_body_image_container.lm_wire_rc_to_pc_red.sprite = "lm_wire_rc_to_pc_red_disconnected"
+        end
+    elseif checked_name == "lm_cb_chest_connect_2" then
+        if chest_flow.checkbox_flow_1_flow.lm_cb_chest_connect_2.state == true then
+            wire_connection("assembling-requester", "green", "assembling-provider")
+            circuit_body_image_container.lm_wire_rc_to_pc_green.sprite = "lm_wire_rc_to_pc_green_connected"
+        else
+            wire_disconnection("assembling-requester", "green", "assembling-provider")
+            circuit_body_image_container.lm_wire_rc_to_pc_green.sprite = "lm_wire_rc_to_pc_green_disconnected"
+        end
+    elseif checked_name == "lm_cb_mid_left_1" then
+        if mid_flow.checkbox_flow_3_left_1.lm_cb_mid_left_1.state == true then
+            wire_connection("assembling-requester", "red", requester_inserter)
+            circuit_body_image_container.lm_wire_rc_to_rci_red.sprite = "lm_wire_rc_to_rci_red_connected"
+        else
+            wire_disconnection("assembling-requester", "red", requester_inserter)
+            circuit_body_image_container.lm_wire_rc_to_rci_red.sprite = "lm_wire_rc_to_rci_red_disconnected"
+        end
+    elseif checked_name == "lm_cb_mid_left_2" then
+        if mid_flow.checkbox_flow_3_left_2.lm_cb_mid_left_2.state == true then
+            wire_connection("assembling-requester", "green", requester_inserter)
+            circuit_body_image_container.lm_wire_rc_to_rci_green.sprite = "lm_wire_rc_to_rci_green_connected"
+        else
+            wire_disconnection("assembling-requester", "green", requester_inserter)
+            circuit_body_image_container.lm_wire_rc_to_rci_green.sprite = "lm_wire_rc_to_rci_green_disconnected"
+        end
+    elseif checked_name == "lm_cb_mid_right_1" then
+        if mid_flow.checkbox_flow_3_right_1.lm_cb_mid_right_1.state == true then
+            wire_connection("assembling-provider", "red", provider_inserter)
+            circuit_body_image_container.lm_wire_pc_to_pci_red.sprite = "lm_wire_pc_to_pci_red_connected"
+        else
+            wire_disconnection("assembling-provider", "red", provider_inserter)
+            circuit_body_image_container.lm_wire_pc_to_pci_red.sprite = "lm_wire_pc_to_pci_red_disconnected"
+        end
+    elseif checked_name == "lm_cb_mid_right_2" then
+        if mid_flow.checkbox_flow_3_right_2.lm_cb_mid_right_2.state == true then
+            wire_connection("assembling-provider", "green", provider_inserter)
+            circuit_body_image_container.lm_wire_pc_to_pci_green.sprite = "lm_wire_pc_to_pci_green_connected"
+        else
+            wire_disconnection("assembling-provider", "green", provider_inserter)
+            circuit_body_image_container.lm_wire_pc_to_pci_green.sprite = "lm_wire_pc_to_pci_green_disconnected"
+        end
+    elseif checked_name == "lm_cb_inserter_connect_1" then
+        if inserter_flow.checkbox_flow_5_flow.lm_cb_inserter_connect_1.state == true then
+            wire_connection(requester_inserter, "red", provider_inserter)
+            circuit_body_image_container.lm_wire_rci_to_pci_red.sprite = "lm_wire_rci_to_pci_red_connected"
+        else
+            wire_disconnection(requester_inserter, "red", provider_inserter)
+            circuit_body_image_container.lm_wire_rci_to_pci_red.sprite = "lm_wire_rci_to_pci_red_disconnected"
+        end
+    elseif checked_name == "lm_cb_inserter_connect_2" then
+        if inserter_flow.checkbox_flow_5_flow.lm_cb_inserter_connect_2.state == true then
+            wire_connection(requester_inserter, "green", provider_inserter)
+            circuit_body_image_container.lm_wire_rci_to_pci_green.sprite = "lm_wire_rci_to_pci_green_connected"
+        else
+            wire_disconnection(requester_inserter, "green", provider_inserter)
+            circuit_body_image_container.lm_wire_rci_to_pci_green.sprite = "lm_wire_rci_to_pci_green_disconnected"
         end
     end
 end)

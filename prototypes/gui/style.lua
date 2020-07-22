@@ -26,6 +26,22 @@ data:extend({
     create_sprite("pci_to_sub_red_disconnected"),
     create_sprite("pci_to_sub_green_connected"),
     create_sprite("pci_to_sub_green_disconnected"),
+    create_sprite("rc_to_pc_red_connected"),
+    create_sprite("rc_to_pc_red_disconnected"),
+    create_sprite("rc_to_pc_green_connected"),
+    create_sprite("rc_to_pc_green_disconnected"),
+    create_sprite("rc_to_rci_red_connected"),
+    create_sprite("rc_to_rci_red_disconnected"),
+    create_sprite("rc_to_rci_green_connected"),
+    create_sprite("rc_to_rci_green_disconnected"),
+    create_sprite("pc_to_pci_red_connected"),
+    create_sprite("pc_to_pci_red_disconnected"),
+    create_sprite("pc_to_pci_green_connected"),
+    create_sprite("pc_to_pci_green_disconnected"),
+    create_sprite("rci_to_pci_red_connected"),
+    create_sprite("rci_to_pci_red_disconnected"),
+    create_sprite("rci_to_pci_green_connected"),
+    create_sprite("rci_to_pci_green_disconnected"),
     {
         type = "sprite",
         name = "lm_entity_sprite",
@@ -97,9 +113,25 @@ style.lm_wire_map = {
     left_padding = 15,
     stretch_image_to_widget_size = true
 }
-style.lm_circuit_window_buffer = {
+----------------------------------
+style.lm_circuit_window_flow_1_buffer_1 = {
     type = "empty_widget_style",
-    width = 100,
+    width = 160,
+    height = 100,
+}
+style.lm_circuit_window_checkbox_flow_1_top_buffer = {
+    type = "empty_widget_style",
+    width = 15,
+    height = 28,
+}
+style.lm_circuit_window_checkbox_flow_1_mid_buffer = {
+    type = "empty_widget_style",
+    width = 15,
+    height = 28,
+}
+style.lm_circuit_window_flow_1_buffer_2 = {
+    type = "empty_widget_style",
+    width = 125,
     height = 100,
 }
 ----------------------------------
@@ -144,6 +176,37 @@ style.lm_circuit_window_checkbox_flow_2_top_buffer_4 = {
     height = 60,
 }
 ----------------------------------
+style.lm_circuit_window_flow_3_buffer_1 = {
+    type = "empty_widget_style",
+    width = 28,
+    height = 100,
+}
+style.lm_circuit_window_flow_3_buffer_2 = {
+    type = "empty_widget_style",
+    width = 28,
+    height = 100,
+}
+style.lm_circuit_window_flow_3_buffer_3 = {
+    type = "empty_widget_style",
+    width = 100,
+    height = 100,
+}
+style.lm_circuit_window_flow_3_buffer_4 = {
+    type = "empty_widget_style",
+    width = 124,
+    height = 100,
+}
+style.lm_circuit_window_flow_3_buffer_5 = {
+    type = "empty_widget_style",
+    width = 28,
+    height = 100,
+}
+style.lm_circuit_window_checkbox_flow_3_top_buffer = {
+    type = "empty_widget_style",
+    width = 15,
+    height = 55,
+}
+----------------------------------
 style.lm_circuit_window_flow_4_buffer_1 = {
     type = "empty_widget_style",
     width = 120,
@@ -183,6 +246,27 @@ style.lm_circuit_window_checkbox_flow_4_top_buffer_4 = {
     type = "empty_widget_style",
     width = 15,
     height = 35,
+}
+----------------------------------
+style.lm_circuit_window_flow_5_buffer_1 = {
+    type = "empty_widget_style",
+    width = 160,
+    height = 100,
+}
+style.lm_circuit_window_checkbox_flow_5_top_buffer = {
+    type = "empty_widget_style",
+    width = 15,
+    height = 18,
+}
+style.lm_circuit_window_checkbox_flow_5_mid_buffer = {
+    type = "empty_widget_style",
+    width = 15,
+    height = 28,
+}
+style.lm_circuit_window_flow_5_buffer_2 = {
+    type = "empty_widget_style",
+    width = 125,
+    height = 100,
 }
 ----------------------------------
 style.lm_circuit_window_button_container = {

@@ -143,14 +143,26 @@ gui.regen = function(player)
     circuit_body_image_container.add { type = "sprite", name = "lm_wire_rci_to_sub_green", sprite = "lm_wire_rci_to_sub_green_disconnected", style = "lm_wire_map" }
     circuit_body_image_container.add { type = "sprite", name = "lm_wire_pci_to_sub_red", sprite = "lm_wire_pci_to_sub_red_disconnected", style = "lm_wire_map" }
     circuit_body_image_container.add { type = "sprite", name = "lm_wire_pci_to_sub_green", sprite = "lm_wire_pci_to_sub_green_disconnected", style = "lm_wire_map" }
+    circuit_body_image_container.add { type = "sprite", name = "lm_wire_rc_to_pc_red", sprite = "lm_wire_rc_to_pc_red_disconnected", style = "lm_wire_map" }
+    circuit_body_image_container.add { type = "sprite", name = "lm_wire_rc_to_pc_green", sprite = "lm_wire_rc_to_pc_green_disconnected", style = "lm_wire_map" }
+    circuit_body_image_container.add { type = "sprite", name = "lm_wire_rc_to_rci_red", sprite = "lm_wire_rc_to_rci_red_disconnected", style = "lm_wire_map" }
+    circuit_body_image_container.add { type = "sprite", name = "lm_wire_rc_to_rci_green", sprite = "lm_wire_rc_to_rci_green_disconnected", style = "lm_wire_map" }
+    circuit_body_image_container.add { type = "sprite", name = "lm_wire_pc_to_pci_red", sprite = "lm_wire_pc_to_pci_red_disconnected", style = "lm_wire_map" }
+    circuit_body_image_container.add { type = "sprite", name = "lm_wire_pc_to_pci_green", sprite = "lm_wire_pc_to_pci_green_disconnected", style = "lm_wire_map" }
+    circuit_body_image_container.add { type = "sprite", name = "lm_wire_rci_to_pci_red", sprite = "lm_wire_rci_to_pci_red_disconnected", style = "lm_wire_map" }
+    circuit_body_image_container.add { type = "sprite", name = "lm_wire_rci_to_pci_green", sprite = "lm_wire_rci_to_pci_green_disconnected", style = "lm_wire_map" }
     local circuit_body_image_container_flow = circuit_body_image_container.add { type = "flow", name = "circuit_body_image_container_flow", direction = "vertical" }
     -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     local circuit_body_flow_1 = circuit_body_image_container_flow.add { type = "flow", name = "circuit_body_flow_1", direction = "horizontal" }
     local circuit_body_flow_1_button_left = circuit_body_flow_1.add { type = "empty-widget", style = "lm_circuit_window_button_container" }
     circuit_body_flow_1_button_left.add { type = "sprite-button", name = "lm_requester_chest_button", sprite = "item/logistic-chest-requester", style = "lm_circuit_sprite_button" }
-    circuit_body_flow_1.add { type = "empty-widget", style = "lm_circuit_window_buffer" }
-    circuit_body_flow_1.add { type = "empty-widget", style = "lm_circuit_window_buffer" }
-    circuit_body_flow_1.add { type = "empty-widget", style = "lm_circuit_window_buffer" }
+    circuit_body_flow_1.add { type = "empty-widget", style = "lm_circuit_window_flow_1_buffer_1" }
+    local checkbox_flow_1_flow = circuit_body_flow_1.add { type = "flow", name = "checkbox_flow_1_flow", direction = "vertical" }
+    checkbox_flow_1_flow.add { type = "empty-widget", style = "lm_circuit_window_checkbox_flow_1_top_buffer" }
+    checkbox_flow_1_flow.add { type = "checkbox", name = "lm_cb_chest_connect_1", state = false }
+    checkbox_flow_1_flow.add { type = "empty-widget", style = "lm_circuit_window_checkbox_flow_1_mid_buffer" }
+    checkbox_flow_1_flow.add { type = "checkbox", name = "lm_cb_chest_connect_2", state = false }
+    circuit_body_flow_1.add { type = "empty-widget", style = "lm_circuit_window_flow_1_buffer_2" }
     local circuit_body_flow_1_button_right = circuit_body_flow_1.add { type = "empty-widget", name = "circuit_body_flow_1_button_right", style = "lm_circuit_window_button_container" }
     circuit_body_flow_1_button_right.add { type = "sprite-button", name = "lm_provider_chest_button", sprite = "item/logistic-chest-passive-provider", style = "lm_circuit_sprite_button" }
     -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -172,14 +184,27 @@ gui.regen = function(player)
     checkbox_flow_2_right_2.add { type = "empty-widget", style = "lm_circuit_window_checkbox_flow_2_top_buffer_4" }
     checkbox_flow_2_right_2.add { type = "checkbox", name = "lm_cb_top_right_2", state = false }
     -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    local circuit_body_flow_3 = circuit_body_image_container_flow.add { type = "flow", direction = "horizontal" }
-    circuit_body_flow_3.add { type = "empty-widget", style = "lm_circuit_window_buffer" }
-    circuit_body_flow_3.add { type = "empty-widget", style = "lm_circuit_window_buffer" }
+    local circuit_body_flow_3 = circuit_body_image_container_flow.add { type = "flow", name = "circuit_body_flow_3", direction = "horizontal" }
+    circuit_body_flow_3.add { type = "empty-widget", style = "lm_circuit_window_flow_3_buffer_1" }
+    local checkbox_flow_3_left_1 = circuit_body_flow_3.add { type = "flow", name = "checkbox_flow_3_left_1", direction = "vertical" }
+    checkbox_flow_3_left_1.add { type = "empty-widget", style = "lm_circuit_window_checkbox_flow_3_top_buffer" }
+    checkbox_flow_3_left_1.add { type = "checkbox", name = "lm_cb_mid_left_1", state = false }
+    circuit_body_flow_3.add { type = "empty-widget", style = "lm_circuit_window_flow_3_buffer_2" }
+    local checkbox_flow_3_left_2 = circuit_body_flow_3.add { type = "flow", name = "checkbox_flow_3_left_2", direction = "vertical" }
+    checkbox_flow_3_left_2.add { type = "empty-widget", style = "lm_circuit_window_checkbox_flow_3_top_buffer" }
+    checkbox_flow_3_left_2.add { type = "checkbox", name = "lm_cb_mid_left_2", state = false }
+    circuit_body_flow_3.add { type = "empty-widget", style = "lm_circuit_window_flow_3_buffer_3" }
     local circuit_body_flow_3_frame_container = circuit_body_flow_3.add { type = "empty-widget", style = "lm_circuit_sprite_frame_container" }
     local substation_frame = circuit_body_flow_3_frame_container.add {type = "frame", style = "lm_circuit_sprite_frame"}
     substation_frame.add { type = "sprite", sprite = "item/substation", style = "lm_circuit_sprite_frame_image" }
-    circuit_body_flow_3.add { type = "empty-widget", style = "lm_circuit_window_buffer" }
-    circuit_body_flow_3.add { type = "empty-widget", style = "lm_circuit_window_buffer" }
+    circuit_body_flow_3.add { type = "empty-widget", style = "lm_circuit_window_flow_3_buffer_4" }
+    local checkbox_flow_3_right_1 = circuit_body_flow_3.add { type = "flow", name = "checkbox_flow_3_right_1", direction = "vertical" }
+    checkbox_flow_3_right_1.add { type = "empty-widget", style = "lm_circuit_window_checkbox_flow_3_top_buffer" }
+    checkbox_flow_3_right_1.add { type = "checkbox", name = "lm_cb_mid_right_1", state = false }
+    circuit_body_flow_3.add { type = "empty-widget", style = "lm_circuit_window_flow_3_buffer_5" }
+    local checkbox_flow_3_right_2 = circuit_body_flow_3.add { type = "flow", name = "checkbox_flow_3_right_2", direction = "vertical" }
+    checkbox_flow_3_right_2.add { type = "empty-widget", style = "lm_circuit_window_checkbox_flow_3_top_buffer" }
+    checkbox_flow_3_right_2.add { type = "checkbox", name = "lm_cb_mid_right_2", state = false }
     -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     local circuit_body_flow_4 = circuit_body_image_container_flow.add { type = "flow", name = "circuit_body_flow_4", direction = "horizontal" }
     circuit_body_flow_4.add { type = "empty-widget", style = "lm_circuit_window_flow_4_buffer_1" }
@@ -202,9 +227,13 @@ gui.regen = function(player)
     local circuit_body_flow_5 = circuit_body_image_container_flow.add { type = "flow", name = "circuit_body_flow_5", direction = "horizontal" }
     local circuit_body_flow_5_button_left = circuit_body_flow_5.add { type = "empty-widget", style = "lm_circuit_window_button_container" }
     circuit_body_flow_5_button_left.add { type = "sprite-button", name = "lm_requester_chest_inserter_button", sprite = "item/stack-inserter", style = "lm_circuit_sprite_button" }
-    circuit_body_flow_5.add { type = "empty-widget", style = "lm_circuit_window_buffer" }
-    circuit_body_flow_5.add { type = "empty-widget", style = "lm_circuit_window_buffer" }
-    circuit_body_flow_5.add { type = "empty-widget", style = "lm_circuit_window_buffer" }
+    circuit_body_flow_5.add { type = "empty-widget", style = "lm_circuit_window_flow_5_buffer_1" }
+    local checkbox_flow_5_flow = circuit_body_flow_5.add { type = "flow", name = "checkbox_flow_5_flow", direction = "vertical" }
+    checkbox_flow_5_flow.add { type = "empty-widget", style = "lm_circuit_window_checkbox_flow_5_top_buffer" }
+    checkbox_flow_5_flow.add { type = "checkbox", name = "lm_cb_inserter_connect_1", state = false }
+    checkbox_flow_5_flow.add { type = "empty-widget", style = "lm_circuit_window_checkbox_flow_5_mid_buffer" }
+    checkbox_flow_5_flow.add { type = "checkbox", name = "lm_cb_inserter_connect_2", state = false }
+    circuit_body_flow_5.add { type = "empty-widget", style = "lm_circuit_window_flow_5_buffer_2" }
     local circuit_body_flow_5_button_right = circuit_body_flow_5.add { type = "empty-widget", name = "circuit_body_flow_5_button_right", style = "lm_circuit_window_button_container" }
     circuit_body_flow_5_button_right.add { type = "sprite-button", name = "lm_provider_chest_inserter_button", sprite = "item/stack-inserter", style = "lm_circuit_sprite_button" }
     local circuit_footer_flow = circuit_gui_frame.add {
