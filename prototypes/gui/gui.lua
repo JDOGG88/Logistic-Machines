@@ -9,6 +9,7 @@ gui.regen = function(player)
         direction = "vertical",
     }
     main_gui_frame.visible = false
+    main_gui_frame.auto_center = true
     local main_title_flow = main_gui_frame.add {
         type = "flow",
         name = "lm_main_title_flow",
@@ -91,11 +92,21 @@ gui.regen = function(player)
     
     local main_footer_flow = main_gui_frame.add {
         type = "flow",
+        name = "main_footer_flow",
         direction = "horizontal",
     }
     local main_footer_filler = main_footer_flow.add {
         type = "empty-widget",
         style = "lm_draggable_filler",
+    }
+    main_footer_flow.add {
+        type = "label",
+        caption = { "mod-setting-name.always-open-mod-gui-first" }
+    }
+    main_footer_flow.add {
+        type = "checkbox",
+        name = "lm_gui_open_option",
+        state = true
     }
     main_footer_filler.drag_target = main_gui_frame
     ------------------------------------------------
@@ -105,6 +116,7 @@ gui.regen = function(player)
         direction = "vertical",
     }
     circuit_gui_frame.visible = false
+    circuit_gui_frame.auto_center = true
     local circuit_title_flow = circuit_gui_frame.add {
         type = "flow",
         name = "lm_circuit_title_flow",

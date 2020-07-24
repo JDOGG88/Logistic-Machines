@@ -370,7 +370,7 @@ local function opened_gui_main(event, machine_table, area_var)
     local entity_window = screen_flow.lm_entity_window
     local circuit_window = screen_flow.lm_circuit_network_config_window
     for _, name in pairs(machine_table) do
-        if entity and entity.name == name and event.gui_type == defines.gui_type.entity then
+        if entity and entity.name == name then
             for _, current_entity in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var) }) do
                 table.insert(lm_current_entities, current_entity)
                 gui_text(player, name)
@@ -380,6 +380,11 @@ local function opened_gui_main(event, machine_table, area_var)
                 circuit_window.visible = false
             end
         end
+    end
+    if settings.get_player_settings(game.get_player(event.player_index))["always-open-mod-gui-first"].value == true then
+        entity_window.main_footer_flow.lm_gui_open_option.state = true
+    else
+        entity_window.main_footer_flow.lm_gui_open_option.state = false
     end
 end
 
@@ -433,13 +438,27 @@ local function opened_gui_lab(event, machine_table, area_var)
 end
 
 script.on_event(defines.events.on_gui_opened, function(event)
-    opened_gui_main(event, machine_2x2, area_var_2x2)
-    opened_gui_main(event, machine_3x3, area_var_3x3)
-    opened_gui_main(event, machine_5x5, area_var_5x5)
-    opened_gui_main(event, machine_6x6, area_var_6x6)
-    opened_gui_main(event, machine_7x7, area_var_7x7)
-    opened_gui_lab(event, lab, area_var_3x3)
-    opened_gui_lab(event, lab_8x8, area_var_8x8)
+    if settings.get_player_settings(game.get_player(event.player_index))["always-open-mod-gui-first"].value == true then
+        opened_gui_main(event, machine_2x2, area_var_2x2)
+        opened_gui_main(event, machine_3x3, area_var_3x3)
+        opened_gui_main(event, machine_5x5, area_var_5x5)
+        opened_gui_main(event, machine_6x6, area_var_6x6)
+        opened_gui_main(event, machine_7x7, area_var_7x7)
+        opened_gui_lab(event, lab, area_var_3x3)
+        opened_gui_lab(event, lab_8x8, area_var_8x8)
+    end
+end)
+
+script.on_event("lm-open-gui", function(event)
+    if settings.get_player_settings(game.get_player(event.player_index))["always-open-mod-gui-first"].value == false then
+        opened_gui_main(event, machine_2x2, area_var_2x2)
+        opened_gui_main(event, machine_3x3, area_var_3x3)
+        opened_gui_main(event, machine_5x5, area_var_5x5)
+        opened_gui_main(event, machine_6x6, area_var_6x6)
+        opened_gui_main(event, machine_7x7, area_var_7x7)
+        opened_gui_lab(event, lab, area_var_3x3)
+        opened_gui_lab(event, lab_8x8, area_var_8x8)
+    end
 end)
 
 script.on_event(defines.events.on_gui_closed, function(event)
@@ -684,6 +703,9 @@ end)
 
 local function wire_connection(entity_1_name, wire_color, entity_2_name)
     get_entity_by_name(entity_1_name).connect_neighbour({ wire = defines.wire_type[wire_color], target_entity = get_entity_by_name(entity_2_name) })
+    if entity_1_name == "assembling-requester" then
+        get_entity_by_name(entity_1_name).get_or_create_control_behavior().circuit_mode_of_operation = defines.control_behavior.logistic_container.circuit_mode_of_operation.set_requests
+    end
 end
 
 local function wire_disconnection(entity_1_name, wire_color, entity_2_name)
@@ -694,6 +716,7 @@ script.on_event(defines.events.on_gui_checked_state_changed, function(event)
     local checked_name = event.element.name
     local player = game.get_player(event.player_index)
     local screen_flow = player.gui.screen
+    local entity_window = screen_flow.lm_entity_window
     local circuit_window = screen_flow.lm_circuit_network_config_window
     local circuit_body = circuit_window.circuit_body
     local circuit_body_image_container = circuit_body.circuit_body_image_container
@@ -705,7 +728,13 @@ script.on_event(defines.events.on_gui_checked_state_changed, function(event)
     local inserter_flow = circuit_body_image_container_flow.circuit_body_flow_5
     local requester_inserter = get_requester_inserter_name()
     local provider_inserter = get_provider_inserter_name()
-    if checked_name == "lm_cb_top_left_1" then
+    if checked_name == "lm_gui_open_option" then
+        if entity_window.main_footer_flow.lm_gui_open_option.state == true then
+            settings.get_player_settings(player)["always-open-mod-gui-first"] = {value = true}
+        else
+            settings.get_player_settings(player)["always-open-mod-gui-first"] = {value = false}
+        end
+    elseif checked_name == "lm_cb_top_left_1" then
         if top_flow.checkbox_flow_2_left_1.lm_cb_top_left_1.state == true then
             wire_connection("assembling-requester", "red", "invisible-substation")
             circuit_body_image_container.lm_wire_rc_to_sub_red.sprite = "lm_wire_rc_to_sub_red_connected"
@@ -843,9 +872,8 @@ local function get_mined_area(event, var)
     return { { center.x - var, center.y - var }, { center.x + var, center.y + var } }
 end
 
-local function mined_entity(event, machine_table, area_var)
-    local player = game.get_player(event.player_index)
-    local player_inventory = player.get_inventory(defines.inventory.character_main)
+local function mined_entity(event, machine_table, area_var, collector)
+    local buffer = event.buffer and event.buffer.valid and event.buffer
     local all_items = {}
     for _, name in pairs(machine_table) do
         if (event.entity.name == name) then
@@ -857,28 +885,46 @@ local function mined_entity(event, machine_table, area_var)
                         end
                     end
                 end
-                for item, amount in pairs(all_items) do
-                    if player_inventory.can_insert({ name = item, count = amount }) then
-                        player_inventory.insert({ name = item, count = amount })
-                    else
-                        event.entity.surface.spill_item_stack(event.entity.position, { name = item, count = amount }, true, nil, false)
+                if collector == "player" then
+                    local player = game.get_player(event.player_index)
+                    local player_inventory = player.get_inventory(defines.inventory.character_main)
+                    for item, amount in pairs(all_items) do
+                        if player_inventory.can_insert({ name = item, count = amount }) then
+                            player_inventory.insert({ name = item, count = amount })
+                        else
+                            event.entity.surface.spill_item_stack(event.entity.position, { name = item, count = amount }, true, nil, false)
+                        end
                     end
-                    all_items = {}
+                elseif collector == "robot" then
+                    for item, amount in pairs(all_items) do
+                        buffer.insert({ name = item, count = amount })
+                    end
                 end
+                all_items = {}
                 entity.mine({ ignore_minable = true })
             end
         end
     end
 end
 
-script.on_event({ defines.events.on_player_mined_entity, defines.events.on_robot_mined_entity }, function(event)
-    mined_entity(event, machine_2x2, area_var_2x2)
-    mined_entity(event, machine_3x3, area_var_3x3)
-    mined_entity(event, machine_5x5, area_var_5x5)
-    mined_entity(event, machine_6x6, area_var_6x6)
-    mined_entity(event, machine_7x7, area_var_7x7)
-    mined_entity(event, lab, area_var_3x3)
-    mined_entity(event, lab_8x8, area_var_8x8)
+script.on_event(defines.events.on_player_mined_entity, function(event)
+    mined_entity(event, machine_2x2, area_var_2x2, "player")
+    mined_entity(event, machine_3x3, area_var_3x3, "player")
+    mined_entity(event, machine_5x5, area_var_5x5, "player")
+    mined_entity(event, machine_6x6, area_var_6x6, "player")
+    mined_entity(event, machine_7x7, area_var_7x7, "player")
+    mined_entity(event, lab, area_var_3x3, "player")
+    mined_entity(event, lab_8x8, area_var_8x8, "player")
+end)
+
+script.on_event(defines.events.on_robot_mined_entity, function(event)
+    mined_entity(event, machine_2x2, area_var_2x2, "robot")
+    mined_entity(event, machine_3x3, area_var_3x3, "robot")
+    mined_entity(event, machine_5x5, area_var_5x5, "robot")
+    mined_entity(event, machine_6x6, area_var_6x6, "robot")
+    mined_entity(event, machine_7x7, area_var_7x7, "robot")
+    mined_entity(event, lab, area_var_3x3, "robot")
+    mined_entity(event, lab_8x8, area_var_8x8, "robot")
 end)
 
 local function entity_died(event, machine_table, area_var)

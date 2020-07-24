@@ -1,11 +1,24 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.18.10
+Date: 2020-07-24
+
+  Changed:
+      - Added a per player setting to allow for changing how the GUI opens up
+        - Checked: Mod GUI opens automatically when machine is clicked
+        - Unchecked: Crafting window opens when machine is clicked and the custom input is
+          required to open the mod GUI
+      - Default requester chest mode of operation to "set requests" when circuit wire is
+        connected to it
+  Bugfixes:
+      - An error on robot mined entity
+---------------------------------------------------------------------------------------------------
 Version: 0.18.9
 Date: 2020-07-23
 
   Changed:
       - Internal code cleanup
       - Removed remnant chest, all items are now inserted into player inventory or spilled
-        onto the ground if player inventory can't hold them.
+        onto the ground if player inventory can't hold them
 ---------------------------------------------------------------------------------------------------
 Version: 0.18.8
 Date: 2020-07-21

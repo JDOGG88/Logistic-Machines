@@ -10,10 +10,12 @@ end
 
 lm_localised_description_main = {
     "entity-description.main-description",
+    { "lm-gui.lm-open-gui" }
 }
 
 lm_localised_description_lab = {
     "entity-description.lab-description",
+    { "lm-gui.lm-open-gui" }
 }
 
 require("prototypes.init")
@@ -41,7 +43,7 @@ data:extend({
 })
 
 if mods["bobassembly"] then
-    if mods["bobplates"]then
+    if mods["bobplates"] then
         data.raw.recipe["logistic-electrolyser-2"].subgroup = "logistic-electrolysers"
         data.raw.recipe["logistic-electrolyser-2"].order = "c-a"
         data.raw.recipe["logistic-electrolyser-3"].subgroup = "logistic-electrolysers"

@@ -11,9 +11,13 @@ Go [grab it now][logistic-machines-mod-portal-entry], or get it in-game by searc
 
 ### Latest
 
-- Internal code cleanup
-- Removed remnant chest, all items are now inserted into player inventory or spilled
-  onto the ground if player inventory can't hold them.
+- Added a per player setting to allow for changing how the GUI opens up
+    - Checked: Mod GUI opens automatically when machine is clicked
+    - Unchecked: Crafting window opens when machine is clicked and the custom input is
+        required to open the mod GUI
+- Default requester chest mode of operation to "set requests" when circuit wire is
+    connected to it
+- An error on robot mined entity
 
 ## Description
 

@@ -60,6 +60,12 @@ data:extend({
     },
     {
         type = "custom-input",
+        name = "lm-open-gui",
+        key_sequence = "CONTROL + SHIFT + mouse-button-1",
+        consuming = "none"
+    },
+    {
+        type = "custom-input",
         name = "lm-e-to-close-gui",
         key_sequence = "E",
         consuming = "none"
