@@ -1,3 +1,6 @@
+-------------------------------------
+-------- Mod Setup Functions --------
+-------------------------------------
 local gui = require("prototypes.gui.gui")
 
 local function gui_regen(player)
@@ -49,7 +52,9 @@ script.on_event(defines.events.on_player_created, function(event)
         )
     end
 end)
-
+-------------------------------------
+----- Invisible Entity Creation -----
+-------------------------------------
 local function assembly_set_2x2(entity)
     local provider = entity.surface.create_entity { name = "assembling-provider", position = { (entity.position.x) + 0.5, (entity.position.y) - 0.5 }, force = entity.force }
     provider.destructible = false
@@ -189,13 +194,9 @@ local function lab_set_8x8(entity)
     
     return
 end
-
-local function remnant_chest(entity)
-    local requester = entity.surface.create_entity { name = "remnant-chest", position = { entity.position.x, entity.position.y }, force = entity.force }
-    requester.minable = true
-    return
-end
-
+-------------------------------------
+--- Entity Tables & Area Variable ---
+-------------------------------------
 local machine_2x2 = {
     "logistic-electronics-machine-2",
     "logistic-electronics-machine-3",
@@ -251,160 +252,6 @@ local lab_8x8 = {
     "logistic-singularity-lab-1",
 }
 
-script.on_event(defines.events.on_built_entity, function(event)
-    for _, name in pairs(machine_2x2) do
-        if (event.created_entity.name == name) then
-            assembly_set_2x2(event.created_entity)
-        end
-    end
-    for _, name in pairs(machine_3x3) do
-        if (event.created_entity.name == name) then
-            assembly_set_3x3(event.created_entity)
-        end
-    end
-    for _, name in pairs(machine_5x5) do
-        if (event.created_entity.name == name) then
-            assembly_set_5x5(event.created_entity)
-        end
-    end
-    for _, name in pairs(machine_6x6) do
-        if (event.created_entity.name == name) then
-            assembly_set_6x6(event.created_entity)
-        end
-    end
-    for _, name in pairs(machine_7x7) do
-        if (event.created_entity.name == name) then
-            assembly_set_7x7(event.created_entity)
-        end
-    end
-    for _, name in pairs(lab_8x8) do
-        if (event.created_entity.name == name) then
-            lab_set_8x8(event.created_entity)
-        end
-    end
-    for _, name in pairs(lab) do
-        if (event.created_entity.name == name) then
-            lab_set(event.created_entity)
-        end
-    end
-end)
-
-script.on_event(defines.events.on_robot_built_entity, function(event)
-    for _, name in pairs(machine_2x2) do
-        if (event.created_entity.name == name) then
-            assembly_set_2x2(event.created_entity)
-        end
-    end
-    for _, name in pairs(machine_3x3) do
-        if (event.created_entity.name == name) then
-            assembly_set_3x3(event.created_entity)
-        end
-    end
-    for _, name in pairs(machine_5x5) do
-        if (event.created_entity.name == name) then
-            assembly_set_5x5(event.created_entity)
-        end
-    end
-    for _, name in pairs(machine_6x6) do
-        if (event.created_entity.name == name) then
-            assembly_set_6x6(event.created_entity)
-        end
-    end
-    for _, name in pairs(machine_7x7) do
-        if (event.created_entity.name == name) then
-            assembly_set_7x7(event.created_entity)
-        end
-    end
-    for _, name in pairs(lab_8x8) do
-        if (event.created_entity.name == name) then
-            lab_set_8x8(event.created_entity)
-        end
-    end
-    for _, name in pairs(lab) do
-        if (event.created_entity.name == name) then
-            lab_set(event.created_entity)
-        end
-    end
-end)
-
-script.on_event(defines.events.script_raised_revive, function(event)
-    local entity = event.entity or event.created_entity
-    for _, name in pairs(machine_2x2) do
-        if (entity.name == name) then
-            assembly_set_2x2(entity)
-        end
-    end
-    for _, name in pairs(machine_3x3) do
-        if (entity.name == name) then
-            assembly_set_3x3(entity)
-        end
-    end
-    for _, name in pairs(machine_5x5) do
-        if (entity.name == name) then
-            assembly_set_5x5(entity)
-        end
-    end
-    for _, name in pairs(machine_6x6) do
-        if (entity.name == name) then
-            assembly_set_6x6(entity)
-        end
-    end
-    for _, name in pairs(machine_7x7) do
-        if (entity.name == name) then
-            assembly_set_7x7(entity)
-        end
-    end
-    for _, name in pairs(lab_8x8) do
-        if (entity.name == name) then
-            lab_set_8x8(entity)
-        end
-    end
-    for _, name in pairs(lab) do
-        if (entity.name == name) then
-            lab_set(entity)
-        end
-    end
-end)
-
-script.on_event(defines.events.script_raised_built, function(event)
-    local entity = event.entity or event.created_entity
-    for _, name in pairs(machine_2x2) do
-        if (entity.name == name) then
-            assembly_set_2x2(entity)
-        end
-    end
-    for _, name in pairs(machine_3x3) do
-        if (entity.name == name) then
-            assembly_set_3x3(entity)
-        end
-    end
-    for _, name in pairs(machine_5x5) do
-        if (entity.name == name) then
-            assembly_set_5x5(entity)
-        end
-    end
-    for _, name in pairs(machine_6x6) do
-        if (entity.name == name) then
-            assembly_set_6x6(entity)
-        end
-    end
-    for _, name in pairs(machine_7x7) do
-        if (entity.name == name) then
-            assembly_set_7x7(entity)
-        end
-    end
-    for _, name in pairs(lab_8x8) do
-        if (entity.name == name) then
-            lab_set_8x8(entity)
-        end
-    end
-    for _, name in pairs(lab) do
-        if (entity.name == name) then
-            lab_set(entity)
-        end
-    end
-end)
-
 local invisible_entity = {
     "invisible-inserter-1-2x2",
     "invisible-inserter-2-2x2",
@@ -429,7 +276,48 @@ local area_var_5x5 = 2.2
 local area_var_6x6 = 2.65
 local area_var_7x7 = 3.2
 local area_var_8x8 = 3.4
+-------------------------------------
+------- Entity Creation Events ------
+-------------------------------------
+local function build_entity(event, machine_table, assembly_set)
+    for _, name in pairs(machine_table) do
+        if (event.created_entity.name == name) then
+            assembly_set(event.created_entity)
+        end
+    end
+end
 
+script.on_event({ defines.events.on_built_entity, defines.events.on_robot_built_entity }, function(event)
+    build_entity(event, machine_2x2, assembly_set_2x2)
+    build_entity(event, machine_3x3, assembly_set_3x3)
+    build_entity(event, machine_5x5, assembly_set_5x5)
+    build_entity(event, machine_6x6, assembly_set_6x6)
+    build_entity(event, machine_7x7, assembly_set_7x7)
+    build_entity(event, lab, lab_set)
+    build_entity(event, lab_8x8, lab_set_8x8)
+end)
+
+local function script_raised_build_entity(event, machine_table, assembly_set)
+    local entity = event.entity or event.created_entity
+    for _, name in pairs(machine_table) do
+        if (entity.name == name) then
+            assembly_set(entity)
+        end
+    end
+end
+
+script.on_event({ defines.events.script_raised_revive, defines.events.script_raised_built }, function(event)
+    script_raised_build_entity(event, machine_2x2, assembly_set_2x2)
+    script_raised_build_entity(event, machine_3x3, assembly_set_3x3)
+    script_raised_build_entity(event, machine_5x5, assembly_set_5x5)
+    script_raised_build_entity(event, machine_6x6, assembly_set_6x6)
+    script_raised_build_entity(event, machine_7x7, assembly_set_7x7)
+    script_raised_build_entity(event, lab, lab_set)
+    script_raised_build_entity(event, lab_8x8, lab_set_8x8)
+end)
+-------------------------------------
+-------- GUI Creation Events --------
+-------------------------------------
 local function get_selected_area(entity, var)
     local center = entity.position
     return { { center.x - var, center.y - var }, { center.x + var, center.y + var } }
@@ -475,6 +363,103 @@ local function lab_gui_text(player, name)
     circuit_window.lm_circuit_title_flow.lm_circuit_title.tooltip = { "lm-gui.lm-circuit-tooltip", localised_entity_name }
 end
 
+local function opened_gui_main(event, machine_table, area_var)
+    local player = game.get_player(event.player_index)
+    local entity = player.selected
+    local screen_flow = player.gui.screen
+    local entity_window = screen_flow.lm_entity_window
+    local circuit_window = screen_flow.lm_circuit_network_config_window
+    for _, name in pairs(machine_table) do
+        if entity and entity.name == name and event.gui_type == defines.gui_type.entity then
+            for _, current_entity in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var) }) do
+                table.insert(lm_current_entities, current_entity)
+                gui_text(player, name)
+                player.opened = entity_window
+                entity_window.visible = true
+                entity_window.auto_center = true
+                circuit_window.visible = false
+            end
+        end
+    end
+end
+
+local function opened_gui_lab(event, machine_table, area_var)
+    local player = game.get_player(event.player_index)
+    local entity = player.selected
+    local screen_flow = player.gui.screen
+    local entity_window = screen_flow.lm_entity_window
+    local circuit_window = screen_flow.lm_circuit_network_config_window
+    local circuit_body = circuit_window.circuit_body
+    local circuit_body_image_container = circuit_body.circuit_body_image_container
+    local circuit_body_image_container_flow = circuit_body_image_container.circuit_body_image_container_flow
+    local chest_flow = circuit_body_image_container_flow.circuit_body_flow_1
+    local top_flow = circuit_body_image_container_flow.circuit_body_flow_2
+    local mid_flow = circuit_body_image_container_flow.circuit_body_flow_3
+    local bottom_flow = circuit_body_image_container_flow.circuit_body_flow_4
+    local inserter_flow = circuit_body_image_container_flow.circuit_body_flow_5
+    for _, name in pairs(machine_table) do
+        if entity and entity.name == name and event.gui_type == defines.gui_type.entity then
+            for _, current_entity in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var) }) do
+                table.insert(lm_current_entities, current_entity)
+                lab_gui_text(player, name)
+                player.opened = entity_window
+                entity_window.visible = true
+                entity_window.auto_center = true
+                circuit_window.visible = false
+                entity_window.lm_body_flow.lm_right_body_flow.visible = false
+                circuit_body_image_container.lm_wire_pc_to_sub_red.visible = false
+                circuit_body_image_container.lm_wire_pc_to_sub_green.visible = false
+                circuit_body_image_container.lm_wire_pci_to_sub_red.visible = false
+                circuit_body_image_container.lm_wire_pci_to_sub_green.visible = false
+                circuit_body_image_container.lm_wire_rc_to_pc_red.visible = false
+                circuit_body_image_container.lm_wire_rc_to_pc_green.visible = false
+                circuit_body_image_container.lm_wire_rci_to_pci_red.visible = false
+                circuit_body_image_container.lm_wire_rci_to_pci_green.visible = false
+                circuit_body_image_container.lm_wire_pc_to_pci_red.visible = false
+                circuit_body_image_container.lm_wire_pc_to_pci_green.visible = false
+                chest_flow.circuit_body_flow_1_button_right.visible = false
+                chest_flow.checkbox_flow_1_flow.visible = false
+                top_flow.checkbox_flow_2_right_1.visible = false
+                top_flow.checkbox_flow_2_right_2.visible = false
+                mid_flow.checkbox_flow_3_right_1.visible = false
+                mid_flow.checkbox_flow_3_right_2.visible = false
+                bottom_flow.checkbox_flow_4_right_1.visible = false
+                bottom_flow.checkbox_flow_4_right_2.visible = false
+                inserter_flow.circuit_body_flow_5_button_right.visible = false
+                inserter_flow.checkbox_flow_5_flow.visible = false
+            end
+        end
+    end
+end
+
+script.on_event(defines.events.on_gui_opened, function(event)
+    opened_gui_main(event, machine_2x2, area_var_2x2)
+    opened_gui_main(event, machine_3x3, area_var_3x3)
+    opened_gui_main(event, machine_5x5, area_var_5x5)
+    opened_gui_main(event, machine_6x6, area_var_6x6)
+    opened_gui_main(event, machine_7x7, area_var_7x7)
+    opened_gui_lab(event, lab, area_var_3x3)
+    opened_gui_lab(event, lab_8x8, area_var_8x8)
+end)
+
+script.on_event(defines.events.on_gui_closed, function(event)
+    local closed_gui_name = event.name
+    if event.gui_type == defines.gui_type.custom then
+        if closed_gui_name ~= "lm_entity_window" then
+            lm_current_entities = {}
+        end
+    end
+end)
+
+script.on_event({ "lm-e-to-close-gui", "lm-escape-to-close-gui" }, function(event)
+    local player = game.get_player(event.player_index)
+    local screen_flow = player.gui.screen
+    local entity_window = screen_flow.lm_entity_window
+    local circuit_window = screen_flow.lm_circuit_network_config_window
+    entity_window.visible = false
+    circuit_window.visible = false
+end)
+
 local function get_entity_by_name(name)
     for _, entity in pairs(lm_current_entities) do
         if entity.name == name then
@@ -516,175 +501,6 @@ local function connection_checker(entity_from_name, entity_to_name, wire_color)
     end
     return connection
 end
-
-script.on_event(defines.events.on_gui_opened, function(event)
-    local player = game.get_player(event.player_index)
-    local entity = player.selected
-    local screen_flow = player.gui.screen
-    local entity_window = screen_flow.lm_entity_window
-    local circuit_window = screen_flow.lm_circuit_network_config_window
-    local circuit_body = circuit_window.circuit_body
-    local circuit_body_image_container = circuit_body.circuit_body_image_container
-    local circuit_body_image_container_flow = circuit_body_image_container.circuit_body_image_container_flow
-    local chest_flow = circuit_body_image_container_flow.circuit_body_flow_1
-    local top_flow = circuit_body_image_container_flow.circuit_body_flow_2
-    local mid_flow = circuit_body_image_container_flow.circuit_body_flow_3
-    local bottom_flow = circuit_body_image_container_flow.circuit_body_flow_4
-    local inserter_flow = circuit_body_image_container_flow.circuit_body_flow_5
-    for _, name in pairs(machine_2x2) do
-        if entity and entity.name == name and event.gui_type == defines.gui_type.entity then
-            for _, current_entity in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_2x2) }) do
-                table.insert(lm_current_entities, current_entity)
-                gui_text(player, name)
-                player.opened = entity_window
-                entity_window.visible = true
-                entity_window.auto_center = true
-                circuit_window.visible = false
-            end
-        end
-    end
-    for _, name in pairs(machine_3x3) do
-        if entity and entity.name == name and event.gui_type == defines.gui_type.entity then
-            for _, current_entity in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_3x3) }) do
-                table.insert(lm_current_entities, current_entity)
-                gui_text(player, name)
-                player.opened = entity_window
-                entity_window.visible = true
-                entity_window.auto_center = true
-                circuit_window.visible = false
-            end
-        end
-    end
-    for _, name in pairs(machine_5x5) do
-        if entity and entity.name == name and event.gui_type == defines.gui_type.entity then
-            for _, current_entity in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_5x5) }) do
-                table.insert(lm_current_entities, current_entity)
-                gui_text(player, name)
-                player.opened = entity_window
-                entity_window.visible = true
-                entity_window.auto_center = true
-                circuit_window.visible = false
-            end
-        end
-    end
-    for _, name in pairs(machine_6x6) do
-        if entity and entity.name == name and event.gui_type == defines.gui_type.entity then
-            for _, current_entity in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_6x6) }) do
-                table.insert(lm_current_entities, current_entity)
-                gui_text(player, name)
-                player.opened = entity_window
-                entity_window.visible = true
-                entity_window.auto_center = true
-                circuit_window.visible = false
-            end
-        end
-    end
-    for _, name in pairs(machine_7x7) do
-        if entity and entity.name == name and event.gui_type == defines.gui_type.entity then
-            for _, current_entity in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_7x7) }) do
-                table.insert(lm_current_entities, current_entity)
-                gui_text(player, name)
-                player.opened = entity_window
-                entity_window.visible = true
-                entity_window.auto_center = true
-                circuit_window.visible = false
-            end
-        end
-    end
-    for _, name in pairs(lab_8x8) do
-        if entity and entity.name == name and event.gui_type == defines.gui_type.entity then
-            for _, current_entity in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_8x8) }) do
-                table.insert(lm_current_entities, current_entity)
-                lab_gui_text(player, name)
-                player.opened = entity_window
-                entity_window.visible = true
-                entity_window.auto_center = true
-                circuit_window.visible = false
-                entity_window.lm_body_flow.lm_right_body_flow.visible = false
-                circuit_body_image_container.lm_wire_pc_to_sub_red.visible = false
-                circuit_body_image_container.lm_wire_pc_to_sub_green.visible = false
-                circuit_body_image_container.lm_wire_pci_to_sub_red.visible = false
-                circuit_body_image_container.lm_wire_pci_to_sub_green.visible = false
-                circuit_body_image_container.lm_wire_rc_to_pc_red.visible = false
-                circuit_body_image_container.lm_wire_rc_to_pc_green.visible = false
-                circuit_body_image_container.lm_wire_rci_to_pci_red.visible = false
-                circuit_body_image_container.lm_wire_rci_to_pci_green.visible = false
-                circuit_body_image_container.lm_wire_pc_to_pci_red.visible = false
-                circuit_body_image_container.lm_wire_pc_to_pci_green.visible = false
-                chest_flow.circuit_body_flow_1_button_right.visible = false
-                chest_flow.checkbox_flow_1_flow.visible = false
-                top_flow.checkbox_flow_2_right_1.visible = false
-                top_flow.checkbox_flow_2_right_2.visible = false
-                mid_flow.checkbox_flow_3_right_1.visible = false
-                mid_flow.checkbox_flow_3_right_2.visible = false
-                bottom_flow.checkbox_flow_4_right_1.visible = false
-                bottom_flow.checkbox_flow_4_right_2.visible = false
-                inserter_flow.circuit_body_flow_5_button_right.visible = false
-                inserter_flow.checkbox_flow_5_flow.visible = false
-            end
-        end
-    end
-    for _, name in pairs(lab) do
-        if entity and entity.name == name and event.gui_type == defines.gui_type.entity then
-            for _, current_entity in pairs(entity.surface.find_entities_filtered { area = get_selected_area(entity, area_var_3x3) }) do
-                table.insert(lm_current_entities, current_entity)
-                lab_gui_text(player, name)
-                player.opened = entity_window
-                entity_window.visible = true
-                entity_window.auto_center = true
-                circuit_window.visible = false
-                entity_window.lm_body_flow.lm_right_body_flow.visible = false
-                circuit_body_image_container.lm_wire_pc_to_sub_red.visible = false
-                circuit_body_image_container.lm_wire_pc_to_sub_green.visible = false
-                circuit_body_image_container.lm_wire_pci_to_sub_red.visible = false
-                circuit_body_image_container.lm_wire_pci_to_sub_green.visible = false
-                circuit_body_image_container.lm_wire_rc_to_pc_red.visible = false
-                circuit_body_image_container.lm_wire_rc_to_pc_green.visible = false
-                circuit_body_image_container.lm_wire_rci_to_pci_red.visible = false
-                circuit_body_image_container.lm_wire_rci_to_pci_green.visible = false
-                circuit_body_image_container.lm_wire_pc_to_pci_red.visible = false
-                circuit_body_image_container.lm_wire_pc_to_pci_green.visible = false
-                chest_flow.circuit_body_flow_1_button_right.visible = false
-                chest_flow.checkbox_flow_1_flow.visible = false
-                top_flow.checkbox_flow_2_right_1.visible = false
-                top_flow.checkbox_flow_2_right_2.visible = false
-                mid_flow.checkbox_flow_3_right_1.visible = false
-                mid_flow.checkbox_flow_3_right_2.visible = false
-                bottom_flow.checkbox_flow_4_right_1.visible = false
-                bottom_flow.checkbox_flow_4_right_2.visible = false
-                inserter_flow.circuit_body_flow_5_button_right.visible = false
-                inserter_flow.checkbox_flow_5_flow.visible = false
-            end
-        end
-    end
-end)
-
-script.on_event(defines.events.on_gui_closed, function(event)
-    local closed_gui_name = event.name
-    if event.gui_type == defines.gui_type.custom then
-        if closed_gui_name ~= "lm_entity_window" then
-            lm_current_entities = {}
-        end
-    end
-end)
-
-script.on_event("lm-e-to-close-gui", function(event)
-    local player = game.get_player(event.player_index)
-    local screen_flow = player.gui.screen
-    local entity_window = screen_flow.lm_entity_window
-    local circuit_window = screen_flow.lm_circuit_network_config_window
-    entity_window.visible = false
-    circuit_window.visible = false
-end)
-
-script.on_event("lm-escape-to-close-gui", function(event)
-    local player = game.get_player(event.player_index)
-    local screen_flow = player.gui.screen
-    local entity_window = screen_flow.lm_entity_window
-    local circuit_window = screen_flow.lm_circuit_network_config_window
-    entity_window.visible = false
-    circuit_window.visible = false
-end)
 
 script.on_event(defines.events.on_gui_click, function(event)
     local player = game.get_player(event.player_index)
@@ -1019,248 +835,68 @@ script.on_event(defines.events.on_gui_checked_state_changed, function(event)
         end
     end
 end)
-
+-------------------------------------
+------- Entity Removal Events -------
+-------------------------------------
 local function get_mined_area(event, var)
     local center = event.entity.position
     return { { center.x - var, center.y - var }, { center.x + var, center.y + var } }
 end
 
-script.on_event(defines.events.on_player_mined_entity, function(event)
-    for _, name in pairs(machine_2x2) do
+local function mined_entity(event, machine_table, area_var)
+    local player = game.get_player(event.player_index)
+    local player_inventory = player.get_inventory(defines.inventory.character_main)
+    local all_items = {}
+    for _, name in pairs(machine_table) do
         if (event.entity.name == name) then
-            remnant_chest(event.entity)
-            for _, remnant_chest_entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_2x2), name = "remnant-chest" }) do
-                for _, entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_2x2), name = invisible_entity }) do
-                    entity.mine({
-                        inventory = remnant_chest_entity.get_inventory(defines.inventory.chest),
-                        ignore_minable = true,
-                    })
+            for _, entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var), name = invisible_entity }) do
+                if entity.name == "assembling-requester" or "assembling-provider" then
+                    if entity.get_inventory(defines.inventory.chest) then
+                        if entity.get_inventory(defines.inventory.chest).get_contents() ~= nil then
+                            all_items = entity.get_inventory(defines.inventory.chest).get_contents()
+                        end
+                    end
                 end
+                for item, amount in pairs(all_items) do
+                    if player_inventory.can_insert({ name = item, count = amount }) then
+                        player_inventory.insert({ name = item, count = amount })
+                    else
+                        event.entity.surface.spill_item_stack(event.entity.position, { name = item, count = amount }, true, nil, false)
+                    end
+                    all_items = {}
+                end
+                entity.mine({ ignore_minable = true })
             end
         end
     end
-    for _, name in pairs(machine_3x3) do
-        if (event.entity.name == name) then
-            remnant_chest(event.entity)
-            for _, remnant_chest_entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_3x3), name = "remnant-chest" }) do
-                for _, entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_3x3), name = invisible_entity }) do
-                    entity.mine({
-                        inventory = remnant_chest_entity.get_inventory(defines.inventory.chest),
-                        ignore_minable = true,
-                    })
-                end
-            end
-        end
-    end
-    for _, name in pairs(machine_5x5) do
-        if (event.entity.name == name) then
-            remnant_chest(event.entity)
-            for _, remnant_chest_entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_5x5), name = "remnant-chest" }) do
-                for _, entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_5x5), name = invisible_entity }) do
-                    entity.mine({
-                        inventory = remnant_chest_entity.get_inventory(defines.inventory.chest),
-                        ignore_minable = true,
-                    })
-                end
-            end
-        end
-    end
-    for _, name in pairs(machine_6x6) do
-        if (event.entity.name == name) then
-            remnant_chest(event.entity)
-            for _, remnant_chest_entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_6x6), name = "remnant-chest" }) do
-                for _, entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_6x6), name = invisible_entity }) do
-                    entity.mine({
-                        inventory = remnant_chest_entity.get_inventory(defines.inventory.chest),
-                        ignore_minable = true,
-                    })
-                end
-            end
-        end
-    end
-    for _, name in pairs(machine_7x7) do
-        if (event.entity.name == name) then
-            remnant_chest(event.entity)
-            for _, remnant_chest_entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_7x7), name = "remnant-chest" }) do
-                for _, entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_7x7), name = invisible_entity }) do
-                    entity.mine({
-                        inventory = remnant_chest_entity.get_inventory(defines.inventory.chest),
-                        ignore_minable = true,
-                    })
-                end
-            end
-        end
-    end
-    for _, name in pairs(lab) do
-        if (event.entity.name == name) then
-            remnant_chest(event.entity)
-            for _, remnant_chest_entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_3x3), name = "remnant-chest" }) do
-                for _, entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_3x3), name = invisible_entity }) do
-                    entity.mine({
-                        inventory = remnant_chest_entity.get_inventory(defines.inventory.chest),
-                        ignore_minable = true,
-                    })
-                end
-            end
-        end
-    end
-    for _, name in pairs(lab_8x8) do
-        if (event.entity.name == name) then
-            remnant_chest(event.entity)
-            for _, remnant_chest_entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_8x8), name = "remnant-chest" }) do
-                for _, entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_8x8), name = invisible_entity }) do
-                    entity.mine({
-                        inventory = remnant_chest_entity.get_inventory(defines.inventory.chest),
-                        ignore_minable = true,
-                    })
-                end
-            end
-        end
-    end
+end
+
+script.on_event({ defines.events.on_player_mined_entity, defines.events.on_robot_mined_entity }, function(event)
+    mined_entity(event, machine_2x2, area_var_2x2)
+    mined_entity(event, machine_3x3, area_var_3x3)
+    mined_entity(event, machine_5x5, area_var_5x5)
+    mined_entity(event, machine_6x6, area_var_6x6)
+    mined_entity(event, machine_7x7, area_var_7x7)
+    mined_entity(event, lab, area_var_3x3)
+    mined_entity(event, lab_8x8, area_var_8x8)
 end)
 
-script.on_event(defines.events.on_robot_mined_entity, function(event)
-    for _, name in pairs(machine_2x2) do
+local function entity_died(event, machine_table, area_var)
+    for _, name in pairs(machine_table) do
         if (event.entity.name == name) then
-            remnant_chest(event.entity)
-            for _, remnant_chest_entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_2x2), name = "remnant-chest" }) do
-                for _, entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_2x2), name = invisible_entity }) do
-                    entity.mine({
-                        inventory = remnant_chest_entity.get_inventory(defines.inventory.chest),
-                        ignore_minable = true,
-                    })
-                end
+            for _, entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var), name = invisible_entity }) do
+                entity.destroy()
             end
         end
     end
-    for _, name in pairs(machine_3x3) do
-        if (event.entity.name == name) then
-            remnant_chest(event.entity)
-            for _, remnant_chest_entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_3x3), name = "remnant-chest" }) do
-                for _, entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_3x3), name = invisible_entity }) do
-                    entity.mine({
-                        inventory = remnant_chest_entity.get_inventory(defines.inventory.chest),
-                        ignore_minable = true,
-                    })
-                end
-            end
-        end
-    end
-    for _, name in pairs(machine_5x5) do
-        if (event.entity.name == name) then
-            remnant_chest(event.entity)
-            for _, remnant_chest_entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_5x5), name = "remnant-chest" }) do
-                for _, entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_5x5), name = invisible_entity }) do
-                    entity.mine({
-                        inventory = remnant_chest_entity.get_inventory(defines.inventory.chest),
-                        ignore_minable = true,
-                    })
-                end
-            end
-        end
-    end
-    for _, name in pairs(machine_6x6) do
-        if (event.entity.name == name) then
-            remnant_chest(event.entity)
-            for _, remnant_chest_entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_6x6), name = "remnant-chest" }) do
-                for _, entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_6x6), name = invisible_entity }) do
-                    entity.mine({
-                        inventory = remnant_chest_entity.get_inventory(defines.inventory.chest),
-                        ignore_minable = true,
-                    })
-                end
-            end
-        end
-    end
-    for _, name in pairs(machine_7x7) do
-        if (event.entity.name == name) then
-            remnant_chest(event.entity)
-            for _, remnant_chest_entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_7x7), name = "remnant-chest" }) do
-                for _, entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_7x7), name = invisible_entity }) do
-                    entity.mine({
-                        inventory = remnant_chest_entity.get_inventory(defines.inventory.chest),
-                        ignore_minable = true,
-                    })
-                end
-            end
-        end
-    end
-    for _, name in pairs(lab) do
-        if (event.entity.name == name) then
-            remnant_chest(event.entity)
-            for _, remnant_chest_entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_3x3), name = "remnant-chest" }) do
-                for _, entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_3x3), name = invisible_entity }) do
-                    entity.mine({
-                        inventory = remnant_chest_entity.get_inventory(defines.inventory.chest),
-                        ignore_minable = true,
-                    })
-                end
-            end
-        end
-    end
-    for _, name in pairs(lab_8x8) do
-        if (event.entity.name == name) then
-            remnant_chest(event.entity)
-            for _, remnant_chest_entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_8x8), name = "remnant-chest" }) do
-                for _, entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_8x8), name = invisible_entity }) do
-                    entity.mine({
-                        inventory = remnant_chest_entity.get_inventory(defines.inventory.chest),
-                        ignore_minable = true,
-                    })
-                end
-            end
-        end
-    end
-end)
+end
 
 script.on_event(defines.events.on_entity_died, function(event)
-    for _, name in pairs(machine_2x2) do
-        if (event.entity.name == name) then
-            for _, entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_2x2), name = invisible_entity }) do
-                entity.destroy()
-            end
-        end
-    end
-    for _, name in pairs(machine_3x3) do
-        if (event.entity.name == name) then
-            for _, entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_3x3), name = invisible_entity }) do
-                entity.destroy()
-            end
-        end
-    end
-    for _, name in pairs(machine_5x5) do
-        if (event.entity.name == name) then
-            for _, entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_5x5), name = invisible_entity }) do
-                entity.destroy()
-            end
-        end
-    end
-    for _, name in pairs(machine_6x6) do
-        if (event.entity.name == name) then
-            for _, entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_6x6), name = invisible_entity }) do
-                entity.destroy()
-            end
-        end
-    end
-    for _, name in pairs(machine_7x7) do
-        if (event.entity.name == name) then
-            for _, entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_7x7), name = invisible_entity }) do
-                entity.destroy()
-            end
-        end
-    end
-    for _, name in pairs(lab) do
-        if (event.entity.name == name) then
-            for _, entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_3x3), name = invisible_entity }) do
-                entity.destroy()
-            end
-        end
-    end
-    for _, name in pairs(lab_8x8) do
-        if (event.entity.name == name) then
-            for _, entity in pairs(event.entity.surface.find_entities_filtered { area = get_mined_area(event, area_var_8x8), name = invisible_entity }) do
-                entity.destroy()
-            end
-        end
-    end
+    entity_died(event, machine_2x2, area_var_2x2)
+    entity_died(event, machine_3x3, area_var_3x3)
+    entity_died(event, machine_5x5, area_var_5x5)
+    entity_died(event, machine_6x6, area_var_6x6)
+    entity_died(event, machine_7x7, area_var_7x7)
+    entity_died(event, lab, area_var_3x3)
+    entity_died(event, lab_8x8, area_var_8x8)
 end)

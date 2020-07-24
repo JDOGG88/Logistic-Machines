@@ -11,10 +11,9 @@ Go [grab it now][logistic-machines-mod-portal-entry], or get it in-game by searc
 
 ### Latest
 
-- Added a GUI to access the invisible entities and connect them to the circuit network
-- Bob's Inserters GUI will no longer appear when accessing the invisible inserters
-- Fixed an error being thrown for next_upgrade call
-- Fixed item names not displaying correctly
+- Internal code cleanup
+- Removed remnant chest, all items are now inserted into player inventory or spilled
+  onto the ground if player inventory can't hold them.
 
 ## Description
 

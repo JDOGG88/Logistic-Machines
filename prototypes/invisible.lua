@@ -153,15 +153,6 @@ assembling_requester.animation.layers[1].scale = .001
 assembling_requester.animation.layers[1].hr_version.scale = .001
 assembling_requester.animation.layers[2].scale = .001
 assembling_requester.animation.layers[2].hr_version.scale = .001
-
-local remnant_chest = table.deepcopy(data.raw.container["steel-chest"])
-remnant_chest.name = "remnant-chest"
-remnant_chest.inventory_size = 110
-remnant_chest.minable = { mining_time = 1, result = nil }
-remnant_chest.flags = { "hidden", "placeable-off-grid" }
-remnant_chest.localised_name = { "entity-name." .. remnant_chest.name, { "mod-name.mod-name" } }
-remnant_chest.next_upgrade = nil
-
 data:extend({
     invisible_inserter_1_2x2,
     invisible_inserter_2_2x2,
@@ -178,7 +169,6 @@ data:extend({
     invisible_substation,
     assembling_provider,
     assembling_requester,
-    remnant_chest,
 })
 
 local assembling_provider_item = table.deepcopy(data.raw.item["logistic-chest-passive-provider"])
@@ -188,10 +178,6 @@ assembling_provider_item.place_result = "assembling-provider"
 local assembling_requester_item = table.deepcopy(data.raw.item["logistic-chest-requester"])
 assembling_requester_item.name = "assembling-requester"
 assembling_requester_item.place_result = "assembling-requester"
-
-local remnant_chest_item = table.deepcopy(data.raw.item["steel-chest"])
-remnant_chest_item.name = "remnant-chest"
-remnant_chest_item.place_result = "remnant-chest"
 
 local function createItem(name, entity_size)
     local item = {}
@@ -240,5 +226,4 @@ data:extend({
     invisible_inserter_2_item_7x7,
     invisible_inserter_1_item_8x8,
     invisible_inserter_2_item_8x8,
-    remnant_chest_item,
 })

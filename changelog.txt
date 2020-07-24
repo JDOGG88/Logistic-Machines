@@ -1,4 +1,12 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.18.9
+Date: 2020-07-23
+
+  Changed:
+      - Internal code cleanup
+      - Removed remnant chest, all items are now inserted into player inventory or spilled
+        onto the ground if player inventory can't hold them.
+---------------------------------------------------------------------------------------------------
 Version: 0.18.8
 Date: 2020-07-21
 
