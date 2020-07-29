@@ -166,7 +166,7 @@ gui.regen = function(player)
     local circuit_body_image_container_flow = circuit_body_image_container.add { type = "flow", name = "circuit_body_image_container_flow", direction = "vertical" }
     -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     local circuit_body_flow_1 = circuit_body_image_container_flow.add { type = "flow", name = "circuit_body_flow_1", direction = "horizontal" }
-    local circuit_body_flow_1_button_left = circuit_body_flow_1.add { type = "empty-widget", style = "lm_circuit_window_button_container" }
+    local circuit_body_flow_1_button_left = circuit_body_flow_1.add { type = "empty-widget", name = "circuit_body_flow_1_button_left", style = "lm_circuit_window_button_container" }
     circuit_body_flow_1_button_left.add { type = "sprite-button", name = "lm_requester_chest_button", sprite = "item/logistic-chest-requester", style = "lm_circuit_sprite_button" }
     circuit_body_flow_1.add { type = "empty-widget", style = "lm_circuit_window_flow_1_buffer_1" }
     local checkbox_flow_1_flow = circuit_body_flow_1.add { type = "flow", name = "checkbox_flow_1_flow", direction = "vertical" }
@@ -237,7 +237,7 @@ gui.regen = function(player)
     checkbox_flow_4_right_2.add { type = "checkbox", name = "lm_cb_bottom_right_2", state = false }
     -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     local circuit_body_flow_5 = circuit_body_image_container_flow.add { type = "flow", name = "circuit_body_flow_5", direction = "horizontal" }
-    local circuit_body_flow_5_button_left = circuit_body_flow_5.add { type = "empty-widget", style = "lm_circuit_window_button_container" }
+    local circuit_body_flow_5_button_left = circuit_body_flow_5.add { type = "empty-widget", name = "circuit_body_flow_5_button_left", style = "lm_circuit_window_button_container" }
     circuit_body_flow_5_button_left.add { type = "sprite-button", name = "lm_requester_chest_inserter_button", sprite = "item/stack-inserter", style = "lm_circuit_sprite_button" }
     circuit_body_flow_5.add { type = "empty-widget", style = "lm_circuit_window_flow_5_buffer_1" }
     local checkbox_flow_5_flow = circuit_body_flow_5.add { type = "flow", name = "checkbox_flow_5_flow", direction = "vertical" }

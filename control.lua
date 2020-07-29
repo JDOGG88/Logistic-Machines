@@ -521,6 +521,16 @@ local function connection_checker(entity_from_name, entity_to_name, wire_color)
     return connection
 end
 
+local function flying_text(entity, text)
+    entity.surface.create_entity {
+        name = "flying-text",
+        speed = 0.02,
+        position = { x = entity.position.x - 1.6, y = entity.position.y },
+        time_to_live = 1,
+        text = text,
+    }
+end
+
 script.on_event(defines.events.on_gui_click, function(event)
     local player = game.get_player(event.player_index)
     local screen_flow = player.gui.screen
@@ -540,40 +550,82 @@ script.on_event(defines.events.on_gui_click, function(event)
             if player.can_reach_entity(entity) then
                 player.opened = entity
                 main_frame.visible = false
+                main_frame.lm_body_flow.lm_center_body_flow.lm_entity_button.style = "lm_main_frame_entity_button"
             else
-                player.print("Not close enough to access this machine.")
+                flying_text(entity, "Cannot reach")
+                main_frame.lm_body_flow.lm_center_body_flow.lm_entity_button.style = "lm_main_frame_entity_button_cannot_build"
             end
         elseif clicked_name == "lm_requester_chest_button" and entity.name == "assembling-requester" then
             if player.can_reach_entity(entity) then
                 player.opened = entity
                 main_frame.visible = false
                 circuit_window.visible = false
+                if event.element == main_frame.lm_body_flow.lm_left_body_flow.lm_requester_chest_button then
+                    main_frame.lm_body_flow.lm_left_body_flow.lm_requester_chest_button.style = "lm_main_frame_button_sides"
+                elseif event.element == chest_flow.circuit_body_flow_1_button_left.lm_requester_chest_button then
+                    chest_flow.circuit_body_flow_1_button_left.lm_requester_chest_button.style = "lm_circuit_sprite_button"
+                end
             else
-                player.print("Not close enough to access this chest.")
+                flying_text(entity, "Cannot reach")
+                if event.element == main_frame.lm_body_flow.lm_left_body_flow.lm_requester_chest_button then
+                    main_frame.lm_body_flow.lm_left_body_flow.lm_requester_chest_button.style = "lm_main_frame_button_sides_cannot_build"
+                elseif event.element == chest_flow.circuit_body_flow_1_button_left.lm_requester_chest_button then
+                    chest_flow.circuit_body_flow_1_button_left.lm_requester_chest_button.style = "lm_circuit_sprite_button_cannot_build"
+                end
             end
         elseif clicked_name == "lm_requester_chest_inserter_button" and entity.name == string.match(entity.name, "invisible%-inserter%-1.*") then
             if player.can_reach_entity(entity) then
                 player.opened = entity
                 main_frame.visible = false
                 circuit_window.visible = false
+                if event.element == main_frame.lm_body_flow.lm_left_body_flow.lm_requester_chest_inserter_button then
+                    main_frame.lm_body_flow.lm_left_body_flow.lm_requester_chest_inserter_button.style = "lm_main_frame_button_sides"
+                elseif event.element == inserter_flow.circuit_body_flow_5_button_left.lm_requester_chest_inserter_button then
+                    inserter_flow.circuit_body_flow_5_button_left.lm_requester_chest_inserter_button.style = "lm_circuit_sprite_button"
+                end
             else
-                player.print("Not close enough to access this inserter.")
+                flying_text(entity, "Cannot reach")
+                if event.element == main_frame.lm_body_flow.lm_left_body_flow.lm_requester_chest_inserter_button then
+                    main_frame.lm_body_flow.lm_left_body_flow.lm_requester_chest_inserter_button.style = "lm_main_frame_button_sides_cannot_build"
+                elseif event.element == inserter_flow.circuit_body_flow_5_button_left.lm_requester_chest_inserter_button then
+                    inserter_flow.circuit_body_flow_5_button_left.lm_requester_chest_inserter_button.style = "lm_circuit_sprite_button_cannot_build"
+                end
             end
         elseif clicked_name == "lm_provider_chest_button" and entity.name == "assembling-provider" then
             if player.can_reach_entity(entity) then
                 player.opened = entity
                 main_frame.visible = false
                 circuit_window.visible = false
+                if event.element == main_frame.lm_body_flow.lm_right_body_flow.lm_provider_chest_button then
+                    main_frame.lm_body_flow.lm_right_body_flow.lm_provider_chest_button.style = "lm_main_frame_button_sides"
+                elseif event.element == chest_flow.circuit_body_flow_1_button_right.lm_provider_chest_button then
+                    chest_flow.circuit_body_flow_1_button_right.lm_provider_chest_button.style = "lm_circuit_sprite_button"
+                end
             else
-                player.print("Not close enough to access this chest.")
+                flying_text(entity, "Cannot reach")
+                if event.element == main_frame.lm_body_flow.lm_right_body_flow.lm_provider_chest_button then
+                    main_frame.lm_body_flow.lm_right_body_flow.lm_provider_chest_button.style = "lm_main_frame_button_sides_cannot_build"
+                elseif event.element == chest_flow.circuit_body_flow_1_button_right.lm_provider_chest_button then
+                    chest_flow.circuit_body_flow_1_button_right.lm_provider_chest_button.style = "lm_circuit_sprite_button_cannot_build"
+                end
             end
         elseif clicked_name == "lm_provider_chest_inserter_button" and entity.name == string.match(entity.name, "invisible%-inserter%-2.*") then
             if player.can_reach_entity(entity) then
                 player.opened = entity
                 main_frame.visible = false
                 circuit_window.visible = false
+                if event.element == main_frame.lm_body_flow.lm_right_body_flow.lm_provider_chest_inserter_button then
+                    main_frame.lm_body_flow.lm_right_body_flow.lm_provider_chest_inserter_button.style = "lm_main_frame_button_sides"
+                elseif event.element == inserter_flow.circuit_body_flow_5_button_right.lm_provider_chest_inserter_button then
+                    inserter_flow.circuit_body_flow_5_button_right.lm_provider_chest_inserter_button.style = "lm_circuit_sprite_button"
+                end
             else
-                player.print("Not close enough to access this inserter.")
+                flying_text(entity, "Cannot reach")
+                if event.element == main_frame.lm_body_flow.lm_right_body_flow.lm_provider_chest_inserter_button then
+                    main_frame.lm_body_flow.lm_right_body_flow.lm_provider_chest_inserter_button.style = "lm_main_frame_button_sides_cannot_build"
+                elseif event.element == inserter_flow.circuit_body_flow_5_button_right.lm_provider_chest_inserter_button then
+                    inserter_flow.circuit_body_flow_5_button_right.lm_provider_chest_inserter_button.style = "lm_circuit_sprite_button_cannot_build"
+                end
             end
         elseif clicked_name == "lm_circuit_button" then
             circuit_window.visible = true
@@ -730,9 +782,9 @@ script.on_event(defines.events.on_gui_checked_state_changed, function(event)
     local provider_inserter = get_provider_inserter_name()
     if checked_name == "lm_gui_open_option" then
         if entity_window.main_footer_flow.lm_gui_open_option.state == true then
-            settings.get_player_settings(player)["always-open-mod-gui-first"] = {value = true}
+            settings.get_player_settings(player)["always-open-mod-gui-first"] = { value = true }
         else
-            settings.get_player_settings(player)["always-open-mod-gui-first"] = {value = false}
+            settings.get_player_settings(player)["always-open-mod-gui-first"] = { value = false }
         end
     elseif checked_name == "lm_cb_top_left_1" then
         if top_flow.checkbox_flow_2_left_1.lm_cb_top_left_1.state == true then

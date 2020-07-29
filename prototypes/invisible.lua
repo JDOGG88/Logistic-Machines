@@ -193,6 +193,7 @@ local function createItem(name, entity_size)
     end
     item.stack_size = 50
     item.place_result = item.name
+    item.flags = {"hidden", "hide-from-bonus-gui"}
     return item
 end
 

@@ -80,6 +80,28 @@ data:extend({
 
 local style = data.raw["gui-style"].default
 
+style.lm_main_frame_entity_button_cannot_build = {
+    type = "button_style",
+    parent = "button",
+    width = 150,
+    height = 150,
+    left_click_sound = { filename = "__core__/sound/cannot-build.ogg", volume = 1 }
+}
+style.lm_circuit_sprite_button_cannot_build = {
+    type = "button_style",
+    parent = "button",
+    width = 100,
+    height = 100,
+    left_click_sound = { filename = "__core__/sound/cannot-build.ogg", volume = 1 }
+}
+style.lm_main_frame_button_sides_cannot_build = {
+    type = "button_style",
+    parent = "button",
+    width = 100,
+    height = 125,
+    left_click_sound = { filename = "__core__/sound/cannot-build.ogg", volume = 1 }
+}
+
 style.lm_draggable_filler = {
     type = "empty_widget_style",
     parent = "draggable_space",
@@ -91,6 +113,7 @@ style.lm_draggable_filler = {
 style.lm_main_frame_entity_button = {
     type = "button_style",
     parent = "button",
+    name = "lm_main_frame_entity_button",
     width = 150,
     height = 150,
 }
@@ -284,9 +307,9 @@ style.lm_circuit_window_button_container = {
 }
 style.lm_circuit_sprite_button = {
     type = "button_style",
+    parent = "button",
     width = 100,
     height = 100,
-    stretch_image_to_widget_size = true
 }
 style.lm_circuit_sprite_frame_container = {
     type = "empty_widget_style",

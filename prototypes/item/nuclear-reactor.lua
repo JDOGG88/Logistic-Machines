@@ -10,6 +10,7 @@ local function createReactor(version)
     cr.name = "logistic-nuclear-reactor-" .. version
     cr.place_result = cr.name
     cr.icon_size = 32
+    cr.flags = {"draw-logistic-overlay"}
     cr.localised_name = lm_localised_name("logistic-nuclear-reactor", version)
     cr.localised_description = lm_localised_description_main
     return cr

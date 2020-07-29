@@ -4,6 +4,7 @@ local function createMachine(version)
     cm.icons = { { icon = "__bobassembly__/graphics/icons/electronics-machine-" .. version .. ".png" }, logistic_requester_chest_mask, logistic_provider_chest_mask, }
     cm.icon_size = 32
     cm.place_result = cm.name
+    cm.flags = {"draw-logistic-overlay"}
     cm.localised_name = lm_localised_name("logistic-electronics-machine", version)
     cm.localised_description = lm_localised_description_main
     return cm

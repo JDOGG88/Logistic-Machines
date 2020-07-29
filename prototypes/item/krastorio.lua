@@ -20,6 +20,7 @@ if mods["Krastorio2"] then
             ci.localised_name = lm_localised_name("logistic-" .. name, "")
             ci.localised_description = lm_item_localised_description_main
         end
+        ci.flags = {"draw-logistic-overlay"}
         ci.icon_size = 64
         ci.place_result = ci.name
         return ci

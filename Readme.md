@@ -11,13 +11,9 @@ Go [grab it now][logistic-machines-mod-portal-entry], or get it in-game by searc
 
 ### Latest
 
-- Added a per player setting to allow for changing how the GUI opens up
-    - Checked: Mod GUI opens automatically when machine is clicked
-    - Unchecked: Crafting window opens when machine is clicked and the custom input is
-        required to open the mod GUI
-- Default requester chest mode of operation to "set requests" when circuit wire is
-    connected to it
-- An error on robot mined entity
+- The logistic area of roboports is now shown when placing aa logistic machine
+- Removed invisible item icons from being shown by recipe selection GUI's
+- Added audio queue for when trying to open an entity that can't be reached
 
 ## Description
 

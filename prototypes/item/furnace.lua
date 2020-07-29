@@ -24,6 +24,7 @@ local function createFurnace(version, type)
     end
     cf.icon_size = 32
     cf.place_result = cf.name
+    cf.flags = {"draw-logistic-overlay"}
     cf.localised_description = lm_localised_description_main
     return cf
 end

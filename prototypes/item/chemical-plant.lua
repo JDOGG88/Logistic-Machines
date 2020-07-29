@@ -16,6 +16,7 @@ local function createPlant(version)
     end
     cp.icon_size = 32
     cp.place_result = cp.name
+    cp.flags = {"draw-logistic-overlay"}
     cp.localised_name = lm_localised_name("logistic-chemical-plant", version)
     cp.localised_description = lm_localised_description_main
     return cp
