@@ -1,8 +1,11 @@
 {
   "name": "Logistic-Machines",
-  "version": "0.18.11",
+  "version": "1.0.0",
+  "factorio_version": "1.0",
   "title": "Logistic Machines",
   "author": "JDOGG",
+  "homepage": "https://github.com/JDOGG88/Logistic-Machines",
+  "contact": "https://github.com/JDOGG88/Logistic-Machines/issues",
   "dependencies": [
     "base >= 0.18.0",
     "? bobassembly >= 0.18.5",
@@ -11,6 +14,5 @@
     "? bobtech >= 0.18.3",
     "? Krastorio2 >= 0.9.14"
   ],
-  "description": "New tiers of entities that come with integrated requester and provider chests and a substation.  Now works with Bob's Mods and Krastorio2 entities!",
-  "factorio_version": "0.18"
+  "description": "New tiers of entities that come with integrated requester and provider chests and a substation.  Now works with Bob's Mods and Krastorio2 entities!"
 }

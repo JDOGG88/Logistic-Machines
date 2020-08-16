@@ -1,6 +1,6 @@
 # Logistic Machines
 
-Logistic Machines that come with integrated passive provider and requester chests.
+Logistic Machines that come with an integrated passive provider and requester chests.
 
 ## News
 
@@ -17,9 +17,9 @@ Go [grab it now][logistic-machines-mod-portal-entry], or get it in-game by searc
 
 ## Description
 
-Adds assembling machines and chemical plants that come with integrated passive provider and requester chests.  Now includes [Bob's Assembling Machines][bob-mod-portal-entry] integration.
+Adds assembling machines and chemical plants that come with an integrated passive provider and requester chests.  Now includes [Bob's Assembling Machines][bob-mod-portal-entry] integration.
 
-Re-work of **DellAquila's** [Logistic Assembling Machine][dellaguila-mod-portal-entry].
+Re-work of **DellAquila's** [Logistic Assembling Machine][dellaquila-mod-portal-entry].
 
 ![Entities][hero-image-1]
 
