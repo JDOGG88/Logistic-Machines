@@ -14,9 +14,16 @@ local function createTechnology(tech_version)
             recipe = technology.name,
         },
     }
-    technology.prerequisites = {
-        "electronics-machine-" .. tech_version
-    }
+    if tech_version == 2 then
+        technology.prerequisites = {
+            "logistic-robotics",
+            "electronics-machine-" .. tech_version,
+        }
+    else
+        technology.prerequisites = {
+            "electronics-machine-" .. tech_version
+        }
+    end
     technology.unit = {}
     technology.unit.time = 30
     if tech_version == 2 then

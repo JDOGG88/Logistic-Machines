@@ -7,50 +7,37 @@ local function gui_regen(player)
     gui.regen(player)
 end
 
+local function bobinserters_remote_call()
+    if game.active_mods["bobinserters"] then
+        remote.call("bobinserters", "blacklist_inserters",
+                {
+                    "invisible-inserter-1-2x2",
+                    "invisible-inserter-2-2x2",
+                    "invisible-inserter-1-3x3",
+                    "invisible-inserter-2-3x3",
+                    "invisible-inserter-1-5x5",
+                    "invisible-inserter-2-5x5",
+                    "invisible-inserter-1-6x6",
+                    "invisible-inserter-2-6x6",
+                    "invisible-inserter-1-7x7",
+                    "invisible-inserter-2-7x7",
+                    "invisible-inserter-1-8x8",
+                    "invisible-inserter-2-8x8",
+                }
+        )
+    end
+end
+
 script.on_configuration_changed(function()
     for _, player in pairs(game.players) do
         gui_regen(player)
     end
-    if game.active_mods["bobinserters"] then
-        remote.call("bobinserters", "blacklist_inserters",
-                {
-                    "invisible-inserter-1-2x2",
-                    "invisible-inserter-2-2x2",
-                    "invisible-inserter-1-3x3",
-                    "invisible-inserter-2-3x3",
-                    "invisible-inserter-1-5x5",
-                    "invisible-inserter-2-5x5",
-                    "invisible-inserter-1-6x6",
-                    "invisible-inserter-2-6x6",
-                    "invisible-inserter-1-7x7",
-                    "invisible-inserter-2-7x7",
-                    "invisible-inserter-1-8x8",
-                    "invisible-inserter-2-8x8",
-                }
-        )
-    end
+    bobinserters_remote_call()
 end)
 
 script.on_event(defines.events.on_player_created, function(event)
     gui_regen(game.get_player(event.player_index))
-    if game.active_mods["bobinserters"] then
-        remote.call("bobinserters", "blacklist_inserters",
-                {
-                    "invisible-inserter-1-2x2",
-                    "invisible-inserter-2-2x2",
-                    "invisible-inserter-1-3x3",
-                    "invisible-inserter-2-3x3",
-                    "invisible-inserter-1-5x5",
-                    "invisible-inserter-2-5x5",
-                    "invisible-inserter-1-6x6",
-                    "invisible-inserter-2-6x6",
-                    "invisible-inserter-1-7x7",
-                    "invisible-inserter-2-7x7",
-                    "invisible-inserter-1-8x8",
-                    "invisible-inserter-2-8x8",
-                }
-        )
-    end
+    bobinserters_remote_call()
 end)
 -------------------------------------
 ----- Invisible Entity Creation -----
@@ -472,11 +459,8 @@ end)
 
 script.on_event({ "lm-e-to-close-gui", "lm-escape-to-close-gui" }, function(event)
     local player = game.get_player(event.player_index)
-    local screen_flow = player.gui.screen
-    local entity_window = screen_flow.lm_entity_window
-    local circuit_window = screen_flow.lm_circuit_network_config_window
-    entity_window.visible = false
-    circuit_window.visible = false
+    lm_current_entities = {}
+    gui_regen(player)
 end)
 
 local function get_entity_by_name(name)
@@ -546,7 +530,7 @@ script.on_event(defines.events.on_gui_click, function(event)
     local bottom_flow = circuit_body_image_container_flow.circuit_body_flow_4
     local inserter_flow = circuit_body_image_container_flow.circuit_body_flow_5
     for _, entity in pairs(lm_current_entities) do
-        if clicked_name == "lm_entity_button" and entity.name == string.match(entity.name, "logistic.*") then
+        if clicked_name == "lm_entity_button" and entity.name == string.match(entity.name, "logistic.*") and entity.valid == true then
             if player.can_reach_entity(entity) then
                 player.opened = entity
                 main_frame.visible = false
@@ -555,7 +539,7 @@ script.on_event(defines.events.on_gui_click, function(event)
                 flying_text(entity, "Cannot reach")
                 main_frame.lm_body_flow.lm_center_body_flow.lm_entity_button.style = "lm_main_frame_entity_button_cannot_build"
             end
-        elseif clicked_name == "lm_requester_chest_button" and entity.name == "assembling-requester" then
+        elseif clicked_name == "lm_requester_chest_button" and entity.name == "assembling-requester" and entity.valid == true then
             if player.can_reach_entity(entity) then
                 player.opened = entity
                 main_frame.visible = false
@@ -573,7 +557,7 @@ script.on_event(defines.events.on_gui_click, function(event)
                     chest_flow.circuit_body_flow_1_button_left.lm_requester_chest_button.style = "lm_circuit_sprite_button_cannot_build"
                 end
             end
-        elseif clicked_name == "lm_requester_chest_inserter_button" and entity.name == string.match(entity.name, "invisible%-inserter%-1.*") then
+        elseif clicked_name == "lm_requester_chest_inserter_button" and entity.name == string.match(entity.name, "invisible%-inserter%-1.*") and entity.valid == true then
             if player.can_reach_entity(entity) then
                 player.opened = entity
                 main_frame.visible = false
@@ -591,7 +575,7 @@ script.on_event(defines.events.on_gui_click, function(event)
                     inserter_flow.circuit_body_flow_5_button_left.lm_requester_chest_inserter_button.style = "lm_circuit_sprite_button_cannot_build"
                 end
             end
-        elseif clicked_name == "lm_provider_chest_button" and entity.name == "assembling-provider" then
+        elseif clicked_name == "lm_provider_chest_button" and entity.name == "assembling-provider" and entity.valid == true then
             if player.can_reach_entity(entity) then
                 player.opened = entity
                 main_frame.visible = false
@@ -609,7 +593,7 @@ script.on_event(defines.events.on_gui_click, function(event)
                     chest_flow.circuit_body_flow_1_button_right.lm_provider_chest_button.style = "lm_circuit_sprite_button_cannot_build"
                 end
             end
-        elseif clicked_name == "lm_provider_chest_inserter_button" and entity.name == string.match(entity.name, "invisible%-inserter%-2.*") then
+        elseif clicked_name == "lm_provider_chest_inserter_button" and entity.name == string.match(entity.name, "invisible%-inserter%-2.*") and entity.valid == true then
             if player.can_reach_entity(entity) then
                 player.opened = entity
                 main_frame.visible = false

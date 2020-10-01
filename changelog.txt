@@ -1,4 +1,16 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.0.1
+Date: 2020-10-01
+
+  Changed:
+      - Internal code cleanup
+      - Added logistic robotics pre-req to logistic electronics assembling machine
+  Bugfixes:
+      - Added a validity check to on_gui_click call to prevent a crash if the entity trying
+        to be accessed is in an invalid state
+      - Fixed bobassembly colors not matching correctly.
+      - Fixed a bug where the provider side of the GUI wouldn't appear after accessing a lab
+---------------------------------------------------------------------------------------------------
 Version: 1.0.0
 Date: 2020-08-16
 

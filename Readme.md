@@ -11,9 +11,7 @@ Go [grab it now][logistic-machines-mod-portal-entry], or get it in-game by searc
 
 ### Latest
 
-- The logistic area of roboports is now shown when placing aa logistic machine
-- Removed invisible item icons from being shown by recipe selection GUI's
-- Added audio queue for when trying to open an entity that can't be reached
+- Bugfixes
 
 ## Description
 
@@ -21,15 +19,12 @@ Adds assembling machines and chemical plants that come with an integrated passiv
 
 Re-work of **DellAquila's** [Logistic Assembling Machine][dellaquila-mod-portal-entry].
 
-![Entities][hero-image-1]
+![Main][main-gui-window]
 
-![Recipe Icons 1][hero-image-2]
+![Circuit][circuit-gui-window]
 
-![Recipe Icons 2][hero-image-3]
-
-  [hero-image-1]: https://raw.githubusercontent.com/JDOGG88/Logistic-Machines/master/hero-image-1.jpg
-  [hero-image-2]: https://raw.githubusercontent.com/JDOGG88/Logistic-Machines/master/hero-image-2.jpg
-  [hero-image-3]: https://raw.githubusercontent.com/JDOGG88/Logistic-Machines/master/hero-image-3.jpg
+  [main-gui-window]: https://raw.githubusercontent.com/JDOGG88/Logistic-Machines/master/main-gui-window.jpg
+  [circuit-gui-window]: https://raw.githubusercontent.com/JDOGG88/Logistic-Machines/master/circuit-gui-window.jpg
 
   [badge-latest-release]: https://img.shields.io/github/release/JDOGG88/Logistic-Machines.svg?label=current+version
   [badge-release-date]: https://img.shields.io/github/release-date/JDOGG88/Logistic-Machines.svg?label=released
