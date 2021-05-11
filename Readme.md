@@ -15,7 +15,13 @@ Go [grab it now][logistic-machines-mod-portal-entry], or get it in-game by searc
 
 ## Description
 
-Adds assembling machines and chemical plants that come with an integrated passive provider and requester chests.  Now includes [Bob's Assembling Machines][bob-mod-portal-entry] integration.
+Adds assembling machines and chemical plants that come with an integrated passive provider and requester chests.
+
+Works with:
+
+[Bob's Assembling Machines][bob-mod-portal-entry]
+
+[Krastorio2][krastorio2-mod-portal-entry]
 
 Re-work of **DellAquila's** [Logistic Assembling Machine][dellaquila-mod-portal-entry].
 
@@ -31,6 +37,7 @@ Re-work of **DellAquila's** [Logistic Assembling Machine][dellaquila-mod-portal-
 
   [github-latest-release]: https://github.com/JDOGG88/Logistic-Machines/releases/latest
   [issue-tracker]: https://github.com/JDOGG88/Logistic-Machines/issues
-  [dellaguila-mod-portal-entry]: https://mods.factorio.com/mod/LogisticAssemblingMachine
+  [dellaquila-mod-portal-entry]: https://mods.factorio.com/mod/LogisticAssemblingMachine
   [bob-mod-portal-entry]: https://mods.factorio.com/mod/bobassembly
+  [krastorio2-mod-portal-entry]: https://mods.factorio.com/mod/Krastorio2
   [logistic-machines-mod-portal-entry]: https://mods.factorio.com/mod/Logistic-Machines

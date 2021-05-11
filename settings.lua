@@ -11,4 +11,10 @@ data:extend({
         setting_type = "runtime-per-user",
         default_value = true,
     },
+    {
+        type = "bool-setting",
+        name = "limit-power",
+        setting_type = "startup",
+        default_value = false,
+    },
 })

@@ -329,3 +329,14 @@ style.lm_circuit_sprite_frame_image = {
     height = 90,
     stretch_image_to_widget_size = true
 }
+style.lm_default_circuit_sprite_frame = {
+    type = "frame_style",
+    width = 100,
+    height = 100,
+}
+style.lm_default_circuit_sprite_frame_image = {
+    type = "image_style",
+    width = 80,
+    height = 80,
+    stretch_image_to_widget_size = true
+}

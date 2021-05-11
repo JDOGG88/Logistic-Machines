@@ -2,9 +2,14 @@
 -------- Mod Setup Functions --------
 -------------------------------------
 local gui = require("prototypes.gui.gui")
+local mod_gui = require("mod-gui")
 
-local function gui_regen(player)
-    gui.regen(player)
+local function gui_regen_screen_flow(player)
+    gui.regen_screen_flow(player)
+end
+
+local function gui_regen_mod_flow(player)
+    gui.regen_mod_flow(player)
 end
 
 local function bobinserters_remote_call()
@@ -30,155 +35,224 @@ end
 
 script.on_configuration_changed(function()
     for _, player in pairs(game.players) do
-        gui_regen(player)
+        gui_regen_screen_flow(player)
+        gui_regen_mod_flow(player)
     end
     bobinserters_remote_call()
 end)
 
 script.on_event(defines.events.on_player_created, function(event)
-    gui_regen(game.get_player(event.player_index))
+    gui_regen_screen_flow(game.get_player(event.player_index))
+    gui_regen_mod_flow(game.get_player(event.player_index))
     bobinserters_remote_call()
 end)
 -------------------------------------
 ----- Invisible Entity Creation -----
 -------------------------------------
-local function assembly_set_2x2(entity)
-    local provider = entity.surface.create_entity { name = "assembling-provider", position = { (entity.position.x) + 0.5, (entity.position.y) - 0.5 }, force = entity.force }
-    provider.destructible = false
-    
-    local requester = entity.surface.create_entity { name = "assembling-requester", position = { (entity.position.x) - 0.5, (entity.position.y) - 0.5 }, force = entity.force }
+--[[
+local function get_entity_built_by_name(name)
+    for _, entity in pairs(invisible_entity) do
+        if entity.name == name then
+            return entity
+        end
+    end
+end
+
+local function default_wire_connection(entity_1_name, wire_color, entity_2_name)
+    get_entity_built_by_name(entity_1_name).connect_neighbour({ wire = defines.wire_type[wire_color], target_entity = get_entity_built_by_name(entity_2_name) })
+    if entity_1_name == "assembling-requester" then
+        get_entity_built_by_name(entity_1_name).get_or_create_control_behavior().circuit_mode_of_operation = defines.control_behavior.logistic_container.circuit_mode_of_operation.set_requests
+    end
+end
+
+if config_state == true and default_chest_flow.default_checkbox_flow_1_flow.lm_default_cb_chest_connect_1.state == true then
+        default_wire_connection("assembling-requester","red", "assembling-provider")
+    end
+    if config_state == true and default_chest_flow.default_checkbox_flow_1_flow.lm_default_cb_chest_connect_2.state == true then
+        default_wire_connection("assembling-requester","green", "assembling-provider")
+    end
+    if config_state == true and default_top_flow.default_checkbox_flow_2_left_1.lm_default_cb_top_left_1.state == true then
+        default_wire_connection("assembling-requester","red", substation)
+    end
+    if config_state == true and default_top_flow.default_checkbox_flow_2_left_2.lm_default_cb_top_left_2.state == true then
+        default_wire_connection("assembling-requester","green", substation)
+    end
+    if config_state == true and default_top_flow.default_checkbox_flow_2_right_1.lm_default_cb_top_right_1.state == true then
+        default_wire_connection("assembling-provider","red", substation)
+    end
+    if config_state == true and default_top_flow.default_checkbox_flow_2_right_2.lm_default_cb_top_right_2.state == true then
+        default_wire_connection("assembling-provider","green", substation)
+    end
+    if config_state == true and default_mid_flow.default_checkbox_flow_3_left_1.lm_default_cb_mid_left_1.state == true then
+        default_wire_connection("assembling-requester","red", inserter_1)
+    end
+    if config_state == true and default_mid_flow.default_checkbox_flow_3_left_2.lm_default_cb_mid_left_2.state == true then
+        default_wire_connection("assembling-requester","green", inserter_1)
+    end
+    if config_state == true and default_mid_flow.default_checkbox_flow_3_right_1.lm_default_cb_mid_right_1.state == true then
+        default_wire_connection("assembling-provider","red", inserter_2)
+    end
+    if config_state == true and default_mid_flow.default_checkbox_flow_3_right_2.lm_default_cb_mid_right_2.state == true then
+        default_wire_connection("assembling-provider","green", inserter_2)
+    end
+    if config_state == true and default_bottom_flow.default_checkbox_flow_4_left_1.lm_default_cb_bottom_left_1.state == true then
+        default_wire_connection(inserter_1,"red", substation)
+    end
+    if config_state == true and default_bottom_flow.default_checkbox_flow_4_left_2.lm_default_cb_bottom_left_2.state == true then
+        default_wire_connection(inserter_1,"green", substation)
+    end
+    if config_state == true and default_bottom_flow.default_checkbox_flow_4_right_1.lm_default_cb_bottom_right_1.state == true then
+        default_wire_connection(inserter_2,"red", substation)
+    end
+    if config_state == true and default_bottom_flow.default_checkbox_flow_4_right_2.lm_default_cb_bottom_right_2.state == true then
+        default_wire_connection(inserter_2,"green", substation)
+    end
+    if config_state == true and default_inserter_flow.default_checkbox_flow_5_flow.lm_default_cb_inserter_connect_1.state == true then
+        default_wire_connection(inserter_1,"red", inserter_2)
+    end
+    if config_state == true and default_inserter_flow.default_checkbox_flow_5_flow.lm_default_cb_inserter_connect_2.state == true then
+        default_wire_connection(inserter_1,"green", inserter_2)
+    end
+--]]
+local function create_invisible_entities(entity, size, pos_var, lab, player)
+    local frame_flow = mod_gui.get_frame_flow(player)
+    local config_state = frame_flow.lm_default_circuit_window.enable_option_flow.enable_default_circuit_body.state
+    local default_circuit_body_image_container = frame_flow.lm_default_circuit_window.default_circuit_body.default_circuit_body_image_container
+    local default_chest_flow = default_circuit_body_image_container.default_circuit_body_image_container_flow.default_circuit_body_flow_1
+    local default_top_flow = default_circuit_body_image_container.default_circuit_body_image_container_flow.default_circuit_body_flow_2
+    local default_mid_flow = default_circuit_body_image_container.default_circuit_body_image_container_flow.default_circuit_body_flow_3
+    local default_bottom_flow = default_circuit_body_image_container.default_circuit_body_image_container_flow.default_circuit_body_flow_4
+    local default_inserter_flow = default_circuit_body_image_container.default_circuit_body_image_container_flow.default_circuit_body_flow_5
+    local requester = entity.surface.create_entity { name = "assembling-requester", position = { (entity.position.x) - (pos_var), (entity.position.y) - (pos_var) }, force = entity.force }
     requester.destructible = false
-    
-    local inserter_1 = entity.surface.create_entity { name = "invisible-inserter-1-2x2", position = { (entity.position.x) - 0.5, (entity.position.y) }, force = entity.force }
-    inserter_1.destructible = false
-    inserter_1.minable = false
-    
-    local inserter_2 = entity.surface.create_entity { name = "invisible-inserter-2-2x2", position = { (entity.position.x) + 0.5, (entity.position.y) }, force = entity.force }
-    inserter_2.destructible = false
-    inserter_2.minable = false
-    
-    local substation = entity.surface.create_entity { name = "invisible-substation", position = { (entity.position.x), (entity.position.y) }, force = entity.force }
+    local substation = entity.surface.create_entity { name = "invisible-substation-" .. size, position = { (entity.position.x), (entity.position.y) }, force = entity.force }
     substation.destructible = false
     substation.minable = false
-    
+    if config_state == true and default_top_flow.default_checkbox_flow_2_left_1.lm_default_cb_top_left_1.state == true then
+        requester.connect_neighbour({ wire = defines.wire_type["red"], target_entity = substation })
+    end
+    if config_state == true and default_top_flow.default_checkbox_flow_2_left_2.lm_default_cb_top_left_2.state == true then
+        requester.connect_neighbour({ wire = defines.wire_type["green"], target_entity = substation })
+    end
+    if lab == false then
+        local provider = entity.surface.create_entity { name = "assembling-provider", position = { (entity.position.x) + (pos_var), (entity.position.y) - (pos_var) }, force = entity.force }
+        provider.destructible = false
+        local inserter_1 = entity.surface.create_entity { name = "invisible-inserter-1-" .. size, position = { (entity.position.x) - (pos_var), (entity.position.y) }, force = entity.force }
+        inserter_1.destructible = false
+        inserter_1.minable = false
+        local inserter_2 = entity.surface.create_entity { name = "invisible-inserter-2-" .. size, position = { (entity.position.x) + (pos_var), (entity.position.y) }, force = entity.force }
+        inserter_2.destructible = false
+        inserter_2.minable = false
+        if config_state == true and default_chest_flow.default_checkbox_flow_1_flow.lm_default_cb_chest_connect_1.state == true then
+            requester.connect_neighbour({ wire = defines.wire_type["red"], target_entity = provider })
+        end
+        if config_state == true and default_chest_flow.default_checkbox_flow_1_flow.lm_default_cb_chest_connect_2.state == true then
+            requester.connect_neighbour({ wire = defines.wire_type["green"], target_entity = provider })
+        end
+        if config_state == true and default_top_flow.default_checkbox_flow_2_right_1.lm_default_cb_top_right_1.state == true then
+            provider.connect_neighbour({ wire = defines.wire_type["red"], target_entity = substation })
+        end
+        if config_state == true and default_top_flow.default_checkbox_flow_2_right_2.lm_default_cb_top_right_2.state == true then
+            provider.connect_neighbour({ wire = defines.wire_type["green"], target_entity = substation })
+        end
+        if config_state == true and default_mid_flow.default_checkbox_flow_3_right_1.lm_default_cb_mid_right_1.state == true then
+            provider.connect_neighbour({ wire = defines.wire_type["red"], target_entity = inserter_2 })
+        end
+        if config_state == true and default_mid_flow.default_checkbox_flow_3_right_2.lm_default_cb_mid_right_2.state == true then
+            provider.connect_neighbour({ wire = defines.wire_type["green"], target_entity = inserter_2 })
+        end
+        if config_state == true and default_bottom_flow.default_checkbox_flow_4_right_1.lm_default_cb_bottom_right_1.state == true then
+            inserter_2.connect_neighbour({ wire = defines.wire_type["red"], target_entity = substation })
+        end
+        if config_state == true and default_bottom_flow.default_checkbox_flow_4_right_2.lm_default_cb_bottom_right_2.state == true then
+            inserter_2.connect_neighbour({ wire = defines.wire_type["green"], target_entity = substation })
+        end
+        if config_state == true and default_inserter_flow.default_checkbox_flow_5_flow.lm_default_cb_inserter_connect_1.state == true then
+            inserter_1.connect_neighbour({ wire = defines.wire_type["red"], target_entity = inserter_2 })
+        end
+        if config_state == true and default_inserter_flow.default_checkbox_flow_5_flow.lm_default_cb_inserter_connect_2.state == true then
+            inserter_1.connect_neighbour({ wire = defines.wire_type["green"], target_entity = inserter_2 })
+        end
+        if config_state == true and default_mid_flow.default_checkbox_flow_3_left_1.lm_default_cb_mid_left_1.state == true then
+            requester.connect_neighbour({ wire = defines.wire_type["red"], target_entity = inserter_1 })
+        end
+        if config_state == true and default_mid_flow.default_checkbox_flow_3_left_2.lm_default_cb_mid_left_2.state == true then
+            requester.connect_neighbour({ wire = defines.wire_type["green"], target_entity = inserter_1 })
+        end
+        if config_state == true and default_bottom_flow.default_checkbox_flow_4_left_1.lm_default_cb_bottom_left_1.state == true then
+            inserter_1.connect_neighbour({ wire = defines.wire_type["red"], target_entity = substation })
+        end
+        if config_state == true and default_bottom_flow.default_checkbox_flow_4_left_2.lm_default_cb_bottom_left_2.state == true then
+            inserter_1.connect_neighbour({ wire = defines.wire_type["green"], target_entity = substation })
+        end
+    elseif lab == true and size == "8x8" then
+        local inserter_1 = entity.surface.create_entity { name = "invisible-inserter-1-" .. size, position = { (entity.position.x) - (pos_var + 0.5), (entity.position.y) }, force = entity.force }
+        inserter_1.destructible = false
+        inserter_1.minable = false
+        if config_state == true and default_mid_flow.default_checkbox_flow_3_left_1.lm_default_cb_mid_left_1.state == true then
+            requester.connect_neighbour({ wire = defines.wire_type["red"], target_entity = inserter_1 })
+        end
+        if config_state == true and default_mid_flow.default_checkbox_flow_3_left_2.lm_default_cb_mid_left_2.state == true then
+            requester.connect_neighbour({ wire = defines.wire_type["green"], target_entity = inserter_1 })
+        end
+        if config_state == true and default_bottom_flow.default_checkbox_flow_4_left_1.lm_default_cb_bottom_left_1.state == true then
+            inserter_1.connect_neighbour({ wire = defines.wire_type["red"], target_entity = substation })
+        end
+        if config_state == true and default_bottom_flow.default_checkbox_flow_4_left_2.lm_default_cb_bottom_left_2.state == true then
+            inserter_1.connect_neighbour({ wire = defines.wire_type["green"], target_entity = substation })
+        end
+    elseif lab == true and size == "3x3" then
+        local inserter_1 = entity.surface.create_entity { name = "invisible-inserter-1-" .. size, position = { (entity.position.x) - (pos_var), (entity.position.y) }, force = entity.force }
+        inserter_1.destructible = false
+        inserter_1.minable = false
+        if config_state == true and default_mid_flow.default_checkbox_flow_3_left_1.lm_default_cb_mid_left_1.state == true then
+            requester.connect_neighbour({ wire = defines.wire_type["red"], target_entity = inserter_1 })
+        end
+        if config_state == true and default_mid_flow.default_checkbox_flow_3_left_2.lm_default_cb_mid_left_2.state == true then
+            requester.connect_neighbour({ wire = defines.wire_type["green"], target_entity = inserter_1 })
+        end
+        if config_state == true and default_bottom_flow.default_checkbox_flow_4_left_1.lm_default_cb_bottom_left_1.state == true then
+            inserter_1.connect_neighbour({ wire = defines.wire_type["red"], target_entity = substation })
+        end
+        if config_state == true and default_bottom_flow.default_checkbox_flow_4_left_2.lm_default_cb_bottom_left_2.state == true then
+            inserter_1.connect_neighbour({ wire = defines.wire_type["green"], target_entity = substation })
+        end
+    end
     return
 end
 
-local function assembly_set_3x3(entity)
-    local provider = entity.surface.create_entity { name = "assembling-provider", position = { (entity.position.x) + 1, (entity.position.y) - 1 }, force = entity.force }
-    provider.destructible = false
-    
-    local requester = entity.surface.create_entity { name = "assembling-requester", position = { (entity.position.x) - 1, (entity.position.y) - 1 }, force = entity.force }
-    requester.destructible = false
-    
-    local inserter_1 = entity.surface.create_entity { name = "invisible-inserter-1-3x3", position = { (entity.position.x) - 1, (entity.position.y) }, force = entity.force }
-    inserter_1.destructible = false
-    inserter_1.minable = false
-    
-    local inserter_2 = entity.surface.create_entity { name = "invisible-inserter-2-3x3", position = { (entity.position.x) + 1, (entity.position.y) }, force = entity.force }
-    inserter_2.destructible = false
-    inserter_2.minable = false
-    
-    local substation = entity.surface.create_entity { name = "invisible-substation", position = { (entity.position.x), (entity.position.y) }, force = entity.force }
-    substation.destructible = false
-    substation.minable = false
-    
+local function assembly_set_2x2(entity, player)
+    create_invisible_entities(entity, "2x2", 0.5, false, player)
     return
 end
 
-local function assembly_set_5x5(entity)
-    local provider = entity.surface.create_entity { name = "assembling-provider", position = { (entity.position.x) + 2, (entity.position.y) - 2 }, force = entity.force }
-    provider.destructible = false
-    
-    local requester = entity.surface.create_entity { name = "assembling-requester", position = { (entity.position.x) - 2, (entity.position.y) - 2 }, force = entity.force }
-    requester.destructible = false
-    
-    local inserter_1 = entity.surface.create_entity { name = "invisible-inserter-1-5x5", position = { (entity.position.x) - 2, (entity.position.y) }, force = entity.force, }
-    inserter_1.destructible = false
-    inserter_1.minable = false
-    
-    local inserter_2 = entity.surface.create_entity { name = "invisible-inserter-2-5x5", position = { (entity.position.x) + 1.5, (entity.position.y) }, force = entity.force, }
-    inserter_2.destructible = false
-    inserter_2.minable = false
-    
-    local substation = entity.surface.create_entity { name = "invisible-substation", position = { (entity.position.x), (entity.position.y) }, force = entity.force }
-    substation.destructible = false
-    substation.minable = false
-    
+local function assembly_set_3x3(entity, player)
+    create_invisible_entities(entity, "3x3", 1, false, player)
     return
 end
 
-local function assembly_set_6x6(entity)
-    local provider = entity.surface.create_entity { name = "assembling-provider", position = { (entity.position.x) + 2.5, (entity.position.y) - 2.5 }, force = entity.force }
-    provider.destructible = false
-    
-    local requester = entity.surface.create_entity { name = "assembling-requester", position = { (entity.position.x) - 2.5, (entity.position.y) - 2.5 }, force = entity.force }
-    requester.destructible = false
-    
-    local inserter_1 = entity.surface.create_entity { name = "invisible-inserter-1-6x6", position = { (entity.position.x) - 2.25, (entity.position.y) }, force = entity.force }
-    inserter_1.destructible = false
-    inserter_1.minable = false
-    
-    local inserter_2 = entity.surface.create_entity { name = "invisible-inserter-2-6x6", position = { (entity.position.x) + 2.25, (entity.position.y) }, force = entity.force }
-    inserter_2.destructible = false
-    inserter_2.minable = false
-    
-    local substation = entity.surface.create_entity { name = "invisible-substation", position = { (entity.position.x), (entity.position.y) }, force = entity.force }
-    substation.destructible = false
-    substation.minable = false
-    
+local function assembly_set_5x5(entity, player)
+    create_invisible_entities(entity, "5x5", 2, false, player)
     return
 end
 
-local function assembly_set_7x7(entity)
-    local provider = entity.surface.create_entity { name = "assembling-provider", position = { (entity.position.x) + 3, (entity.position.y) - 3 }, force = entity.force }
-    provider.destructible = false
-    
-    local requester = entity.surface.create_entity { name = "assembling-requester", position = { (entity.position.x) - 3, (entity.position.y) - 3 }, force = entity.force }
-    requester.destructible = false
-    
-    local inserter_1 = entity.surface.create_entity { name = "invisible-inserter-1-7x7", position = { (entity.position.x) - 3.5, (entity.position.y) }, force = entity.force }
-    inserter_1.destructible = false
-    inserter_1.minable = false
-    
-    local inserter_2 = entity.surface.create_entity { name = "invisible-inserter-2-7x7", position = { (entity.position.x) + 2.8, (entity.position.y) }, force = entity.force }
-    inserter_2.destructible = false
-    inserter_2.minable = false
-    
-    local substation = entity.surface.create_entity { name = "invisible-substation", position = { (entity.position.x), (entity.position.y) }, force = entity.force }
-    substation.destructible = false
-    substation.minable = false
-    
+local function assembly_set_6x6(entity, player)
+    create_invisible_entities(entity, "6x6", 2.5, false, player)
     return
 end
 
-local function lab_set(entity)
-    local requester = entity.surface.create_entity { name = "assembling-requester", position = { (entity.position.x) - 1, (entity.position.y) - 1 }, force = entity.force }
-    requester.destructible = false
-    
-    local inserter_1 = entity.surface.create_entity { name = "invisible-inserter-1-3x3", position = { (entity.position.x) - 1, (entity.position.y) }, force = entity.force }
-    inserter_1.destructible = false
-    inserter_1.minable = false
-    
-    local substation = entity.surface.create_entity { name = "invisible-substation", position = { (entity.position.x), (entity.position.y) }, force = entity.force }
-    substation.destructible = false
-    substation.minable = false
-    
+local function assembly_set_7x7(entity, player)
+    create_invisible_entities(entity, "7x7", 3, false, player)
     return
 end
 
-local function lab_set_8x8(entity)
-    local requester = entity.surface.create_entity { name = "assembling-requester", position = { (entity.position.x) - 3.4, (entity.position.y) - 3.4 }, force = entity.force }
-    requester.destructible = false
-    
-    local inserter_1 = entity.surface.create_entity { name = "invisible-inserter-1-8x8", position = { (entity.position.x) - 3.9, (entity.position.y) }, force = entity.force }
-    inserter_1.destructible = false
-    inserter_1.minable = false
-    
-    local substation = entity.surface.create_entity { name = "invisible-substation", position = { (entity.position.x), (entity.position.y) }, force = entity.force }
-    substation.destructible = false
-    substation.minable = false
-    
+local function lab_set_3x3(entity, player)
+    create_invisible_entities(entity, "3x3", 1, true, player)
+    return
+end
+
+local function lab_set_8x8(entity, player)
+    create_invisible_entities(entity, "8x8", 3.4, true, player)
     return
 end
 -------------------------------------
@@ -229,7 +303,7 @@ local machine_7x7 = {
     "logistic-advanced-chemical-plant-1",
 }
 
-local lab = {
+local lab_3x3 = {
     "logistic-lab-1",
     "logistic-lab-2",
     "logistic-advanced-lab-1",
@@ -252,7 +326,12 @@ local invisible_entity = {
     "invisible-inserter-2-7x7",
     "invisible-inserter-1-8x8",
     "invisible-inserter-2-8x8",
-    "invisible-substation",
+    "invisible-substation-2x2",
+    "invisible-substation-3x3",
+    "invisible-substation-5x5",
+    "invisible-substation-6x6",
+    "invisible-substation-7x7",
+    "invisible-substation-8x8",
     "assembling-provider",
     "assembling-requester",
 }
@@ -267,9 +346,10 @@ local area_var_8x8 = 3.4
 ------- Entity Creation Events ------
 -------------------------------------
 local function build_entity(event, machine_table, assembly_set)
+    local player = game.get_player(event.player_index)
     for _, name in pairs(machine_table) do
         if (event.created_entity.name == name) then
-            assembly_set(event.created_entity)
+            assembly_set(event.created_entity, player)
         end
     end
 end
@@ -280,7 +360,7 @@ script.on_event({ defines.events.on_built_entity, defines.events.on_robot_built_
     build_entity(event, machine_5x5, assembly_set_5x5)
     build_entity(event, machine_6x6, assembly_set_6x6)
     build_entity(event, machine_7x7, assembly_set_7x7)
-    build_entity(event, lab, lab_set)
+    build_entity(event, lab_3x3, lab_set_3x3)
     build_entity(event, lab_8x8, lab_set_8x8)
 end)
 
@@ -299,7 +379,7 @@ script.on_event({ defines.events.script_raised_revive, defines.events.script_rai
     script_raised_build_entity(event, machine_5x5, assembly_set_5x5)
     script_raised_build_entity(event, machine_6x6, assembly_set_6x6)
     script_raised_build_entity(event, machine_7x7, assembly_set_7x7)
-    script_raised_build_entity(event, lab, lab_set)
+    script_raised_build_entity(event, lab_3x3, lab_set_3x3)
     script_raised_build_entity(event, lab_8x8, lab_set_8x8)
 end)
 -------------------------------------
@@ -431,7 +511,7 @@ script.on_event(defines.events.on_gui_opened, function(event)
         opened_gui_main(event, machine_5x5, area_var_5x5)
         opened_gui_main(event, machine_6x6, area_var_6x6)
         opened_gui_main(event, machine_7x7, area_var_7x7)
-        opened_gui_lab(event, lab, area_var_3x3)
+        opened_gui_lab(event, lab_3x3, area_var_3x3)
         opened_gui_lab(event, lab_8x8, area_var_8x8)
     end
 end)
@@ -443,7 +523,7 @@ script.on_event("lm-open-gui", function(event)
         opened_gui_main(event, machine_5x5, area_var_5x5)
         opened_gui_main(event, machine_6x6, area_var_6x6)
         opened_gui_main(event, machine_7x7, area_var_7x7)
-        opened_gui_lab(event, lab, area_var_3x3)
+        opened_gui_lab(event, lab_3x3, area_var_3x3)
         opened_gui_lab(event, lab_8x8, area_var_8x8)
     end
 end)
@@ -460,7 +540,7 @@ end)
 script.on_event({ "lm-e-to-close-gui", "lm-escape-to-close-gui" }, function(event)
     local player = game.get_player(event.player_index)
     lm_current_entities = {}
-    gui_regen(player)
+    gui_regen_screen_flow(player)
 end)
 
 local function get_entity_by_name(name)
@@ -482,6 +562,14 @@ end
 local function get_provider_inserter_name()
     for _, entity in pairs(lm_current_entities) do
         if entity.name == string.match(entity.name, "invisible%-inserter%-2.*") then
+            return entity.name
+        end
+    end
+end
+
+local function get_invisible_substation_name()
+    for _, entity in pairs(lm_current_entities) do
+        if entity.name == string.match(entity.name, "invisible%-substation%-.*") then
             return entity.name
         end
     end
@@ -518,6 +606,7 @@ end
 script.on_event(defines.events.on_gui_click, function(event)
     local player = game.get_player(event.player_index)
     local screen_flow = player.gui.screen
+    local frame_flow = mod_gui.get_frame_flow(player)
     local clicked_name = event.element.name
     local main_frame = screen_flow.lm_entity_window
     local circuit_window = screen_flow.lm_circuit_network_config_window
@@ -529,6 +618,9 @@ script.on_event(defines.events.on_gui_click, function(event)
     local mid_flow = circuit_body_image_container_flow.circuit_body_flow_3
     local bottom_flow = circuit_body_image_container_flow.circuit_body_flow_4
     local inserter_flow = circuit_body_image_container_flow.circuit_body_flow_5
+    if clicked_name == "lm_default_circuit_button" then
+        frame_flow["lm_default_circuit_window"].visible = not frame_flow["lm_default_circuit_window"].visible
+    end
     for _, entity in pairs(lm_current_entities) do
         if clicked_name == "lm_entity_button" and entity.name == string.match(entity.name, "logistic.*") and entity.valid == true then
             if player.can_reach_entity(entity) then
@@ -615,56 +707,56 @@ script.on_event(defines.events.on_gui_click, function(event)
             circuit_window.visible = true
             circuit_window.auto_center = true
             main_frame.visible = false
-            if connection_checker("assembling-requester", "invisible-substation", "red") == true then
+            if connection_checker("assembling-requester", get_invisible_substation_name(), "red") == true then
                 top_flow.checkbox_flow_2_left_1.lm_cb_top_left_1.state = true
                 circuit_body_image_container.lm_wire_rc_to_sub_red.sprite = "lm_wire_rc_to_sub_red_connected"
             else
                 top_flow.checkbox_flow_2_left_1.lm_cb_top_left_1.state = false
                 circuit_body_image_container.lm_wire_rc_to_sub_red.sprite = "lm_wire_rc_to_sub_red_disconnected"
             end
-            if connection_checker("assembling-requester", "invisible-substation", "green") == true then
+            if connection_checker("assembling-requester", get_invisible_substation_name(), "green") == true then
                 top_flow.checkbox_flow_2_left_2.lm_cb_top_left_2.state = true
                 circuit_body_image_container.lm_wire_rc_to_sub_green.sprite = "lm_wire_rc_to_sub_green_connected"
             else
                 top_flow.checkbox_flow_2_left_2.lm_cb_top_left_2.state = false
                 circuit_body_image_container.lm_wire_rc_to_sub_green.sprite = "lm_wire_rc_to_sub_green_disconnected"
             end
-            if connection_checker("assembling-provider", "invisible-substation", "red") == true then
+            if connection_checker("assembling-provider", get_invisible_substation_name(), "red") == true then
                 top_flow.checkbox_flow_2_right_1.lm_cb_top_right_1.state = true
                 circuit_body_image_container.lm_wire_pc_to_sub_red.sprite = "lm_wire_pc_to_sub_red_connected"
             else
                 top_flow.checkbox_flow_2_right_1.lm_cb_top_right_1.state = false
                 circuit_body_image_container.lm_wire_pc_to_sub_red.sprite = "lm_wire_pc_to_sub_red_disconnected"
             end
-            if connection_checker("assembling-provider", "invisible-substation", "green") == true then
+            if connection_checker("assembling-provider", get_invisible_substation_name(), "green") == true then
                 top_flow.checkbox_flow_2_right_2.lm_cb_top_right_2.state = true
                 circuit_body_image_container.lm_wire_pc_to_sub_green.sprite = "lm_wire_pc_to_sub_green_connected"
             else
                 top_flow.checkbox_flow_2_right_2.lm_cb_top_right_2.state = false
                 circuit_body_image_container.lm_wire_pc_to_sub_green.sprite = "lm_wire_pc_to_sub_green_disconnected"
             end
-            if connection_checker(get_requester_inserter_name(), "invisible-substation", "red") == true then
+            if connection_checker(get_requester_inserter_name(), get_invisible_substation_name(), "red") == true then
                 bottom_flow.checkbox_flow_4_left_1.lm_cb_bottom_left_1.state = true
                 circuit_body_image_container.lm_wire_rci_to_sub_red.sprite = "lm_wire_rci_to_sub_red_connected"
             else
                 bottom_flow.checkbox_flow_4_left_1.lm_cb_bottom_left_1.state = false
                 circuit_body_image_container.lm_wire_rci_to_sub_red.sprite = "lm_wire_rci_to_sub_red_disconnected"
             end
-            if connection_checker(get_requester_inserter_name(), "invisible-substation", "green") == true then
+            if connection_checker(get_requester_inserter_name(), get_invisible_substation_name(), "green") == true then
                 bottom_flow.checkbox_flow_4_left_2.lm_cb_bottom_left_2.state = true
                 circuit_body_image_container.lm_wire_rci_to_sub_green.sprite = "lm_wire_rci_to_sub_green_connected"
             else
                 bottom_flow.checkbox_flow_4_left_2.lm_cb_bottom_left_2.state = false
                 circuit_body_image_container.lm_wire_rci_to_sub_green.sprite = "lm_wire_rci_to_sub_green_disconnected"
             end
-            if connection_checker(get_provider_inserter_name(), "invisible-substation", "red") == true then
+            if connection_checker(get_provider_inserter_name(), get_invisible_substation_name(), "red") == true then
                 bottom_flow.checkbox_flow_4_right_1.lm_cb_bottom_right_1.state = true
                 circuit_body_image_container.lm_wire_pci_to_sub_red.sprite = "lm_wire_pci_to_sub_red_connected"
             else
                 bottom_flow.checkbox_flow_4_right_1.lm_cb_bottom_right_1.state = false
                 circuit_body_image_container.lm_wire_pci_to_sub_red.sprite = "lm_wire_pci_to_sub_red_disconnected"
             end
-            if connection_checker(get_provider_inserter_name(), "invisible-substation", "green") == true then
+            if connection_checker(get_provider_inserter_name(), get_invisible_substation_name(), "green") == true then
                 bottom_flow.checkbox_flow_4_right_2.lm_cb_bottom_right_2.state = true
                 circuit_body_image_container.lm_wire_pci_to_sub_green.sprite = "lm_wire_pci_to_sub_green_connected"
             else
@@ -729,10 +821,10 @@ script.on_event(defines.events.on_gui_click, function(event)
             end
         elseif clicked_name == "lm_main_close_button" then
             lm_current_entities = {}
-            gui_regen(player)
+            gui_regen_screen_flow(player)
         elseif clicked_name == "lm_circuit_close_button" then
             lm_current_entities = {}
-            gui_regen(player)
+            gui_regen_screen_flow(player)
         end
     end
 end)
@@ -752,6 +844,7 @@ script.on_event(defines.events.on_gui_checked_state_changed, function(event)
     local checked_name = event.element.name
     local player = game.get_player(event.player_index)
     local screen_flow = player.gui.screen
+    local frame_flow = mod_gui.get_frame_flow(player)
     local entity_window = screen_flow.lm_entity_window
     local circuit_window = screen_flow.lm_circuit_network_config_window
     local circuit_body = circuit_window.circuit_body
@@ -762,9 +855,22 @@ script.on_event(defines.events.on_gui_checked_state_changed, function(event)
     local mid_flow = circuit_body_image_container_flow.circuit_body_flow_3
     local bottom_flow = circuit_body_image_container_flow.circuit_body_flow_4
     local inserter_flow = circuit_body_image_container_flow.circuit_body_flow_5
+    local default_circuit_body_image_container = frame_flow.lm_default_circuit_window.default_circuit_body.default_circuit_body_image_container
+    local default_chest_flow = default_circuit_body_image_container.default_circuit_body_image_container_flow.default_circuit_body_flow_1
+    local default_top_flow = default_circuit_body_image_container.default_circuit_body_image_container_flow.default_circuit_body_flow_2
+    local default_mid_flow = default_circuit_body_image_container.default_circuit_body_image_container_flow.default_circuit_body_flow_3
+    local default_bottom_flow = default_circuit_body_image_container.default_circuit_body_image_container_flow.default_circuit_body_flow_4
+    local default_inserter_flow = default_circuit_body_image_container.default_circuit_body_image_container_flow.default_circuit_body_flow_5
+    local invisible_substation = get_invisible_substation_name()
     local requester_inserter = get_requester_inserter_name()
     local provider_inserter = get_provider_inserter_name()
-    if checked_name == "lm_gui_open_option" then
+    if checked_name == "enable_default_circuit_body" then
+        if frame_flow.lm_default_circuit_window.enable_option_flow.enable_default_circuit_body.state == true then
+            frame_flow.lm_default_circuit_window.default_circuit_body.visible = true
+        else
+            frame_flow.lm_default_circuit_window.default_circuit_body.visible = false
+        end
+    elseif checked_name == "lm_gui_open_option" then
         if entity_window.main_footer_flow.lm_gui_open_option.state == true then
             settings.get_player_settings(player)["always-open-mod-gui-first"] = { value = true }
         else
@@ -772,66 +878,66 @@ script.on_event(defines.events.on_gui_checked_state_changed, function(event)
         end
     elseif checked_name == "lm_cb_top_left_1" then
         if top_flow.checkbox_flow_2_left_1.lm_cb_top_left_1.state == true then
-            wire_connection("assembling-requester", "red", "invisible-substation")
+            wire_connection("assembling-requester", "red", invisible_substation)
             circuit_body_image_container.lm_wire_rc_to_sub_red.sprite = "lm_wire_rc_to_sub_red_connected"
         else
-            wire_disconnection("assembling-requester", "red", "invisible-substation")
+            wire_disconnection("assembling-requester", "red", invisible_substation)
             circuit_body_image_container.lm_wire_rc_to_sub_red.sprite = "lm_wire_rc_to_sub_red_disconnected"
         end
     elseif checked_name == "lm_cb_top_left_2" then
         if top_flow.checkbox_flow_2_left_2.lm_cb_top_left_2.state == true then
-            wire_connection("assembling-requester", "green", "invisible-substation")
+            wire_connection("assembling-requester", "green", invisible_substation)
             circuit_body_image_container.lm_wire_rc_to_sub_green.sprite = "lm_wire_rc_to_sub_green_connected"
         else
-            wire_disconnection("assembling-requester", "green", "invisible-substation")
+            wire_disconnection("assembling-requester", "green", invisible_substation)
             circuit_body_image_container.lm_wire_rc_to_sub_green.sprite = "lm_wire_rc_to_sub_green_disconnected"
         end
     elseif checked_name == "lm_cb_top_right_1" then
         if top_flow.checkbox_flow_2_right_1.lm_cb_top_right_1.state == true then
-            wire_connection("assembling-provider", "red", "invisible-substation")
+            wire_connection("assembling-provider", "red", invisible_substation)
             circuit_body_image_container.lm_wire_pc_to_sub_red.sprite = "lm_wire_pc_to_sub_red_connected"
         else
-            wire_disconnection("assembling-provider", "red", "invisible-substation")
+            wire_disconnection("assembling-provider", "red", invisible_substation)
             circuit_body_image_container.lm_wire_pc_to_sub_red.sprite = "lm_wire_pc_to_sub_red_disconnected"
         end
     elseif checked_name == "lm_cb_top_right_2" then
         if top_flow.checkbox_flow_2_right_2.lm_cb_top_right_2.state == true then
-            wire_connection("assembling-provider", "green", "invisible-substation")
+            wire_connection("assembling-provider", "green", invisible_substation)
             circuit_body_image_container.lm_wire_pc_to_sub_green.sprite = "lm_wire_pc_to_sub_green_connected"
         else
-            wire_disconnection("assembling-provider", "green", "invisible-substation")
+            wire_disconnection("assembling-provider", "green", invisible_substation)
             circuit_body_image_container.lm_wire_pc_to_sub_green.sprite = "lm_wire_pc_to_sub_green_disconnected"
         end
     elseif checked_name == "lm_cb_bottom_left_1" then
         if bottom_flow.checkbox_flow_4_left_1.lm_cb_bottom_left_1.state == true then
-            wire_connection(requester_inserter, "red", "invisible-substation")
+            wire_connection(requester_inserter, "red", invisible_substation)
             circuit_body_image_container.lm_wire_rci_to_sub_red.sprite = "lm_wire_rci_to_sub_red_connected"
         else
-            wire_disconnection(requester_inserter, "red", "invisible-substation")
+            wire_disconnection(requester_inserter, "red", invisible_substation)
             circuit_body_image_container.lm_wire_rci_to_sub_red.sprite = "lm_wire_rci_to_sub_red_disconnected"
         end
     elseif checked_name == "lm_cb_bottom_left_2" then
         if bottom_flow.checkbox_flow_4_left_2.lm_cb_bottom_left_2.state == true then
-            wire_connection(requester_inserter, "green", "invisible-substation")
+            wire_connection(requester_inserter, "green", invisible_substation)
             circuit_body_image_container.lm_wire_rci_to_sub_green.sprite = "lm_wire_rci_to_sub_green_connected"
         else
-            wire_disconnection(requester_inserter, "green", "invisible-substation")
+            wire_disconnection(requester_inserter, "green", invisible_substation)
             circuit_body_image_container.lm_wire_rci_to_sub_green.sprite = "lm_wire_rci_to_sub_green_disconnected"
         end
     elseif checked_name == "lm_cb_bottom_right_1" then
         if bottom_flow.checkbox_flow_4_right_1.lm_cb_bottom_right_1.state == true then
-            wire_connection(provider_inserter, "red", "invisible-substation")
+            wire_connection(provider_inserter, "red", invisible_substation)
             circuit_body_image_container.lm_wire_pci_to_sub_red.sprite = "lm_wire_pci_to_sub_red_connected"
         else
-            wire_disconnection(provider_inserter, "red", "invisible-substation")
+            wire_disconnection(provider_inserter, "red", invisible_substation)
             circuit_body_image_container.lm_wire_pci_to_sub_red.sprite = "lm_wire_pci_to_sub_red_disconnected"
         end
     elseif checked_name == "lm_cb_bottom_right_2" then
         if bottom_flow.checkbox_flow_4_right_2.lm_cb_bottom_right_2.state == true then
-            wire_connection(provider_inserter, "green", "invisible-substation")
+            wire_connection(provider_inserter, "green", invisible_substation)
             circuit_body_image_container.lm_wire_pci_to_sub_green.sprite = "lm_wire_pci_to_sub_green_connected"
         else
-            wire_disconnection(provider_inserter, "green", "invisible-substation")
+            wire_disconnection(provider_inserter, "green", invisible_substation)
             circuit_body_image_container.lm_wire_pci_to_sub_green.sprite = "lm_wire_pci_to_sub_green_disconnected"
         end
     elseif checked_name == "lm_cb_chest_connect_1" then
@@ -898,6 +1004,103 @@ script.on_event(defines.events.on_gui_checked_state_changed, function(event)
             wire_disconnection(requester_inserter, "green", provider_inserter)
             circuit_body_image_container.lm_wire_rci_to_pci_green.sprite = "lm_wire_rci_to_pci_green_disconnected"
         end
+        -------------------------------
+    elseif checked_name == "lm_default_cb_top_left_1" then
+        if default_top_flow.default_checkbox_flow_2_left_1.lm_default_cb_top_left_1.state == true then
+            default_circuit_body_image_container.lm_wire_rc_to_sub_red.sprite = "lm_wire_rc_to_sub_red_connected"
+        else
+            default_circuit_body_image_container.lm_wire_rc_to_sub_red.sprite = "lm_wire_rc_to_sub_red_disconnected"
+        end
+    elseif checked_name == "lm_default_cb_top_left_2" then
+        if default_top_flow.default_checkbox_flow_2_left_2.lm_default_cb_top_left_2.state == true then
+            default_circuit_body_image_container.lm_wire_rc_to_sub_green.sprite = "lm_wire_rc_to_sub_green_connected"
+        else
+            default_circuit_body_image_container.lm_wire_rc_to_sub_green.sprite = "lm_wire_rc_to_sub_green_disconnected"
+        end
+    elseif checked_name == "lm_default_cb_top_right_1" then
+        if default_top_flow.default_checkbox_flow_2_right_1.lm_default_cb_top_right_1.state == true then
+            default_circuit_body_image_container.lm_wire_pc_to_sub_red.sprite = "lm_wire_pc_to_sub_red_connected"
+        else
+            default_circuit_body_image_container.lm_wire_pc_to_sub_red.sprite = "lm_wire_pc_to_sub_red_disconnected"
+        end
+    elseif checked_name == "lm_default_cb_top_right_2" then
+        if default_top_flow.default_checkbox_flow_2_right_2.lm_default_cb_top_right_2.state == true then
+            default_circuit_body_image_container.lm_wire_pc_to_sub_green.sprite = "lm_wire_pc_to_sub_green_connected"
+        else
+            default_circuit_body_image_container.lm_wire_pc_to_sub_green.sprite = "lm_wire_pc_to_sub_green_disconnected"
+        end
+    elseif checked_name == "lm_default_cb_bottom_left_1" then
+        if default_bottom_flow.default_checkbox_flow_4_left_1.lm_default_cb_bottom_left_1.state == true then
+            default_circuit_body_image_container.lm_wire_rci_to_sub_red.sprite = "lm_wire_rci_to_sub_red_connected"
+        else
+            default_circuit_body_image_container.lm_wire_rci_to_sub_red.sprite = "lm_wire_rci_to_sub_red_disconnected"
+        end
+    elseif checked_name == "lm_default_cb_bottom_left_2" then
+        if default_bottom_flow.default_checkbox_flow_4_left_2.lm_default_cb_bottom_left_2.state == true then
+            default_circuit_body_image_container.lm_wire_rci_to_sub_green.sprite = "lm_wire_rci_to_sub_green_connected"
+        else
+            default_circuit_body_image_container.lm_wire_rci_to_sub_green.sprite = "lm_wire_rci_to_sub_green_disconnected"
+        end
+    elseif checked_name == "lm_default_cb_bottom_right_1" then
+        if default_bottom_flow.default_checkbox_flow_4_right_1.lm_default_cb_bottom_right_1.state == true then
+            default_circuit_body_image_container.lm_wire_pci_to_sub_red.sprite = "lm_wire_pci_to_sub_red_connected"
+        else
+            default_circuit_body_image_container.lm_wire_pci_to_sub_red.sprite = "lm_wire_pci_to_sub_red_disconnected"
+        end
+    elseif checked_name == "lm_default_cb_bottom_right_2" then
+        if default_bottom_flow.default_checkbox_flow_4_right_2.lm_default_cb_bottom_right_2.state == true then
+            default_circuit_body_image_container.lm_wire_pci_to_sub_green.sprite = "lm_wire_pci_to_sub_green_connected"
+        else
+            default_circuit_body_image_container.lm_wire_pci_to_sub_green.sprite = "lm_wire_pci_to_sub_green_disconnected"
+        end
+    elseif checked_name == "lm_default_cb_chest_connect_1" then
+        if default_chest_flow.default_checkbox_flow_1_flow.lm_default_cb_chest_connect_1.state == true then
+            default_circuit_body_image_container.lm_wire_rc_to_pc_red.sprite = "lm_wire_rc_to_pc_red_connected"
+        else
+            default_circuit_body_image_container.lm_wire_rc_to_pc_red.sprite = "lm_wire_rc_to_pc_red_disconnected"
+        end
+    elseif checked_name == "lm_default_cb_chest_connect_2" then
+        if default_chest_flow.default_checkbox_flow_1_flow.lm_default_cb_chest_connect_2.state == true then
+            default_circuit_body_image_container.lm_wire_rc_to_pc_green.sprite = "lm_wire_rc_to_pc_green_connected"
+        else
+            default_circuit_body_image_container.lm_wire_rc_to_pc_green.sprite = "lm_wire_rc_to_pc_green_disconnected"
+        end
+    elseif checked_name == "lm_default_cb_mid_left_1" then
+        if default_mid_flow.default_checkbox_flow_3_left_1.lm_default_cb_mid_left_1.state == true then
+            default_circuit_body_image_container.lm_wire_rc_to_rci_red.sprite = "lm_wire_rc_to_rci_red_connected"
+        else
+            default_circuit_body_image_container.lm_wire_rc_to_rci_red.sprite = "lm_wire_rc_to_rci_red_disconnected"
+        end
+    elseif checked_name == "lm_default_cb_mid_left_2" then
+        if default_mid_flow.default_checkbox_flow_3_left_2.lm_default_cb_mid_left_2.state == true then
+            default_circuit_body_image_container.lm_wire_rc_to_rci_green.sprite = "lm_wire_rc_to_rci_green_connected"
+        else
+            default_circuit_body_image_container.lm_wire_rc_to_rci_green.sprite = "lm_wire_rc_to_rci_green_disconnected"
+        end
+    elseif checked_name == "lm_default_cb_mid_right_1" then
+        if default_mid_flow.default_checkbox_flow_3_right_1.lm_default_cb_mid_right_1.state == true then
+            default_circuit_body_image_container.lm_wire_pc_to_pci_red.sprite = "lm_wire_pc_to_pci_red_connected"
+        else
+            default_circuit_body_image_container.lm_wire_pc_to_pci_red.sprite = "lm_wire_pc_to_pci_red_disconnected"
+        end
+    elseif checked_name == "lm_default_cb_mid_right_2" then
+        if default_mid_flow.default_checkbox_flow_3_right_2.lm_default_cb_mid_right_2.state == true then
+            default_circuit_body_image_container.lm_wire_pc_to_pci_green.sprite = "lm_wire_pc_to_pci_green_connected"
+        else
+            default_circuit_body_image_container.lm_wire_pc_to_pci_green.sprite = "lm_wire_pc_to_pci_green_disconnected"
+        end
+    elseif checked_name == "lm_default_cb_inserter_connect_1" then
+        if default_inserter_flow.default_checkbox_flow_5_flow.lm_default_cb_inserter_connect_1.state == true then
+            default_circuit_body_image_container.lm_wire_rci_to_pci_red.sprite = "lm_wire_rci_to_pci_red_connected"
+        else
+            default_circuit_body_image_container.lm_wire_rci_to_pci_red.sprite = "lm_wire_rci_to_pci_red_disconnected"
+        end
+    elseif checked_name == "lm_default_cb_inserter_connect_2" then
+        if default_inserter_flow.default_checkbox_flow_5_flow.lm_default_cb_inserter_connect_2.state == true then
+            default_circuit_body_image_container.lm_wire_rci_to_pci_green.sprite = "lm_wire_rci_to_pci_green_connected"
+        else
+            default_circuit_body_image_container.lm_wire_rci_to_pci_green.sprite = "lm_wire_rci_to_pci_green_disconnected"
+        end
     end
 end)
 -------------------------------------
@@ -949,7 +1152,7 @@ script.on_event(defines.events.on_player_mined_entity, function(event)
     mined_entity(event, machine_5x5, area_var_5x5, "player")
     mined_entity(event, machine_6x6, area_var_6x6, "player")
     mined_entity(event, machine_7x7, area_var_7x7, "player")
-    mined_entity(event, lab, area_var_3x3, "player")
+    mined_entity(event, lab_3x3, area_var_3x3, "player")
     mined_entity(event, lab_8x8, area_var_8x8, "player")
 end)
 
@@ -959,7 +1162,7 @@ script.on_event(defines.events.on_robot_mined_entity, function(event)
     mined_entity(event, machine_5x5, area_var_5x5, "robot")
     mined_entity(event, machine_6x6, area_var_6x6, "robot")
     mined_entity(event, machine_7x7, area_var_7x7, "robot")
-    mined_entity(event, lab, area_var_3x3, "robot")
+    mined_entity(event, lab_3x3, area_var_3x3, "robot")
     mined_entity(event, lab_8x8, area_var_8x8, "robot")
 end)
 
@@ -979,6 +1182,6 @@ script.on_event(defines.events.on_entity_died, function(event)
     entity_died(event, machine_5x5, area_var_5x5)
     entity_died(event, machine_6x6, area_var_6x6)
     entity_died(event, machine_7x7, area_var_7x7)
-    entity_died(event, lab, area_var_3x3)
+    entity_died(event, lab_3x3, area_var_3x3)
     entity_died(event, lab_8x8, area_var_8x8)
 end)

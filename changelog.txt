@@ -1,4 +1,13 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.1.0
+Date: 2021-05-11
+
+  Changed:
+      - Factorio version 1.1.0 Update
+      - Internal code cleanup
+      - Added startup setting to limit the supply area of the invisible substation
+      - Added a default circuit network GUI
+---------------------------------------------------------------------------------------------------
 Version: 1.0.1
 Date: 2020-10-01
 

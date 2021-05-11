@@ -4,7 +4,7 @@ local function createTechnology(tech_version)
     technology.name = "logistic-electronics-machine-" .. tech_version
     technology.icon_size = 128
     technology.icons = {
-        { icon = "__base__/graphics/technology/automation.png", icon_size = 128 },
+        { icon = "__base__/graphics/technology/automation-1.png", icon_size = 128 },
         logistic_requester_chest_mask_tech,
         logistic_provider_chest_mask_tech,
     }
