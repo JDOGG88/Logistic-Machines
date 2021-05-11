@@ -11,7 +11,8 @@ Go [grab it now][logistic-machines-mod-portal-entry], or get it in-game by searc
 
 ### Latest
 
-- Bugfixes
+- Added startup setting to limit the supply area of the invisible substation
+- Added a default circuit network GUI
 
 ## Description
 
@@ -19,9 +20,8 @@ Adds assembling machines and chemical plants that come with an integrated passiv
 
 Works with:
 
-[Bob's Assembling Machines][bob-mod-portal-entry]
-
-[Krastorio2][krastorio2-mod-portal-entry]
+- [Bob's Assembling Machines][bob-mod-portal-entry]
+- [Krastorio2][krastorio2-mod-portal-entry]
 
 Re-work of **DellAquila's** [Logistic Assembling Machine][dellaquila-mod-portal-entry].
 
