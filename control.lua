@@ -46,75 +46,14 @@ script.on_event(defines.events.on_player_created, function(event)
     gui_regen_mod_flow(game.get_player(event.player_index))
     bobinserters_remote_call()
 end)
+
+local function player_settings(event, setting)
+    return settings.get_player_settings(game.get_player(event.player_index))[setting].value
+end
 -------------------------------------
 ----- Invisible Entity Creation -----
 -------------------------------------
---[[
-local function get_entity_built_by_name(name)
-    for _, entity in pairs(invisible_entity) do
-        if entity.name == name then
-            return entity
-        end
-    end
-end
-
-local function default_wire_connection(entity_1_name, wire_color, entity_2_name)
-    get_entity_built_by_name(entity_1_name).connect_neighbour({ wire = defines.wire_type[wire_color], target_entity = get_entity_built_by_name(entity_2_name) })
-    if entity_1_name == "assembling-requester" then
-        get_entity_built_by_name(entity_1_name).get_or_create_control_behavior().circuit_mode_of_operation = defines.control_behavior.logistic_container.circuit_mode_of_operation.set_requests
-    end
-end
-
-if config_state == true and default_chest_flow.default_checkbox_flow_1_flow.lm_default_cb_chest_connect_1.state == true then
-        default_wire_connection("assembling-requester","red", "assembling-provider")
-    end
-    if config_state == true and default_chest_flow.default_checkbox_flow_1_flow.lm_default_cb_chest_connect_2.state == true then
-        default_wire_connection("assembling-requester","green", "assembling-provider")
-    end
-    if config_state == true and default_top_flow.default_checkbox_flow_2_left_1.lm_default_cb_top_left_1.state == true then
-        default_wire_connection("assembling-requester","red", substation)
-    end
-    if config_state == true and default_top_flow.default_checkbox_flow_2_left_2.lm_default_cb_top_left_2.state == true then
-        default_wire_connection("assembling-requester","green", substation)
-    end
-    if config_state == true and default_top_flow.default_checkbox_flow_2_right_1.lm_default_cb_top_right_1.state == true then
-        default_wire_connection("assembling-provider","red", substation)
-    end
-    if config_state == true and default_top_flow.default_checkbox_flow_2_right_2.lm_default_cb_top_right_2.state == true then
-        default_wire_connection("assembling-provider","green", substation)
-    end
-    if config_state == true and default_mid_flow.default_checkbox_flow_3_left_1.lm_default_cb_mid_left_1.state == true then
-        default_wire_connection("assembling-requester","red", inserter_1)
-    end
-    if config_state == true and default_mid_flow.default_checkbox_flow_3_left_2.lm_default_cb_mid_left_2.state == true then
-        default_wire_connection("assembling-requester","green", inserter_1)
-    end
-    if config_state == true and default_mid_flow.default_checkbox_flow_3_right_1.lm_default_cb_mid_right_1.state == true then
-        default_wire_connection("assembling-provider","red", inserter_2)
-    end
-    if config_state == true and default_mid_flow.default_checkbox_flow_3_right_2.lm_default_cb_mid_right_2.state == true then
-        default_wire_connection("assembling-provider","green", inserter_2)
-    end
-    if config_state == true and default_bottom_flow.default_checkbox_flow_4_left_1.lm_default_cb_bottom_left_1.state == true then
-        default_wire_connection(inserter_1,"red", substation)
-    end
-    if config_state == true and default_bottom_flow.default_checkbox_flow_4_left_2.lm_default_cb_bottom_left_2.state == true then
-        default_wire_connection(inserter_1,"green", substation)
-    end
-    if config_state == true and default_bottom_flow.default_checkbox_flow_4_right_1.lm_default_cb_bottom_right_1.state == true then
-        default_wire_connection(inserter_2,"red", substation)
-    end
-    if config_state == true and default_bottom_flow.default_checkbox_flow_4_right_2.lm_default_cb_bottom_right_2.state == true then
-        default_wire_connection(inserter_2,"green", substation)
-    end
-    if config_state == true and default_inserter_flow.default_checkbox_flow_5_flow.lm_default_cb_inserter_connect_1.state == true then
-        default_wire_connection(inserter_1,"red", inserter_2)
-    end
-    if config_state == true and default_inserter_flow.default_checkbox_flow_5_flow.lm_default_cb_inserter_connect_2.state == true then
-        default_wire_connection(inserter_1,"green", inserter_2)
-    end
---]]
-local function create_invisible_entities(entity, size, pos_var, lab, player)
+local function player_create_invisible_entities(entity, size, pos_var, lab, player)
     local frame_flow = mod_gui.get_frame_flow(player)
     local config_state = frame_flow.lm_default_circuit_window.enable_option_flow.enable_default_circuit_body.state
     local default_circuit_body_image_container = frame_flow.lm_default_circuit_window.default_circuit_body.default_circuit_body_image_container
@@ -221,38 +160,93 @@ local function create_invisible_entities(entity, size, pos_var, lab, player)
     return
 end
 
+local function robot_create_invisible_entities(entity, size, pos_var, lab)
+    local requester = entity.surface.create_entity { name = "assembling-requester", position = { (entity.position.x) - (pos_var), (entity.position.y) - (pos_var) }, force = entity.force }
+    requester.destructible = false
+    local substation = entity.surface.create_entity { name = "invisible-substation-" .. size, position = { (entity.position.x), (entity.position.y) }, force = entity.force }
+    substation.destructible = false
+    substation.minable = false
+    if lab == false then
+        local provider = entity.surface.create_entity { name = "assembling-provider", position = { (entity.position.x) + (pos_var), (entity.position.y) - (pos_var) }, force = entity.force }
+        provider.destructible = false
+        local inserter_1 = entity.surface.create_entity { name = "invisible-inserter-1-" .. size, position = { (entity.position.x) - (pos_var), (entity.position.y) }, force = entity.force }
+        inserter_1.destructible = false
+        inserter_1.minable = false
+        local inserter_2 = entity.surface.create_entity { name = "invisible-inserter-2-" .. size, position = { (entity.position.x) + (pos_var), (entity.position.y) }, force = entity.force }
+        inserter_2.destructible = false
+        inserter_2.minable = false
+    elseif lab == true and size == "8x8" then
+        local inserter_1 = entity.surface.create_entity { name = "invisible-inserter-1-" .. size, position = { (entity.position.x) - (pos_var + 0.5), (entity.position.y) }, force = entity.force }
+        inserter_1.destructible = false
+        inserter_1.minable = false
+    elseif lab == true and size == "3x3" then
+        local inserter_1 = entity.surface.create_entity { name = "invisible-inserter-1-" .. size, position = { (entity.position.x) - (pos_var), (entity.position.y) }, force = entity.force }
+        inserter_1.destructible = false
+        inserter_1.minable = false
+    end
+    return
+end
+
 local function assembly_set_2x2(entity, player)
-    create_invisible_entities(entity, "2x2", 0.5, false, player)
+    if player ~= nil then
+        player_create_invisible_entities(entity, "2x2", 0.5, false, player)
+    else
+        robot_create_invisible_entities(entity, "2x2", 0.5, false)
+    end
     return
 end
 
 local function assembly_set_3x3(entity, player)
-    create_invisible_entities(entity, "3x3", 1, false, player)
+    if player ~= nil then
+        player_create_invisible_entities(entity, "3x3", 1, false, player)
+    else
+        robot_create_invisible_entities(entity, "3x3", 1, false)
+    end
     return
 end
 
 local function assembly_set_5x5(entity, player)
-    create_invisible_entities(entity, "5x5", 2, false, player)
+    if player ~= nil then
+        player_create_invisible_entities(entity, "5x5", 2, false, player)
+    else
+        robot_create_invisible_entities(entity, "5x5", 2, false)
+    end
     return
 end
 
 local function assembly_set_6x6(entity, player)
-    create_invisible_entities(entity, "6x6", 2.5, false, player)
+    if player ~= nil then
+        player_create_invisible_entities(entity, "6x6", 2.5, false, player)
+    else
+        robot_create_invisible_entities(entity, "6x6", 2.5, false)
+    end
     return
 end
 
 local function assembly_set_7x7(entity, player)
-    create_invisible_entities(entity, "7x7", 3, false, player)
+    if player ~= nil then
+        player_create_invisible_entities(entity, "7x7", 3, false, player)
+    else
+        robot_create_invisible_entities(entity, "7x7", 3, false)
+    end
     return
 end
 
 local function lab_set_3x3(entity, player)
-    create_invisible_entities(entity, "3x3", 1, true, player)
+    if player ~= nil then
+        player_create_invisible_entities(entity, "3x3", 1, true, player)
+    else
+        robot_create_invisible_entities(entity, "3x3", 1, true)
+    end
     return
 end
 
 local function lab_set_8x8(entity, player)
-    create_invisible_entities(entity, "8x8", 3.4, true, player)
+    if player ~= nil then
+        player_create_invisible_entities(entity, "8x8", 3.4, true, player)
+    else
+        robot_create_invisible_entities(entity, "8x8", 3.4, true)
+    end
     return
 end
 -------------------------------------
@@ -345,7 +339,7 @@ local area_var_8x8 = 3.4
 -------------------------------------
 ------- Entity Creation Events ------
 -------------------------------------
-local function build_entity(event, machine_table, assembly_set)
+local function player_built_entity(event, machine_table, assembly_set)
     local player = game.get_player(event.player_index)
     for _, name in pairs(machine_table) do
         if (event.created_entity.name == name) then
@@ -354,14 +348,32 @@ local function build_entity(event, machine_table, assembly_set)
     end
 end
 
-script.on_event({ defines.events.on_built_entity, defines.events.on_robot_built_entity }, function(event)
-    build_entity(event, machine_2x2, assembly_set_2x2)
-    build_entity(event, machine_3x3, assembly_set_3x3)
-    build_entity(event, machine_5x5, assembly_set_5x5)
-    build_entity(event, machine_6x6, assembly_set_6x6)
-    build_entity(event, machine_7x7, assembly_set_7x7)
-    build_entity(event, lab_3x3, lab_set_3x3)
-    build_entity(event, lab_8x8, lab_set_8x8)
+script.on_event({ defines.events.on_built_entity }, function(event)
+    player_built_entity(event, machine_2x2, assembly_set_2x2)
+    player_built_entity(event, machine_3x3, assembly_set_3x3)
+    player_built_entity(event, machine_5x5, assembly_set_5x5)
+    player_built_entity(event, machine_6x6, assembly_set_6x6)
+    player_built_entity(event, machine_7x7, assembly_set_7x7)
+    player_built_entity(event, lab_3x3, lab_set_3x3)
+    player_built_entity(event, lab_8x8, lab_set_8x8)
+end)
+
+local function robot_built_entity(event, machine_table, assembly_set)
+    for _, name in pairs(machine_table) do
+        if (event.created_entity.name == name) then
+            assembly_set(event.created_entity, nil)
+        end
+    end
+end
+
+script.on_event({ defines.events.on_robot_built_entity }, function(event)
+    robot_built_entity(event, machine_2x2, assembly_set_2x2)
+    robot_built_entity(event, machine_3x3, assembly_set_3x3)
+    robot_built_entity(event, machine_5x5, assembly_set_5x5)
+    robot_built_entity(event, machine_6x6, assembly_set_6x6)
+    robot_built_entity(event, machine_7x7, assembly_set_7x7)
+    robot_built_entity(event, lab_3x3, lab_set_3x3)
+    robot_built_entity(event, lab_8x8, lab_set_8x8)
 end)
 
 local function script_raised_build_entity(event, machine_table, assembly_set)
@@ -448,7 +460,7 @@ local function opened_gui_main(event, machine_table, area_var)
             end
         end
     end
-    if settings.get_player_settings(game.get_player(event.player_index))["always-open-mod-gui-first"].value == true then
+    if player_settings(event, "always-open-mod-gui-first") == true then
         entity_window.main_footer_flow.lm_gui_open_option.state = true
     else
         entity_window.main_footer_flow.lm_gui_open_option.state = false
@@ -504,45 +516,6 @@ local function opened_gui_lab(event, machine_table, area_var)
     end
 end
 
-script.on_event(defines.events.on_gui_opened, function(event)
-    if settings.get_player_settings(game.get_player(event.player_index))["always-open-mod-gui-first"].value == true then
-        opened_gui_main(event, machine_2x2, area_var_2x2)
-        opened_gui_main(event, machine_3x3, area_var_3x3)
-        opened_gui_main(event, machine_5x5, area_var_5x5)
-        opened_gui_main(event, machine_6x6, area_var_6x6)
-        opened_gui_main(event, machine_7x7, area_var_7x7)
-        opened_gui_lab(event, lab_3x3, area_var_3x3)
-        opened_gui_lab(event, lab_8x8, area_var_8x8)
-    end
-end)
-
-script.on_event("lm-open-gui", function(event)
-    if settings.get_player_settings(game.get_player(event.player_index))["always-open-mod-gui-first"].value == false then
-        opened_gui_main(event, machine_2x2, area_var_2x2)
-        opened_gui_main(event, machine_3x3, area_var_3x3)
-        opened_gui_main(event, machine_5x5, area_var_5x5)
-        opened_gui_main(event, machine_6x6, area_var_6x6)
-        opened_gui_main(event, machine_7x7, area_var_7x7)
-        opened_gui_lab(event, lab_3x3, area_var_3x3)
-        opened_gui_lab(event, lab_8x8, area_var_8x8)
-    end
-end)
-
-script.on_event(defines.events.on_gui_closed, function(event)
-    local closed_gui_name = event.name
-    if event.gui_type == defines.gui_type.custom then
-        if closed_gui_name ~= "lm_entity_window" then
-            lm_current_entities = {}
-        end
-    end
-end)
-
-script.on_event({ "lm-e-to-close-gui", "lm-escape-to-close-gui" }, function(event)
-    local player = game.get_player(event.player_index)
-    lm_current_entities = {}
-    gui_regen_screen_flow(player)
-end)
-
 local function get_entity_by_name(name)
     for _, entity in pairs(lm_current_entities) do
         if entity.name == name then
@@ -550,6 +523,60 @@ local function get_entity_by_name(name)
         end
     end
 end
+
+local current_recipe = {}
+
+local function lm_get_recipe()
+    for _, entity in pairs(lm_current_entities) do
+        if entity.name == string.match(entity.name, "logistic.*") and entity.type == "assembling-machine" then
+            table.insert(current_recipe, entity.get_recipe())
+        end
+    end
+end
+
+script.on_event(defines.events.on_gui_opened, function(event)
+    if player_settings(event, "always-open-mod-gui-first") == true then
+        opened_gui_main(event, machine_2x2, area_var_2x2)
+        opened_gui_main(event, machine_3x3, area_var_3x3)
+        opened_gui_main(event, machine_5x5, area_var_5x5)
+        opened_gui_main(event, machine_6x6, area_var_6x6)
+        opened_gui_main(event, machine_7x7, area_var_7x7)
+        opened_gui_lab(event, lab_3x3, area_var_3x3)
+        opened_gui_lab(event, lab_8x8, area_var_8x8)
+    end
+    lm_get_recipe()
+end)
+
+script.on_event("lm-open-gui", function(event)
+    if player_settings(event, "always-open-mod-gui-first") == false then
+        opened_gui_main(event, machine_2x2, area_var_2x2)
+        opened_gui_main(event, machine_3x3, area_var_3x3)
+        opened_gui_main(event, machine_5x5, area_var_5x5)
+        opened_gui_main(event, machine_6x6, area_var_6x6)
+        opened_gui_main(event, machine_7x7, area_var_7x7)
+        opened_gui_lab(event, lab_3x3, area_var_3x3)
+        opened_gui_lab(event, lab_8x8, area_var_8x8)
+    end
+    lm_get_recipe()
+end)
+
+script.on_event(defines.events.on_gui_closed, function(event)
+    if event.gui_type == defines.gui_type.custom then
+        if event.name ~= "lm_entity_window" then
+            lm_current_entities = {}
+        end
+    end
+    if event.name ~= "lm_entity_window" then
+        current_recipe = {}
+    end
+end)
+
+script.on_event({ "lm-e-to-close-gui", "lm-escape-to-close-gui" }, function(event)
+    local player = game.get_player(event.player_index)
+    lm_current_entities = {}
+    current_recipe = {}
+    gui_regen_screen_flow(player)
+end)
 
 local function get_requester_inserter_name()
     for _, entity in pairs(lm_current_entities) do
@@ -603,6 +630,28 @@ local function flying_text(entity, text)
     }
 end
 
+local function lm_set_recipe(stack_size)
+    local solid_items = {}
+    for _, entity in pairs(lm_current_entities) do
+        if entity.name == "assembling-requester" then
+            for i = 1, 20 do
+                entity.clear_request_slot(i)
+            end
+            for _, recipe in pairs(current_recipe) do
+                solid_items = {}
+                for _, ingredient in pairs(recipe.ingredients) do
+                    if ingredient.type == "item" then
+                        table.insert(solid_items, { name = ingredient.name, amount = ingredient.amount })
+                    end
+                end
+                for k, item in pairs(solid_items) do
+                    entity.set_request_slot({ name = item.name, count = stack_size }, k)
+                end
+            end
+        end
+    end
+end
+
 script.on_event(defines.events.on_gui_click, function(event)
     local player = game.get_player(event.player_index)
     local screen_flow = player.gui.screen
@@ -632,6 +681,7 @@ script.on_event(defines.events.on_gui_click, function(event)
                 main_frame.lm_body_flow.lm_center_body_flow.lm_entity_button.style = "lm_main_frame_entity_button_cannot_build"
             end
         elseif clicked_name == "lm_requester_chest_button" and entity.name == "assembling-requester" and entity.valid == true then
+            lm_set_recipe(player_settings(event, "stack-count"))
             if player.can_reach_entity(entity) then
                 player.opened = entity
                 main_frame.visible = false

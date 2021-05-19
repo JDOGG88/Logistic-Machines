@@ -234,7 +234,6 @@ gui.regen_screen_flow = function(player)
         style = "lm_main_frame_button_sides",
         sprite = "item/stack-inserter",
     }
-    
     local main_footer_flow = main_gui_frame.add {
         type = "flow",
         name = "main_footer_flow",

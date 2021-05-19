@@ -11,8 +11,10 @@ Go [grab it now][logistic-machines-mod-portal-entry], or get it in-game by searc
 
 ### Latest
 
-- Added startup setting to limit the supply area of the invisible substation
-- Added a default circuit network GUI
+- Changed:
+   - If an assembling machine has a recipe set, when you open the requester chest the ingredients will automatically populate into the requester slots.
+- Bugfixes:
+   - Fixed on_robot_built_entity crash
 
 ## Description
 

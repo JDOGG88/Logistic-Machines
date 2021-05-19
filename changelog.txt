@@ -1,4 +1,13 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.1.1
+Date: 2021-05-18
+
+  Changed:
+      - If an assembling machine has a recipe set, when you open the requester chest the
+      ingredients will automatically populate into the requester slots.
+  Bugfixes:
+      - Fixed on_robot_built_entity crash
+---------------------------------------------------------------------------------------------------
 Version: 1.1.0
 Date: 2021-05-11
 

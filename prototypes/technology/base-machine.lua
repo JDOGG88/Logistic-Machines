@@ -2,12 +2,20 @@ local function createTechnology(tech_version, count, ingredients)
     local technology = {}
     technology.type = "technology"
     technology.name = "logistic-machines-" .. tech_version
-    technology.icon_size = 128
-    technology.icons = {
-        { icon = "__base__/graphics/technology/automation-1.png", icon_size = 128 },
-        logistic_requester_chest_mask_tech,
-        logistic_provider_chest_mask_tech,
-    }
+    technology.icon_size = 256
+    if tech_version == 4 then
+        technology.icons = {
+            { icon = "__base__/graphics/technology/automation-3.png" },
+            logistic_requester_chest_mask_tech,
+            logistic_provider_chest_mask_tech,
+        }
+    else
+        technology.icons = {
+            { icon = "__base__/graphics/technology/automation-" .. tech_version .. ".png" },
+            logistic_requester_chest_mask_tech,
+            logistic_provider_chest_mask_tech,
+        }
+    end
     technology.effects = {
         {
             type = "unlock-recipe",

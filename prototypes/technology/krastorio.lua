@@ -2,20 +2,20 @@ local function createTechnology(tech_name, count, base_tech, time)
     local technology = {}
     technology.type = "technology"
     technology.name = "logistic-" .. tech_name .. "-1"
-    technology.icon_size = 128
+    technology.icon_size = 256
     if tech_name == "advanced-lab" then
         technology.icons = {
-            { icon = "__Krastorio2__/graphics/technologies/biusart-lab.png", icon_size = 128 },
+            { icon = "__Krastorio2__/graphics/technologies/biusart-lab.png" },
             logistic_requester_chest_mask_tech,
         }
     elseif tech_name == "singularity-lab" then
         technology.icons = {
-            { icon = "__Krastorio2__/graphics/technologies/" .. tech_name .. ".png", icon_size = 128 },
+            { icon = "__Krastorio2__/graphics/technologies/" .. tech_name .. ".png" },
             logistic_requester_chest_mask_tech,
         }
     else
         technology.icons = {
-            { icon = "__Krastorio2__/graphics/technologies/" .. tech_name .. ".png", icon_size = 128 },
+            { icon = "__Krastorio2__/graphics/technologies/" .. tech_name .. ".png" },
             logistic_requester_chest_mask_tech,
             logistic_provider_chest_mask_tech,
         }

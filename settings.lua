@@ -12,6 +12,13 @@ data:extend({
         default_value = true,
     },
     {
+        type = "double-setting",
+        name = "stack-count",
+        setting_type = "runtime-per-user",
+        default_value = 50,
+        allowed_values = { 10, 20, 30, 40, 50, 100 }
+    },
+    {
         type = "bool-setting",
         name = "limit-power",
         setting_type = "startup",

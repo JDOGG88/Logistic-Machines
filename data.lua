@@ -1,8 +1,8 @@
-logistic_requester_chest_mask = { icon = data.raw.item["logistic-chest-requester"].icon, scale = 0.25, shift = { -10, -10 }, icon_size = 64 }
-logistic_provider_chest_mask = { icon = data.raw.item["logistic-chest-passive-provider"].icon, scale = 0.25, shift = { 10, -10 }, icon_size = 64 }
+logistic_requester_chest_mask = { icon = data.raw.item["logistic-chest-requester"].icon, scale = 0.25, shift = { -10, -10 }, icon_size = (data.raw.item["logistic-chest-requester"].icon_size) }
+logistic_provider_chest_mask = { icon = data.raw.item["logistic-chest-passive-provider"].icon, scale = 0.25, shift = { 10, -10 }, icon_size = (data.raw.item["logistic-chest-passive-provider"].icon_size) }
 
-logistic_requester_chest_mask_tech = { icon = data.raw.item["logistic-chest-requester"].icon, scale = 0.75, shift = { -35, -40 }, icon_size = 64 }
-logistic_provider_chest_mask_tech = { icon = data.raw.item["logistic-chest-passive-provider"].icon, scale = 0.75, shift = { 35, -40 }, icon_size = 64 }
+logistic_requester_chest_mask_tech = { icon = data.raw.item["logistic-chest-requester"].icon, scale = 1.75, shift = { -75, -75 }, icon_size = (data.raw.item["logistic-chest-requester"].icon_size) }
+logistic_provider_chest_mask_tech = { icon = data.raw.item["logistic-chest-passive-provider"].icon, scale = 1.75, shift = { 75, -75 }, icon_size = (data.raw.item["logistic-chest-passive-provider"].icon_size) }
 
 function lm_localised_name(entity, version)
     return { "entity-name." .. entity, "" .. version .. "" }
