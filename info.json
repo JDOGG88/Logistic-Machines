@@ -12,6 +12,7 @@
     "? bobplates >= 1.1.2",
     "? bobpower >= 1.1.1",
     "? bobtech >= 1.1.2",
+    "? MilesBobsExpansion",
     "? Krastorio2 >= 0.9.14"
   ],
   "description": "New tiers of entities that come with integrated requester and provider chests and a substation.  Now works with Bob's Mods and Krastorio2 entities!"
