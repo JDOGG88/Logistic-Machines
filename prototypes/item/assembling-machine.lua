@@ -25,4 +25,12 @@ else
         createMachine(5),
         createMachine(6),
     })
+    if mods["MilesBobsExpansion"] then
+        data:extend({
+            createMachine(7),
+            createMachine(8),
+            createMachine(9),
+            createMachine(10)
+        })
+    end
 end
